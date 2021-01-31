@@ -1,0 +1,2 @@
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\c++版本通讯录\Debug\c++版本通讯录.exe
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\c++版本通讯录\Debug\c++版本通讯录.pdb
