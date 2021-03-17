@@ -1,5 +1,2 @@
-﻿  test.cpp
-  源.cpp
-  正在生成代码...
-源.obj : error LNK2005: _main 已经在 test.obj 中定义
-C:\Users\史金伟\source\The-C-PLus-Plus-Language\5.类和对象\Debug\5.类和对象.exe : fatal error LNK1169: 找到一个或多个多重定义的符号
+﻿  源.cpp
+  5.类和对象.vcxproj -> C:\Users\史金伟\source\The-C-PLus-Plus-Language\5.类和对象\Debug\5.类和对象.exe

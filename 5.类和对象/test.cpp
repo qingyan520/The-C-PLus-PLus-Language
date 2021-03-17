@@ -113,39 +113,39 @@
 //公共权限   public        类内可以访问  类外也可以访问
 //保护权限   protected     类内可以访问  类外不可以访问    儿子可以访问父亲中的保护内容
 //私有权限   private       类内可以访问  类外不可以访问    儿子不可以访问父亲的私有内容
-#include<iostream>
-#include<string>
-using namespace std;
-class person
-{
-public:
-	string name;
-protected:
-	string my_car;
-private:
-	string password;
-public:
-	void test()
-	{
-		name = "张三";
-		my_car = "666";
-		password = "11111";
-	}
-};
-int main()
-{
-	person s;
-	s.name = "zhansan1";
-	//cout << s.test() << endl;
-	system("pause");
-	return 0;
-}
+//#include<iostream>
+//#include<string>
+//using namespace std;
+//class person
+//{
+//public:
+//	string name;
+//protected:
+//	string my_car;
+//private:
+//	string password;
+//public:
+//	void test()
+//	{
+//		name = "张三";
+//		my_car = "666";
+//		password = "11111";
+//	}
+//};
+//int main()
+//{
+//	person s;
+//	s.name = "zhansan1";
+//	//cout << s.test() << endl;
+//	system("pause");
+//	return 0;
+//}
 
 //c++中class和struct的区别：
 //唯一的区别在于访问权限不同：
 //struct默认权限是public
 //class默认权限是私有private
-
+//
 //成员属性设置为私有
 //优点1：成员属性设置为私有，可以自己控制读写权限
 //优点2：对于写权限，我们可以检测数据的有效性
@@ -209,6 +209,7 @@ int main()
 //	system("pause");
 //	return 0;
 //}
+
 
 //设计案例：设计立方体
 //求出立方体的面积和体积
@@ -322,95 +323,163 @@ int main()
 //	system;("pause");
 //	return 0;
 //}
-//
+
 
 
 //练习案例2：设计一个圆类，判断点个圆的位置关系
 //判断点和圆的位置关系：判断圆心到点的距离与半径的关系
+#include<iostream>
+using namespace std;
+//点类：
+class Point
+{
+public:
+	void setx(int x)
+	{
+		m_x = x;
+	}
+	int getx()
+	{
+		return m_x;
+	}
+	void sety(int y)
+	{
+		m_y = y;
+	}
+	int gety()
+	{
+		return m_y;
+	}
+private:
+	int m_x;
+	int m_y;
+};
+class circle
+{
+public:
+	//设置半径
+	void setR(int r)
+	{
+		m_r = r;
+	}
+	//获取半径
+	int getR()
+	{
+		return m_r;
+	}
+	//设置圆心
+	void setConter(Point Center)
+	{
+		m_Center = Center;
+	}
+	//获取圆心
+	Point getConter()
+	{
+		return m_Center;
+	}
+private:
+	int m_r;
+	//在类中可以让另一个类作为本类的成员
+	Point m_Center;//设置圆心
+};
+//判断点和圆的位置关系
+void isInCircle(circle& c, Point& p)
+{
+	if (c.getR() * c.getR() == (p.getx() - c.getConter().getx()) * (p.getx() - c.getConter().getx()) + (p.gety() - c.getConter().gety()) * (p.gety() - c.getConter().gety()))
+	{
+		cout << "点在圆上" << endl;
+	}
+	if (c.getR() * c.getR() > (p.getx() - c.getConter().getx()) * (p.getx() - c.getConter().getx()) + (p.gety() - c.getConter().gety()) * (p.gety() - c.getConter().gety()))
+	{
+		cout << "点在圆内" << endl;
+	}
+	if (c.getR() * c.getR() < (p.getx() - c.getConter().getx()) * (p.getx() - c.getConter().getx()) + (p.gety() - c.getConter().gety()) * (p.gety() - c.getConter().gety()))
+	{
+		cout << "点在圆外" << endl;
+	}
+}
+using namespace std;
+int main()
+{
+	circle c;
+	c.setR(10);
+	Point center;
+	center.setx(10);
+	center.sety(0);
+	c.setConter(center);
+	Point P;
+	P.setx(8);
+	P.sety(0);
+	isInCircle(c, P);
+	
+	system("pause");
+	return 0;
+}
+
+
+//复习:定义一个类，求点和圆的位置关系
 //#include<iostream>
 //using namespace std;
-////点类：
 //class Point
 //{
 //public:
-//	void setx(int x)
+//	void setX(int X)
 //	{
-//		m_x = x;
+//		x = X;
 //	}
-//	int getx()
+//	int getX()
 //	{
-//		return m_x;
+//		return x;
 //	}
-//	void sety(int y)
+//	void setY(int Y)
 //	{
-//		m_y = y;
+//		y = Y;
 //	}
-//	int gety()
+//	int getY()
 //	{
-//		return m_y;
+//		return y;
 //	}
 //private:
-//	int m_x;
-//	int m_y;
+//	int x;
+//	int y;
 //};
 //class circle
 //{
-//public:
-//	//设置半径
-//	void setR(int r)
+//public :
+//	void setm_R(int R)
 //	{
-//		m_r = r;
+//		m_R = R;
 //	}
-//	//获取半径
-//	int getR()
+//	int getm_R()
 //	{
-//		return m_r;
+//		return m_R;
 //	}
-//	//设置圆心
-//	void setConter(Point Center)
+//	void setCenter_X(int x1)
 //	{
-//		m_Center = Center;
+//		Center.setX(x1);
 //	}
-//	//获取圆心
-//	Point getConter()
+//	int getCenter_X()
 //	{
-//		return m_Center;
+//		return Center.getX();
+//	}
+//	void setCenter_Y(int Y1)
+//	{
+//		Center.setY(Y1);
+//	}
+//	int getCenter_Y()
+//	{
+//		return Center.getY();
 //	}
 //private:
-//	int m_r;
-//	//在类中可以让另一个类作为本类的成员
-//	Point m_Center;//设置圆心
+//	int m_R;
+//	Point Center;
 //};
-////判断点和圆的位置关系
-//void isInCircle(circle& c, Point& p)
-//{
-//	if (c.getR() * c.getR() == (p.getx() - c.getConter().getx()) * (p.getx() - c.getConter().getx()) + (p.gety() - c.getConter().gety()) * (p.gety() - c.getConter().gety()))
-//	{
-//		cout << "点在圆上" << endl;
-//	}
-//	if (c.getR() * c.getR() > (p.getx() - c.getConter().getx()) * (p.getx() - c.getConter().getx()) + (p.gety() - c.getConter().gety()) * (p.gety() - c.getConter().gety()))
-//	{
-//		cout << "点在圆内" << endl;
-//	}
-//	if (c.getR() * c.getR() < (p.getx() - c.getConter().getx()) * (p.getx() - c.getConter().getx()) + (p.gety() - c.getConter().gety()) * (p.gety() - c.getConter().gety()))
-//	{
-//		cout << "点在圆外" << endl;
-//	}
-//}
-//using namespace std;
 //int main()
 //{
 //	circle c;
-//	c.setR(10);
-//	Point center;
-//	center.setx(10);
-//	center.sety(0);
-//	c.setConter(center);
-//	Point P;
-//	P.setx(8);
-//	P.sety(0);
-//	isInCircle(c, P);
-//	
+//	c.setm_R(10);
+//	c.setCenter_X(10);
+//	c.setCenter_Y(0);
 //	system("pause");
 //	return 0;
 //}
