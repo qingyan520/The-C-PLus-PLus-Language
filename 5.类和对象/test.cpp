@@ -328,93 +328,93 @@
 
 //练习案例2：设计一个圆类，判断点个圆的位置关系
 //判断点和圆的位置关系：判断圆心到点的距离与半径的关系
-#include<iostream>
-using namespace std;
-//点类：
-class Point
-{
-public:
-	void setx(int x)
-	{
-		m_x = x;
-	}
-	int getx()
-	{
-		return m_x;
-	}
-	void sety(int y)
-	{
-		m_y = y;
-	}
-	int gety()
-	{
-		return m_y;
-	}
-private:
-	int m_x;
-	int m_y;
-};
-class circle
-{
-public:
-	//设置半径
-	void setR(int r)
-	{
-		m_r = r;
-	}
-	//获取半径
-	int getR()
-	{
-		return m_r;
-	}
-	//设置圆心
-	void setConter(Point Center)
-	{
-		m_Center = Center;
-	}
-	//获取圆心
-	Point getConter()
-	{
-		return m_Center;
-	}
-private:
-	int m_r;
-	//在类中可以让另一个类作为本类的成员
-	Point m_Center;//设置圆心
-};
-//判断点和圆的位置关系
-void isInCircle(circle& c, Point& p)
-{
-	if (c.getR() * c.getR() == (p.getx() - c.getConter().getx()) * (p.getx() - c.getConter().getx()) + (p.gety() - c.getConter().gety()) * (p.gety() - c.getConter().gety()))
-	{
-		cout << "点在圆上" << endl;
-	}
-	if (c.getR() * c.getR() > (p.getx() - c.getConter().getx()) * (p.getx() - c.getConter().getx()) + (p.gety() - c.getConter().gety()) * (p.gety() - c.getConter().gety()))
-	{
-		cout << "点在圆内" << endl;
-	}
-	if (c.getR() * c.getR() < (p.getx() - c.getConter().getx()) * (p.getx() - c.getConter().getx()) + (p.gety() - c.getConter().gety()) * (p.gety() - c.getConter().gety()))
-	{
-		cout << "点在圆外" << endl;
-	}
-}
-using namespace std;
-int main()
-{
-	circle c;
-	c.setR(10);
-	Point center;
-	center.setx(10);
-	center.sety(0);
-	c.setConter(center);
-	Point P;
-	P.setx(8);
-	P.sety(0);
-	isInCircle(c, P);
-	
-	system("pause");
-	return 0;
-}
+//#include<iostream>
+//using namespace std;
+////点类：
+//class Point
+//{
+//public:
+//	void setx(int x)
+//	{
+//		m_x = x;
+//	}
+//	int getx()
+//	{
+//		return m_x;
+//	}
+//	void sety(int y)
+//	{
+//		m_y = y;
+//	}
+//	int gety()
+//	{
+//		return m_y;
+//	}
+//private:
+//	int m_x;
+//	int m_y;
+//};
+//class circle
+//{
+//public:
+//	//设置半径
+//	void setR(int r)
+//	{
+//		m_r = r;
+//	}
+//	//获取半径
+//	int getR()
+//	{
+//		return m_r;
+//	}
+//	//设置圆心
+//	void setConter(Point Center)
+//	{
+//		m_Center = Center;
+//	}
+//	//获取圆心
+//	Point getConter()
+//	{
+//		return m_Center;
+//	}
+//private:
+//	int m_r;
+//	//在类中可以让另一个类作为本类的成员
+//	Point m_Center;//设置圆心
+//};
+////判断点和圆的位置关系
+//void isInCircle(circle& c, Point& p)
+//{
+//	if (c.getR() * c.getR() == (p.getx() - c.getConter().getx()) * (p.getx() - c.getConter().getx()) + (p.gety() - c.getConter().gety()) * (p.gety() - c.getConter().gety()))
+//	{
+//		cout << "点在圆上" << endl;
+//	}
+//	if (c.getR() * c.getR() > (p.getx() - c.getConter().getx()) * (p.getx() - c.getConter().getx()) + (p.gety() - c.getConter().gety()) * (p.gety() - c.getConter().gety()))
+//	{
+//		cout << "点在圆内" << endl;
+//	}
+//	if (c.getR() * c.getR() < (p.getx() - c.getConter().getx()) * (p.getx() - c.getConter().getx()) + (p.gety() - c.getConter().gety()) * (p.gety() - c.getConter().gety()))
+//	{
+//		cout << "点在圆外" << endl;
+//	}
+//}
+//using namespace std;
+//int main()
+//{
+//	circle c;
+//	c.setR(10);
+//	Point center;
+//	center.setx(10);
+//	center.sety(0);
+//	c.setConter(center);
+//	Point P;
+//	P.setx(8);
+//	P.sety(0);
+//	isInCircle(c, P);
+//	
+//	system("pause");
+//	return 0;
+//}
 
 
 //复习:定义一个类，求点和圆的位置关系
@@ -483,3 +483,67 @@ int main()
 //	system("pause");
 //	return 0;
 //}
+
+
+
+
+
+//4.2对对象的初始化和清理
+//4.2.1构造函数和析构函数
+//构造函数：主要作用在于创建对象时为对象的成员赋初始值，构造函数由编译器自动调用，完成对象初始化和清理工作
+//析构函数：主要作用在于对对象的销毁前系统自动调用，执行一些清理工作
+//构造函数语法：类名(){}
+//1.构造函数没有返回值，也能不写void
+//2.构造函数名称与类名相同
+//3.构造函数可以有参数，因此可以发生重载
+//4.程序在调用对象时会自动调用构造，无需手动调用一次
+
+//析构函数语法：~类名(){}
+//1.析构函数，没有返回值也不写void
+//2.函数名称与类名相同，前面要加上符号~
+//3.析构函数不可以有参数，因此不可以发生重载
+//4.程序在销毁对象前会自动调用析构函数，无需手动调用，而且只会调用一次
+//#include<iostream>
+//using namespace std;
+////1.构造函数：没有返回值，不写void
+//
+//class Person
+//{
+//public:
+//	Person()
+//	{
+//		cout << "Person构造函数的调用" << endl;
+//	}
+//	
+//
+//	//2.析构函数  进行清理操作
+//	~Person()
+//	{
+//		cout << "Person析构函数调用" << endl;
+//	}
+//
+//
+//};
+////构造函数共和析构函数必须有，如果不写，编译器会提供一个空的构造和析构
+//void test01()
+//{
+//	Person P;//在栈上的数据，test01执行完毕后，释放这个对象
+//
+//}
+//int main()
+//{
+//	//test01();
+//	Person P;
+//	system("pause");
+//	return 0;
+//}
+
+
+//4.2.2构造函数的分类和调用
+//两种调用方式：
+//按参数分类：有参构造和无参构造
+//按类型构造：普通构造和拷贝构造
+//三种调用方法：
+//括号法
+//显示法
+//隐式转化法
