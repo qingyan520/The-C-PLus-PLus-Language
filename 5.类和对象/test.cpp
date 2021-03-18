@@ -547,3 +547,67 @@
 //括号法
 //显示法
 //隐式转化法
+#include<iostream>
+using namespace std;
+class Person
+{
+public:
+	Person()
+	{
+		cout<< "构造函数的无参构造" <<endl;//默认调用函数
+	}
+	Person(int a)
+	{
+		age = a;
+		cout << "构造函数的有参构造" << endl;
+	}
+	//拷贝构造函数
+	Person(const Person &p)
+	{
+		//将传入人身上的所有属性，拷贝到我身上
+		age = p.age;
+
+		cout << "拷贝构造函数的调用" << endl;
+	}
+	~Person()
+	{
+		cout << "析构函数的调用" << endl;
+	}
+	int age;
+};
+void test01()
+{
+	//1.括号法
+	Person p1;//默认构造函数调用
+	Person p2(10);//有参构造函数
+	Person p3(p2);//调用拷贝调用函数
+	//注意事项
+	//1.调用默认构造函数的时候不要加小括号
+	//因为下面这行代码编译器会认为是函数体的声明,不会认为在创建对象
+	//Person p1();
+	//
+	cout << "p2的年龄：" << p2.age << endl;
+	cout << "p3的年龄：" << p3.age << endl;
+
+	//2.显示法
+	Person p4;//默认构造
+	Person p5 = Person(10);//有参构造
+	//Person(10)匿名对象 特点：当前行结束执行后系统会立即回收掉匿名对象
+	Person p6 = Person(p5);
+	Person(10);
+	cout << "aaa0" << endl;
+	//注意事项2
+	//不要利用拷贝构造函数初始化匿名对象,编译器会认为Person(p5)==Person p5对象声明重定义
+	//Person(p5);
+
+
+	//3.隐式转化法
+	Person p7 = 10;//相当于写了 Person p4=Person(10);
+	Person p8 = p7;
+}
+int main()
+{
+	test01();
+	system("pause");
+	return 0;
+}
