@@ -497,7 +497,7 @@
 //2.构造函数名称与类名相同
 //3.构造函数可以有参数，因此可以发生重载
 //4.程序在调用对象时会自动调用构造，无需手动调用一次
-
+//
 //析构函数语法：~类名(){}
 //1.析构函数，没有返回值也不写void
 //2.函数名称与类名相同，前面要加上符号~
@@ -506,7 +506,6 @@
 //#include<iostream>
 //using namespace std;
 ////1.构造函数：没有返回值，不写void
-//
 //class Person
 //{
 //public:
@@ -547,67 +546,370 @@
 //括号法
 //显示法
 //隐式转化法
-#include<iostream>
-using namespace std;
-class Person
-{
-public:
-	Person()
-	{
-		cout<< "构造函数的无参构造" <<endl;//默认调用函数
-	}
-	Person(int a)
-	{
-		age = a;
-		cout << "构造函数的有参构造" << endl;
-	}
-	//拷贝构造函数
-	Person(const Person &p)
-	{
-		//将传入人身上的所有属性，拷贝到我身上
-		age = p.age;
+//#include<iostream>
+//using namespace std;
+//class Person
+//{
+//public:
+//	Person()
+//	{
+//		cout<< "构造函数的无参构造" <<endl;//默认调用函数
+//	}
+//	Person(int a)
+//	{
+//		age = a;
+//		cout << "构造函数的有参构造" << endl;
+//	}
+//	//拷贝构造函数
+//	Person(const Person &p)
+//	{
+//		//将传入人身上的所有属性，拷贝到我身上
+//		age = p.age;
+//
+//		cout << "拷贝构造函数的调用" << endl;
+//	}
+//	~Person()
+//	{
+//		cout << "析构函数的调用" << endl;
+//	}
+//	int age;
+//};
+//void test01()
+//{
+//	//1.括号法
+//	Person p1;//默认构造函数调用
+//	Person p2(10);//有参构造函数
+//	Person p3(p2);//调用拷贝调用函数
+//	//注意事项
+//	//1.调用默认构造函数的时候不要加小括号
+//	//因为下面这行代码编译器会认为是函数体的声明,不会认为在创建对象
+//	//Person p1();
+//	//
+//	cout << "p2的年龄：" << p2.age << endl;
+//	cout << "p3的年龄：" << p3.age << endl;
+//
+//	//2.显示法
+//	Person p4;//默认构造
+//	Person p5 = Person(10);//有参构造
+//	//Person(10)匿名对象 特点：当前行结束执行后系统会立即回收掉匿名对象
+//	Person p6 = Person(p5);
+//	Person(10);
+//	cout << "aaa0" << endl;
+//	//注意事项2
+//	//不要利用拷贝构造函数初始化匿名对象,编译器会认为Person(p5)==Person p5对象声明重定义
+//	//Person(p5);
+//
+//
+//	//3.隐式转化法
+//	Person p7 = 10;//相当于写了 Person p4=Person(10);
+//	Person p8 = p7;
+//}
+//int main()
+//{
+//	test01();
+//	system("pause");
+//	return 0;
+//}
 
-		cout << "拷贝构造函数的调用" << endl;
-	}
-	~Person()
-	{
-		cout << "析构函数的调用" << endl;
-	}
-	int age;
-};
-void test01()
-{
-	//1.括号法
-	Person p1;//默认构造函数调用
-	Person p2(10);//有参构造函数
-	Person p3(p2);//调用拷贝调用函数
-	//注意事项
-	//1.调用默认构造函数的时候不要加小括号
-	//因为下面这行代码编译器会认为是函数体的声明,不会认为在创建对象
-	//Person p1();
-	//
-	cout << "p2的年龄：" << p2.age << endl;
-	cout << "p3的年龄：" << p3.age << endl;
 
-	//2.显示法
-	Person p4;//默认构造
-	Person p5 = Person(10);//有参构造
-	//Person(10)匿名对象 特点：当前行结束执行后系统会立即回收掉匿名对象
-	Person p6 = Person(p5);
-	Person(10);
-	cout << "aaa0" << endl;
-	//注意事项2
-	//不要利用拷贝构造函数初始化匿名对象,编译器会认为Person(p5)==Person p5对象声明重定义
-	//Person(p5);
+//4.2.3拷贝调用函数的调用时机
+//c++中拷贝构造函数调用机制通常有以下三种情况
+//1.使用一个已经创建完毕的对象来初始化一个新对象
+//2.值传递的方式给函数参数传值
+//3.以值方式返回局部对象
+//#include<iostream>
+//using namespace std;
+//class Person
+//{
+//public :
+//	Person()
+//	{
+//		cout << "Person默认构造函数的调用" << endl;
+//	}
+//	Person(int iage)
+//	{
+//		cout << "Person有参构造函数的调用" << endl;
+//		age = iage;
+//	}
+//	Person(const Person& P)
+//	{
+//		cout << "Person拷贝构造函数的调用" << endl;
+//		age = P.age;
+//
+//	}
+//	~Person()
+//	{
+//		cout << "Person析构函数的调用" << endl;
+//	}
+//private:
+//	int age;
+//
+//};
+////1.使用一个已经创建完毕的对象来初始化一个新对象
+//void test01()
+//{
+//	Person p1(20);
+//	Person p2(p1);
+//}
+////2.值传递的方式给函数参数传值
+//void dowork(Person P)
+//{
+//
+//}
+//void test02()
+//{
+//	Person p;
+//	dowork(p);
+//}
+////3.以值方式返回局部对象
+//Person dowork2()
+//{
+//	Person p1;
+//	return p1;
+//}
+//void test03()
+//{
+//	Person p = dowork2();
+//}
+//int main()
+//{
+//	//test01();
+//	//test02();
+//	test03();
+//	system("pause");
+//	return 0;
+//}
 
 
-	//3.隐式转化法
-	Person p7 = 10;//相当于写了 Person p4=Person(10);
-	Person p8 = p7;
-}
-int main()
-{
-	test01();
-	system("pause");
-	return 0;
-}
+//4.2.4构造函数的调用规则
+//#include<iostream>
+//using namespace std;
+////1.创建一个类，c++绘画给每个类至少三个默认函数：默认构造函数，析构函数，拷贝函数
+//class person
+//{
+//public:
+//	person()
+//	{
+//		cout << "person 默认构造函数调用" << endl;
+//	}
+//	person(int age)
+//	{
+//		cout << "person的有参构造函数调用" << endl;
+//		m_age = age;
+//	}
+//	person(const person& p)
+//	{
+//		cout << "person的拷贝构造函数调用" << endl;
+//		m_age = p.m_age;
+//	}
+//	~person()
+//	{
+//		cout << "person的析构函数的调用" << endl;
+//	}
+//public:
+//	int m_age;
+//};
+//void test01()
+//{
+//	person p;
+//	p.m_age = 18;
+//	person p2(p);
+//	cout << "p2的年龄：" << p2.m_age << endl;
+//
+//}
+////2.如果我们写了有参构造函数，编译器就不再会提供默认构造函数，但是任然提供拷贝构造函数
+////3.如果我们写了拷贝构造函数，编译器就不再会提供其他构造函数
+//int main()
+//{
+//	test01();
+//	system("pause");
+//	return 0;
+//}
+
+
+//4.2.5深拷贝与浅拷贝
+//#include<iostream>
+//using namespace std;
+//class person
+//{
+//public:
+//	person()
+//	{
+//		cout << "person 默认构造函数的调用" << endl;
+//	}
+//	person(int age,int height)
+//	{
+//		cout << "person函数的有参构造函数的调用" << endl;
+//		m_age = age;
+//		mHeight = new int(height);
+//	}
+//	
+//
+//	~person()
+//	{
+//		//堆区开辟的数据进行释放
+//		cout << "person的析构函数的调用" << endl;
+//	}  
+//	int m_age;
+//	int* mHeight;
+//};
+//void test01()
+//{
+//	person p1(18,10);
+//	cout << p1.m_age << endl;
+//	person p2(p1);
+//}
+//int main()
+//{
+//	system("pause");
+//	return 0;
+//}
+//浅拷贝会带来堆区内存重复释放
+//利用深拷贝可以解决
+
+
+//4.2.6 初始化列表
+//语法：构造函数（）：属性1（值1），属性2（值2）....{}
+//#include<iostream>
+//using namespace std;
+//class person
+//{
+//public:
+//	//person(int a, int b, int c)
+//	//{
+//	//	m_A = a;
+//	//	m_B = b;
+//	//	m_C = c;
+//	//}
+//
+//	//初始化列表，初始化属性
+//	person(int a,int b,int c) :m_A(a), m_B(b), m_C(c)
+//	{
+//
+//	}
+//	int m_A;
+//	int m_B;
+//	int m_C;
+//};
+//void test01()
+//{
+//	//person p1(10, 20, 30);
+//	person p1(30,20,10);
+//	cout << p1.m_A << endl;
+//	cout << p1.m_B << endl;
+//	cout << p1.m_C << endl;
+//}
+//int main()
+//{
+//	test01();
+//	system("pause");
+//	return 0;
+//}
+
+
+//4.2.7类对象作为类成员
+//#include<iostream>
+//using namespace std;
+//class phone
+//{
+//public:
+//	phone(string name)
+//	{
+//		p_name = name;
+//	}
+//	string p_name;
+//};
+//class person
+//{
+//public:
+//	person(string my_name,string phone_name) :m_name(my_name), m_phone(phone_name)
+//	{
+//
+//	}
+//	//姓名
+//	string m_name;
+//
+//	//手机
+//	phone m_phone;
+//};
+//void test01()
+//{
+//	person p("占山", "sdw");
+//
+//}
+//int main()
+//{
+//	system("pause");
+//	return 0;
+//}
+
+
+//4.2.8静态成员
+//静态成员分为两种静态成员变量和静态成员函数
+//静态成员变量：成员变量前加static
+//1.编译阶段初始化内存2
+//2.所有成员共享一个数据
+//3.类内建立，类外声明
+//4.也有访问权限
+//#include<iostream>
+//using namespace std;
+//class A
+//{
+//public :
+//	static int m_a;//建立静态成员变量
+//
+//private:
+//	static int m_b;
+//};
+//int A::m_a = 10;
+//int A::m_b = 10;
+////静态成员变量的访问
+//void test01()
+//{
+//	//1.通过对象进行访问
+//	A c;
+//	cout << c.m_a << endl;
+//	c.m_a = 100;
+//	//数据进行共享
+//	cout << c.m_a << endl;
+//	A p;
+//	cout << p.m_a << endl;
+//	//2.利用类名进行访问
+//	cout <<  A::m_a << endl;
+//	//私有对象不可以访问
+//	//cout << A::m_b << endl;
+//}
+//int main()
+//{
+//	test01();
+//	system("pause");
+//	return 0;
+//}
+
+//静态成员函数：函数前加static
+//1.所有对象共分享一个函数
+//2.静态函数只能访问静态成员变量
+//#include<iostream>
+//using namespace std;
+//class person
+//{
+//public:
+//	static void func()
+//	{
+//		cout << "函数调用" << endl;
+//	}
+//};
+//void test01()
+//{
+//	//1.通过对象
+//	person p;
+//	p.func();
+//	//2.通过类名
+//	person::func;
+//}
+//int main()
+//{
+//	test01();
+//	system("pause");
+//	return 0;
+//}
