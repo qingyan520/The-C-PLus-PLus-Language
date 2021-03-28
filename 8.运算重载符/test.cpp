@@ -416,3 +416,46 @@
 //	return 0;
 //}
 
+
+//4.5.6 函数调用运算符重载 :()
+//重载（）被称为仿函数，使用非常灵活，没有固定的写法
+//#include<iostream>
+//using namespace std;
+//class Print
+//{
+//public:
+//	void operator()(string name)
+//	{
+//		cout << name << endl;
+//	}
+//};
+//void test01()
+//{
+//	Print p;
+//	p.operator()("name");
+//}
+//class Add
+//{
+//public:
+//	int operator()(int a, int b)
+//	{
+//		return a + b;
+//	}
+//};
+//void test02()
+//{
+//	Add p;
+//	int ret=p.operator()(10, 10);
+//	cout << ret << endl;
+//	//类名后面直接加（）为匿名对象
+//	cout << Add()(10, 10) << endl;
+//}
+//int main()
+//{
+//	test01();
+//	test02();
+//	system("pause");
+//	return 0;
+//}
+
+
