@@ -287,10 +287,77 @@
 //}*/
 
 //4.虚析构和纯虚析构
-#include<iostream>
-using namespace std;
-int main()
-{
-	system("pause");
-	return 0;
-}
+//多态使用时，如果子类对象开辟到堆区，那么父类指针在释放时无发调用子类的析构代码
+//解决方法：将父类中的析构代码写成虚析构或者纯虚析构
+//虚析构与纯虚析构的共性：
+//1.可以解决父类指针释放子类对象
+//2.都需要具体的函数实现
+//虚析构和纯虚析构的区别:
+//1.如果是纯虚析构，该类是属于抽象类，无法实例化对象
+//虚析构语法:virtual~类名(){}
+//纯虚析构语法：virtual~类名(){}=0;类内声明
+//             类外实现：类名：：函数实现
+
+//纯虚析构：需要声明，还需要实现
+//有了纯虚函数后，无法实例化对象
+//#include<iostream>
+//#include<string>
+//using namespace std;
+//class animal
+//{
+//public:
+//	virtual void speak() = 0;
+//	animal()
+//	{
+//		cout << "animal的构造函数调用" << endl;
+//	}
+//	virtual ~animal() = 0;
+//	/*{
+//		cout << "animal的析构函数调用" << endl;
+//	}*/
+//};
+//animal:: ~animal()
+//{
+//	cout << "animal的纯虚析构函数调用" << endl;
+//}
+//class cat:public animal
+//{
+//public:
+//	cat(string name)
+//	{
+//		m_name = new string(name);
+//	}
+//	void speak()
+//	{
+//		cout << "cat构造函数的调用" << endl;
+//		cout <<*m_name<< "小猫在说话" << endl;
+//	}
+//	~cat()
+//	{
+//		cout << "cat析构函数调用" << endl;
+//		if (m_name != NULL)
+//		{
+//			delete m_name;
+//			m_name = NULL;
+//		}
+//	
+//	}
+//	string* m_name;
+//};
+//void test01()
+//{
+//	animal* a = new cat("Tom");
+//	a->speak();
+//	//父类指针在析构时，不会调用子类中的析构函数，导致子类如果有堆区属性，出现内存泄露
+//	delete a;
+//}
+//int main()
+//{
+//	test01();
+//	system("pause");
+//	return 0;
+//}
+//虚析构和纯虚析构用来解决通过父类指针释放子类对象
+//如果子类对象没有开辟到堆区数据，可以不用写虚析构或者纯虚析构
+//拥有纯析构的函数类也属于抽象类
+
