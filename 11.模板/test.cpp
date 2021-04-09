@@ -305,35 +305,254 @@
 //类模板与函数模板区别：
 //1.类模板没有自动类型推导：只能用显示指定类型
 //2.类模板在模板参数列表中可以用默认参数
-#include<iostream>
-using namespace std;
-template<class NameType,class AgeType>
-class person
-{
-public:
-	person(NameType name, AgeType age)
-	{
-		this->m_name = name;
-		this->m_age = age;
-	}
-	void show()
-	{
-		cout << "姓名：" << this->m_name << "  " << "年龄：" << this->m_age << endl;
-	}
-	NameType m_name;
-	AgeType m_age;
-};
-void test01()
-{
-	person<string, int>p("Tom", 10);
-	p.show();
-}
-int main()
-{
-	test01();
-	system("pause");
-	return 0;
-}
+//#include<iostream>
+//using namespace std;
+//template<class NameType,class AgeType>
+//class person
+//{
+//public:
+//	person(NameType name, AgeType age)
+//	{
+//		this->m_name = name;
+//		this->m_age = age;
+//	}
+//	void show()
+//	{
+//		cout << "姓名：" << this->m_name << "  " << "年龄：" << this->m_age << endl;
+//	}
+//	NameType m_name;
+//	AgeType m_age;
+//};
+//void test01()
+//{
+//	person<string, int>p("Tom", 10);
+//	p.show();
+//}
+//int main()
+//{
+//	test01();
+//	system("pause");
+//	return 0;
+//}
 
 
+
+//模板复习Template<class T>
+//#include<iostream>
+//using namespace std;
+//template<class NameType,class AgeType>
+//class person
+//{
+//public:
+//	person(NameType name, AgeType age)
+//	{
+//		this->age = age;
+//		this->name = name;
+//	}
+//	NameType name;
+//	AgeType age;
+//	void show()
+//	{
+//		cout << name << endl;
+//		cout << age << endl;
+//	}
+//	
+//};
+//int main()
+//{
+//	person<string, int>p("Tom", 18);
+//	p.show();
+//	system("pause");
+//	return 0;
+//}
+
+
+//2.类模板与函数模板的区别
+//1.类模板没有自动类型推导的使用方法
+//2.类模板在模板参数列表中可以有默认参数
+
+
+//3.类模板中成员函数的创建时机
+//普通类中成员函数一开始就可以创建
+//类模板中的成员函数在调用时创建
+
+
+//4.类模板做函数参数
+//#include<iostream>
+//using namespace std;
+//template<class T1,class T2>
+//class person
+//{
+//public:
+//	person(T1 name,T2 age)
+//	{
+//		this->m_name = name;
+//		this->m_age = age;
+//	}
+//	void showperson()
+//	{
+//		cout << "姓名:" << this->m_name << "  " << "年龄:" << this->m_age << endl;
+//	}
+//	T1 m_name;
+//	T2 m_age;
+//};
+//
+////1.直接传参法
+//void printperson1(person<string, int>& p)
+//{
+//	p.showperson();
+//}
+//void test01()
+//{
+//		person<string, int>p("Tom", 18);
+//		printperson1(p);
+//}
+//
+////2.模板化传入
+//template<class T1,class T2>
+//void printperson2(person<T1, T2>& p)
+//{
+//	p.showperson();
+//}
+//void test02()
+//{
+//	person<string, int>p("Tom", 17);
+//	printperson2(p);
+//}
+////3.直接将函数模板化
+//template<class T>
+//void printperson3(T &p)
+//{
+//	p.showperson();
+//}
+//void test03()
+//{
+//	person<string, int>p("Tom", 16);
+//	printperson3(p);
+//}
+//int main()
+//{
+//	test01();
+//	test02();
+//	test03();
+//	system("pause");
+//	return 0;
+//}
+
+
+//5.类模板与继承
+//当类模板碰到继承时，需要注意以下几点
+//1.当子类继承的父类是一个类模板时，子类在声明的时候，要指定出父类中的类型
+//2.如果不指定，编译器无法给子类分配内存
+//3.如果想灵活的指出父类中的T的数据类型，子类也需要变为类模板
+//#include<iostream>
+//using namespace std;
+//template<class T>
+//class base
+//{
+//	T s1;
+//};
+////1.第一种方法：直接指定数据类型
+//class son :public base<int>
+//{
+//public:
+//
+//};
+////2.第二种方法：将第二个类定义为模板，然后在传入时指定参数
+//template<class T1,class T2 >
+//class son2 :public base<T2>
+//{
+//public:
+//};
+//
+//void test01()
+//{
+//	son2<int, char>p;
+//	//此时T1为int,T2为char,即父类中的s1也为char类型
+//};
+//int main()
+//{
+//	system("pause");
+//	return 0;
+//}
+
+
+//6.类模板成员函数的类外实现
+//#include<iostream>
+//#include<string>
+//using namespace std;
+//template<class T1,class T2>
+//class person
+//{
+//public:
+//	//成员函数类内声明
+//	person(T1 name, T2 age);
+//	void showperson();
+//	T1 m_name;
+//	T2 m_age;
+//};
+////构造函数类外实现
+//template<class T1,class T2>
+//person<T1,T2>::person(T1 name, T2 age)
+//{
+//	this->m_age = age;
+//	this->m_name = age;
+//}
+//template<class T1, class T2>
+//void person<T1, T2>::showperson()
+//{
+//	cout << "hehe" << endl;
+//}
+//void test01()
+//{
+//	person<string, int>p("tom", 15);
+//	p.showperson();
+//}
+//int main()
+//{
+//	test01();
+//	system("pause");
+//	return 0;
+//}
+
+//7.类模板的分文件编写
+//类模板中的成员函数创建时机是在调用阶段，导致分文件编写链接不到
+//解决方法：
+//1.直接包含.cpp源文件
+//2.将声明和实现写到同一个文件中，并更改后缀名为.hpp，hpp是约定的名称，并不强制
+//#include<iostream>
+//#include<string>
+//using namespace std;
+//#include"源1.hpp"
+//void test01()
+//{
+//	person<string, int>p("Tom", 18);
+//	p.showperson();
+//}
+//int main()
+//{
+//	test01();
+//	system("pause");
+//	return 0;
+//}
+//主流解决方法为第二个
+
+
+//8.类模板与友元
+//#include<iostream>
+//using namespace std;
+//template<class T1,class T2>
+//class person
+//{
+//public:
+//	person(T1 name, T2 age)
+//	{
+//
+//	}
+//};
+//int main()
+//{
+//	system("pause");
+//	return 0;
+//}
 
