@@ -556,3 +556,18 @@
 //	return 0;
 //}
 
+
+//案例：实现一个通用的数组类
+#include<iostream>
+using namespace std;
+template<class T>
+class MyArray
+{
+public:
+
+};
+int main()
+{
+	system("pause");
+	return 0;
+}
