@@ -75,7 +75,7 @@
 //	v3.assign(v2.begin(),v2.end());
 //	Print(v3);
 //	vector<int>v4;
-//	v4.assign(2, 4);;
+//	v4.assign(2, 4);
 //	Print(v4);
 //
 //}
@@ -140,7 +140,7 @@
 //pop_back();   //删除容器尾部数据
 //insert(int pos,ele)  //在下表为pos的位置插入数据ele
 //erase(pos);   //删除下表为pos位置的元素
-//erase(start,end);  //删除下标从start到end之间所有元素
+//erase(v.begin(),v.end());  //删除[begin,end)之间所有元素
 //clear();  //清空该容器
 //#include<iostream>
 //#include<vector>
