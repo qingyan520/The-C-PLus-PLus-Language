@@ -142,6 +142,7 @@
     <ClCompile Include="1.set容器.cpp" />
     <ClCompile Include="2.函数对象.cpp" />
     <ClCompile Include="3.谓词.cpp" />
+    <ClCompile Include="4.内建函数对象.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -24,5 +24,8 @@
     <ClCompile Include="3.谓词.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="4.内建函数对象.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
