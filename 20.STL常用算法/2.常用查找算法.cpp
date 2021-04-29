@@ -88,21 +88,24 @@
 //beg开始迭代器
 //end结束迭代器
 //——pred 函数或者谓词(返回值为bool的仿函数)
-#include<iostream>
-#include<algorithm>
-#include<vector>
-using namespace std;
-void test01()
-{
-	vector<int>v;
-	for (int i = 0; i < 10; i++)
-	{
-		v.push_back(i);
-	}
-
-}
-int main()
-{
-	system("pause");
-	return 0;
-}
+//#include<iostream>
+//#include<algorithm>
+//#include<vector>
+//using namespace std;
+//void test01()
+//{
+//	vector<int>v;
+//	for (int i = 0; i < 10; i++)
+//	{
+//		v.push_back(i);
+//	}
+//
+//
+//}
+//int main()
+//{
+//
+//	test01();
+//	system("pause");
+//	return 0;
+//}

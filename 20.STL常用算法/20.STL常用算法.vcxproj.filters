@@ -21,5 +21,19 @@
     <ClCompile Include="2.常用查找算法.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="3常用排序算法.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="4.常用拷贝和替换算法.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="6.常用集合算法.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="5.常用算数生成算法.cpp">
+      <Filter>源文件</Filter>
+    </None>
   </ItemGroup>
 </Project>
