@@ -26,5 +26,8 @@
     <ClInclude Include="speechManger.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Speaker.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
