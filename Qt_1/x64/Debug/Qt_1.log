@@ -1,0 +1,10 @@
+﻿  Reading Qt configuration (D:/QT/5.14.2/msvc2017_64/bin/qmake)
+  uic Qt_1.ui
+  rcc Qt_1.qrc
+  moc Qt_1.h
+   RCC: Warning: No resources in 'C:\Users\鍙查噾浼焅source\The-C-PLus-Plus-Language\Qt_1\Qt_1.qrc'.
+  Qt_1.cpp
+  main.cpp
+  qrc_Qt_1.cpp
+  moc_Qt_1.cpp
+  Qt_1.vcxproj -> C:\Users\史金伟\source\The-C-PLus-Plus-Language\Qt_1\x64\Debug\Qt_1.exe
