@@ -1,2 +1,0 @@
-C:\Users\史金伟\source\The-C-PLus-Plus-Language\1.初识C++\Debug\1.初识C++.exe
-C:\Users\史金伟\source\The-C-PLus-Plus-Language\1.初识C++\Debug\1.初识C++.pdb
