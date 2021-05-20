@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Widget</class>
+ <widget class="QWidget" name="Widget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Widget</string>
+  </property>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>110</y>
+     <width>113</width>
+     <height>97</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>按钮窗口</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QPushButton" name="pushButton">
+      <property name="text">
+       <string>按钮1</string>
+      </property>
+      <property name="icon">
+       <iconset resource="res.qrc">
+        <normaloff>:/Image/Luffy.png</normaloff>:/Image/Luffy.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>32</width>
+        <height>32</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pushButton_2">
+      <property name="text">
+       <string>按钮2</string>
+      </property>
+      <property name="icon">
+       <iconset resource="res.qrc">
+        <normaloff>:/Image/LuffyQ.png</normaloff>:/Image/LuffyQ.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>32</width>
+        <height>32</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QToolButton" name="toolButton">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>290</y>
+     <width>47</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>aaa</string>
+   </property>
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/Image/OnePiece.png</normaloff>:/Image/OnePiece.png</iconset>
+   </property>
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_2">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>320</y>
+     <width>62</width>
+     <height>79</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>性别</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <widget class="QRadioButton" name="RadBut_man">
+      <property name="text">
+       <string>男</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QRadioButton" name="RadBat_women">
+      <property name="text">
+       <string>女</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_3">
+   <property name="geometry">
+    <rect>
+     <x>540</x>
+     <y>160</y>
+     <width>77</width>
+     <height>79</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>婚否</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_3">
+    <item>
+     <widget class="QRadioButton" name="radioButton_3">
+      <property name="text">
+       <string>已婚</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QRadioButton" name="radioButton_4">
+      <property name="text">
+       <string>未婚</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QPushButton" name="pushButton_3">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>430</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>提交</string>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_4">
+   <property name="geometry">
+    <rect>
+     <x>580</x>
+     <y>330</y>
+     <width>111</width>
+     <height>129</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>问卷调查</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_4">
+    <item>
+     <widget class="QCheckBox" name="checkBox">
+      <property name="text">
+       <string>服务好</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCheckBox" name="checkBox_2">
+      <property name="text">
+       <string>卫生好</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCheckBox" name="checkBox_3">
+      <property name="text">
+       <string>味道好</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCheckBox" name="checkBox_4">
+      <property name="text">
+       <string>环境好</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QDialogButtonBox" name="buttonBox">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>110</y>
+     <width>192</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="standardButtons">
+    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+   </property>
+  </widget>
+  <widget class="QTreeView" name="treeView">
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+     <y>240</y>
+     <width>57</width>
+     <height>11</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QTableView" name="tableView">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>310</y>
+     <width>256</width>
+     <height>192</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>430</y>
+     <width>87</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>520</y>
+     <width>113</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QCalendarWidget" name="calendarWidget">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>10</y>
+     <width>296</width>
+     <height>218</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLCDNumber" name="lcdNumber">
+   <property name="geometry">
+    <rect>
+     <x>650</x>
+     <y>260</y>
+     <width>64</width>
+     <height>23</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QCommandLinkButton" name="commandLinkButton">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>330</y>
+     <width>187</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>CommandLinkButton</string>
+   </property>
+  </widget>
+  <widget class="QProgressBar" name="progressBar">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>490</y>
+     <width>118</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="value">
+    <number>100</number>
+   </property>
+  </widget>
+  <widget class="Line" name="line">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>220</y>
+     <width>3</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="spinBox">
+   <property name="geometry">
+    <rect>
+     <x>570</x>
+     <y>520</y>
+     <width>42</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QTimeEdit" name="timeEdit">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>520</y>
+     <width>118</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
+ <connections/>
+</ui>
