@@ -11,28 +11,28 @@
 //特点：
 //
 //1.函数名与类名相同
-#include<iostream>
-using namespace std;
-class Person
-{
-public:
-	Person()
-	{
-		arr = (int*)malloc(sizeof(int) * 1);
-	}
-	~Person()
-	{
-		
-		free(arr);
-		cout << "Person的析构函数的调用" << endl;
-	}
-	int* arr;
-};
-int main()
-{
-	Person p;
-	return 0;
-}
+//#include<iostream>
+//using namespace std;
+//class Person
+//{
+//public:
+//	Person()
+//	{
+//		arr = (int*)malloc(sizeof(int) * 1);
+//	}
+//	~Person()
+//	{
+//		
+//		free(arr);
+//		cout << "Person的析构函数的调用" << endl;
+//	}
+//	int* arr;
+//};
+//int main()
+//{
+//	Person p;
+//	return 0;
+//}
 //2.没有返回值，也不写void
 //
 //3.对象实例化时编译器会自动调用对应的构造函数
