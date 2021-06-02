@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31229.75
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_6_2_C++动态内存管理", "test_6_2_C++动态内存管理.vcxproj", "{667F0284-61D7-4579-A4E3-4547E15FAACA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{667F0284-61D7-4579-A4E3-4547E15FAACA}.Debug|x64.ActiveCfg = Debug|x64
+		{667F0284-61D7-4579-A4E3-4547E15FAACA}.Debug|x64.Build.0 = Debug|x64
+		{667F0284-61D7-4579-A4E3-4547E15FAACA}.Debug|x86.ActiveCfg = Debug|Win32
+		{667F0284-61D7-4579-A4E3-4547E15FAACA}.Debug|x86.Build.0 = Debug|Win32
+		{667F0284-61D7-4579-A4E3-4547E15FAACA}.Release|x64.ActiveCfg = Release|x64
+		{667F0284-61D7-4579-A4E3-4547E15FAACA}.Release|x64.Build.0 = Release|x64
+		{667F0284-61D7-4579-A4E3-4547E15FAACA}.Release|x86.ActiveCfg = Release|Win32
+		{667F0284-61D7-4579-A4E3-4547E15FAACA}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E4A77E27-9C90-4366-BF29-0C68361FE79A}
+	EndGlobalSection
+EndGlobal
