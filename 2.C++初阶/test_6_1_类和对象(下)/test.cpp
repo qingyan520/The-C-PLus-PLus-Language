@@ -83,39 +83,39 @@
 //	cout << p;
 //	return 0;
 //}
-
-
-#include<iostream>
-using namespace std;
-class A
-{
-	friend class Person;
-	A(int a)
-	{
-		_a = a;
-	}
-private:
-	int _a;
-
-};
-class Person
-{
-public:
-
-	Person(int a = 0)
-	{
-		_a = a;
-
-	}
-	
-private:
-	int _a;
-	A a;
-};
-
-int main()
-{
-	Person p;
-	cout << p;
-	return 0;
-}
+//
+//
+//#include<iostream>
+//using namespace std;
+//class A
+//{
+//	friend class Person;
+//	A(int a)
+//	{
+//		_a = a;
+//	}
+//private:
+//	int _a;
+//
+//};
+//class Person
+//{
+//public:
+//
+//	Person(int a = 0)
+//	{
+//		_a = a;
+//
+//	}
+//	
+//private:
+//	int _a;
+//	A a;
+//};
+//
+//int main()
+//{
+//	Person p;
+//	cout << p;
+//	return 0;
+//}
