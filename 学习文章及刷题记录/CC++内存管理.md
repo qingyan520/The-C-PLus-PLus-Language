@@ -52,13 +52,13 @@ C语言和C++中对于动态数组的申请
 
 
 ​	
-	//C++对于动态数组的申请
-	int* arr = new int[10];
+​	//C++对于动态数组的申请
+​	int* arr = new int[10];
 
 
 ​	
-	//C++在动态申请数组时还可以对齐进行初始化
-	int* arr = new int[3]{ 1,2,3 };//对新开辟的int类型，大小为3的数组赋值为1，2，3
+​	//C++在动态申请数组时还可以对齐进行初始化
+​	int* arr = new int[3]{ 1,2,3 };//对新开辟的int类型，大小为3的数组赋值为1，2，3
 
 需要注意的是，上面我们申请了内存空间，在程序结束时一定要记得手动释放这块内存空间，不然会产生内存泄漏
 
@@ -106,9 +106,9 @@ int main()
 }
 ```
 
-![image-20210602211213882](C:\Users\史金伟\AppData\Roaming\Typora\typora-user-images\image-20210602211213882.png)
+![image-20210602211213882](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20210602211213882.png)
 
-![image-20210602211311613](C:\Users\史金伟\AppData\Roaming\Typora\typora-user-images\image-20210602211311613.png)
+![image-20210602211311613](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20210602211311613.png)
 
 如上所示，在自定义类型中，C++中new在动态申请一块内存空间之后会调用这个自定义类型的构造函数，对类里面的成员函数进行初始化，在函数结束时候delete会调用这个自定义类的析构函数，实现对对象的清理，而malloc只开辟了这块内存空间，并不会对这块内存空间进行初始化操作，也不会调用析构函数
 
@@ -185,3 +185,4 @@ operator delete底层通过free来实现内存的释放
 4.系统资源泄露
 
 注意：每次申请空间之后一定要记得手动释放这块空间，不然会产生内存泄露
+
