@@ -1,4 +1,2 @@
 ﻿  test.cpp
-C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_6_4_C++模板初阶\test.cpp(31,15): warning C4305: “初始化”: 从“double”到“float”截断
-C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_6_4_C++模板初阶\test.cpp(32,15): warning C4305: “初始化”: 从“double”到“float”截断
   test_6_4_C++模板初阶.vcxproj -> C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_6_4_C++模板初阶\Debug\test_6_4_C++模板初阶.exe
