@@ -556,6 +556,51 @@ int main()
 }
 ```
 
+### 6.判断是否为子序列
+
+#### [392. 判断子序列](https://leetcode-cn.com/problems/is-subsequence/)
+
+> 给定字符串 s 和 t ，判断 s 是否为 t 的子序列。
+>
+> 字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，"ace"是"abcde"的一个子序列，而"aec"不是）。
+>
+
+```cpp
+示例 1：
+输入：s = "abc", t = "ahbgdc"
+输出：true
+
+示例 2：
+输入：s = "axc", t = "ahbgdc"
+输出：false
+```
+
+![image-20210618123907827](C:\Users\史金伟\AppData\Roaming\Typora\typora-user-images\image-20210618123907827.png)
+
+本题是经典的双指针做法，定义两个指针，分别指向s,t的首元素位置，如果s[i]==t[j],那么i++,此时再做匹配，看t中是否也有s[i],找最后判断i是否等于s.size()即可
+
+```cpp
+class Solution {
+public:
+
+  bool isSubsequence(string s, string t) {
+​    int s_size=s.size();
+​    int t_size=t.size();
+​    int i=0;
+​    int j=0;
+​    while(i<s_size&&j<t_size)
+​    {
+​      if(s[i]==t[j])
+​      {
+​        i++;
+​      }
+​      j++;
+​    }
+​    return i==s_size;
+  }
+};
+```
+
 
 
 ## 中等题
