@@ -607,7 +607,6 @@ public:
 > 实现 strStr() 函数。
 >
 > 给你两个字符串 haystack 和 needle ，请你在 haystack 字符串中找出 needle 字符串出现的第一个位置（下标从 0 开始）。如果不存在，则返回  -1 。
->
 
 ```cpp
 示例 1：
@@ -674,7 +673,6 @@ int strStr(char * haystack, char * needle){
 > 返回重新排列后的字符串。
 >
 > 示例 1：
->
 
 ![image-20210619134308512](C:\Users\史金伟\AppData\Roaming\Typora\typora-user-images\image-20210619134308512.png)
 
@@ -724,9 +722,69 @@ public:
 > 时间复杂度：O(N)O(N)，其中 NN 为字符串 ss 的长度。我们只需对字符串 ss 执行一次线性扫描即可。
 >
 > 空间复杂度：O(1)O(1) 或 O(N)O(N)。除开辟的存储答案的字符串外，我们只需要常数空间存放若干变量。如果使用的语言不允许对字符串进行修改，我们还需要 O(N)O(N) 的空间临时存储答案。
+
+### 9.字符串中的最大奇数
+
+#### [5788. 字符串中的最大奇数](https://leetcode-cn.com/problems/largest-odd-number-in-string/)
+
+> 给你一个字符串 num ，表示一个大整数。请你在字符串 num 的所有 非空子字符串 中找出 值最大的奇数 ，并以字符串形式返回。如果不存在奇数，则返回一个空字符串 "" 。
+>
+> 子字符串 是字符串中的一个连续的字符序列。
 >
 
+```cpp
+示例 1：
+输入：num = "52"
+输出："5"
+解释：非空子字符串仅有 "5"、"2" 和 "52" 。"5" 是其中唯一的奇数。
+    
+示例 2：
+输入：num = "4206"
+输出：""
+解释：在 "4206" 中不存在奇数。
+    
+示例 3：
+输入：num = "35427"
+输出："35427"
+```
 
+> 思路：本题初看比较难，但是仔细分析还是非常简单的，只要我们从后往前遍历，找到第一个奇数，然后从首位置到这个位置所有字符串即为最大连续奇数字符串
+
+```cpp
+class Solution {
+public:
+    string largestOddNumber(string num) {
+        //首先排除特殊情况,要是string为空或者string中的每一位都是偶数，那么就返回空字符串
+        if(num.size()==0)
+            return "";
+        int flag1=0;
+        for(int i=0;i<num.size();i++)
+        {
+            if((num[i]-48)%2==0)
+                flag1++;
+        }
+        if(flag1==num.size())
+        {
+            return "";
+        }
+        //从后往前找，找到第一个位置为奇数的位置j，从[0,j]这个为位置构成的所有字符串就是我们要求的最大字符串
+        int j=num.size()-1;
+        while((num[j]-48)%2==0)
+        {
+            j--;
+        }
+        int i=0;
+        string s;
+        for(int i=0;i<=j;i++)
+        {
+            s+=num[i];
+        }
+        return s;
+    }
+};
+```
+
+## 中等题
 
 ### 1.将字符串转化为整数
 
