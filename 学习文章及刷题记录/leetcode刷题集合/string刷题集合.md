@@ -574,7 +574,7 @@ int main()
 输出：false
 ```
 
-![image-20210618123907827](C:\Users\史金伟\AppData\Roaming\Typora\typora-user-images\image-20210618123907827.png)
+![image-20210618123907827](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20210618123907827.png)
 
 本题是经典的双指针做法，定义两个指针，分别指向s,t的首元素位置，如果s[i]==t[j],那么i++,此时再做匹配，看t中是否也有s[i],找最后判断i是否等于s.size()即可
 
@@ -674,7 +674,7 @@ int strStr(char * haystack, char * needle){
 >
 > 示例 1：
 
-![image-20210619134308512](C:\Users\史金伟\AppData\Roaming\Typora\typora-user-images\image-20210619134308512.png)
+![image-20210619134308512](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20210619134308512.png)
 
 ```cpp
 输入：s = "codeleet", indices = [4,5,6,7,0,2,1,3]
@@ -730,7 +730,6 @@ public:
 > 给你一个字符串 num ，表示一个大整数。请你在字符串 num 的所有 非空子字符串 中找出 值最大的奇数 ，并以字符串形式返回。如果不存在奇数，则返回一个空字符串 "" 。
 >
 > 子字符串 是字符串中的一个连续的字符序列。
->
 
 ```cpp
 示例 1：
