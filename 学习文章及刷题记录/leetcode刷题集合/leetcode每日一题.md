@@ -11,13 +11,11 @@
 > 给你一个整数 turnedOn ，表示当前亮着的 LED 的数量，返回二进制手表可以表示的所有可能时间。你可以 按任意顺序 返回答案。
 >
 > 小时不会以零开头：
->
 
 > 例如，"01:00" 是无效的时间，正确的写法应该是 "1:00" 。
 > 分钟必须由两位数组成，可能会以零开头：
 
 > 例如，"10:2" 是无效的时间，正确的写法应该是 "10:02" 。
->
 
 ```cpp
 示例 1：
@@ -78,6 +76,109 @@ public:
 ​    return ret;
 ​    //注意本题目时间复杂度位O(1)，不是O(N*N)，因为常数次就枚举完成了
 ​    //空间复杂度O(1)
+  }
+};
+```
+
+#### [6_22_剑指 Offer 38. 字符串的排列](https://leetcode-cn.com/problems/zi-fu-chuan-de-pai-lie-lcof/)
+
+> 输入一个字符串，打印出该字符串中字符的所有排列。
+>
+> 你可以以任意顺序返回这个字符串数组，但里面不能有重复元素。
+>
+
+```
+
+示例:
+输入：s = "abc"
+输出：["abc","acb","bac","bca","cab","cba"]
+```
+
+> 回溯是一种暴力搜索算法，相当于n层for循环
+>
+> 1.确定循环终止条件
+>
+> 2.for循环
+>
+> 3.回溯
+
+```cpp
+class Solution {
+public:
+  vector<string>ret;
+  void backtrack(string&s,string&str,vector<bool>used)
+  {
+​    //1.确定循环条件
+​    if(str.size()==s.size())
+​    {
+​      ret.push_back(str);
+​    }
+​    //2.开始循环
+​    for(int i=0;i<s.size();i++)
+​    {
+​      //2.1去除重复元素
+​      if(i>0&&s[i]==s[i-1]&&used[i-1]==false)
+​      continue;
+​      //2.如果used[i]==false，说明该位置还没有字符，进入
+​      if(used[i]==false)
+​      {
+​        used[i]=true;
+​        str.push_back(s[i]);
+​        //进入递归
+​        backtrack(s,str,used);
+​        //进入回溯过程
+​        str.pop_back();
+​        used[i]=false;
+​      }
+​    }
+  }
+
+  vector<string> permutation(string s) {
+​    ret.clear();
+   vector<bool>used(s.size(),false);
+​    sort(s.begin(),s.end());
+​    string str;
+​    backtrack(s,str,used);
+​    return ret;
+  }
+};
+```
+
+#### [6_23_剑指 Offer 15. 二进制中1的个数](https://leetcode-cn.com/problems/er-jin-zhi-zhong-1de-ge-shu-lcof/)
+
+> 请实现一个函数，输入一个整数（以二进制串形式），输出该数二进制表示中 1 的个数。例如，把 9 表示成二进制是 1001，有 2 位是 1。因此，如果输入 9，则该函数输出 2。
+>
+
+```cpp
+示例 1：
+输入：00000000000000000000000000001011
+
+输出：3
+解释：输入的二进制串 00000000000000000000000000001011 中，共有三位为 '1'。
+
+示例 2：
+输入：00000000000000000000000010000000
+输出：1
+解释：输入的二进制串 00000000000000000000000010000000 中，共有一位为 '1'。
+
+示例 3：
+输入：11111111111111111111111111111101
+输出：31
+解释：输入的二进制串 11111111111111111111111111111101 中，共有 31 位为 '1'。
+```
+
+```cpp
+class Solution {
+public:
+
+  int hammingWeight(uint32_t n) {
+​    int count=0;
+​    while(n)
+​    {
+​      count++;
+​      n=n&(n-1);
+​    }
+​    return count;
   }
 };
 ```
