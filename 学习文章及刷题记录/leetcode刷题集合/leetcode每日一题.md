@@ -85,7 +85,6 @@ public:
 > 输入一个字符串，打印出该字符串中字符的所有排列。
 >
 > 你可以以任意顺序返回这个字符串数组，但里面不能有重复元素。
->
 
 ```
 
@@ -147,7 +146,6 @@ public:
 #### [6_23_剑指 Offer 15. 二进制中1的个数](https://leetcode-cn.com/problems/er-jin-zhi-zhong-1de-ge-shu-lcof/)
 
 > 请实现一个函数，输入一个整数（以二进制串形式），输出该数二进制表示中 1 的个数。例如，把 9 表示成二进制是 1001，有 2 位是 1。因此，如果输入 9，则该函数输出 2。
->
 
 ```cpp
 示例 1：
@@ -179,6 +177,71 @@ public:
 ​      n=n&(n-1);
 ​    }
 ​    return count;
+  }
+};
+```
+
+#### [6_29_168. Excel表列名称](https://leetcode-cn.com/problems/excel-sheet-column-title/)
+
+> 给你一个整数 columnNumber ，返回它在 Excel 表中相对应的列名称。
+>
+
+> 例如：
+>
+> A -> 1
+> B -> 2
+> C -> 3
+> ...
+> Z -> 26
+> AA -> 27
+> AB -> 28 
+> ...
+
+```cpp
+示例 1：
+输入：columnNumber = 1
+输出："A"
+
+示例 2：
+输入：columnNumber = 28
+输出："AB"
+
+示例 3：
+输入：columnNumber = 701
+输出："ZY"
+
+示例 4：
+输入：columnNumber = 2147483647
+输出："FXSHRXW"
+```
+
+> 这里首先要直到excel表格的编号是26进制，而且A~Z的assic的范围为65~90，中间相差25
+>
+> 26进制余数的范围应该为0~25，所以每次操作前先将这个数字--
+
+```cpp
+class Solution {
+public:
+
+ 
+
+  string convertToTitle(int columnNumber) {
+​    string ret;
+​    //题目本质：将一个数字转化为26进制数字，首先最容易想到的就是直接相除取余
+​    //那么我们取得第一个余数所对应的字母就是最后一个字母
+​    //当我们遍历完整个数字之后就是得到我们要找的字符串的逆序了，然会我们将其转置一下，就得到了正确的答案
+​    //但是这里我们还要注意一下，这个取余的过程，
+​    //26进制是1~26，那么%26对应的余数就应该位于0~25之间，所以我们将所有的数都减1，比如26，26-1=25%26=25
+
+
+​    while(columnNumber)
+​    {
+​      ret+=(columnNumber-1)%26+'A'; 
+​      columnNumber-=(columnNumber-1)%26;
+​      columnNumber/=26;
+​    }
+​    reverse(ret.begin(),ret.end());
+​    return ret;
   }
 };
 ```
