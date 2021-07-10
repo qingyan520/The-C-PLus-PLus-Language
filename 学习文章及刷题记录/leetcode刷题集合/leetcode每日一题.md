@@ -294,4 +294,81 @@ public:
 };
 ```
 
-​                                                   
+####  [7_9_面试题 17.10. 主要元素](https://leetcode-cn.com/problems/find-majority-element-lcci/)                                                  
+
+> 数组中占比超过一半的元素称之为主要元素。给你一个 整数 数组，找出其中的主要元素。若没有，返回 -1 。请设计时间复杂度为 O(N) 、空间复杂度为 O(1) 的解决方案。
+>
+
+```cpp
+示例 1：
+输入：[1,2,5,9,5,9,5,5,5]
+输出：5
+
+示例 2：
+输入：[3,2]
+输出：-1
+
+示例 3：
+输入：[2,2,1,1,1,2,2]
+输出：2
+```
+
+> 方法一：暴力双重循环统计每个数字出现的次数，判断是否超出一半,当然，这样时间复杂度为O(N*N),超时
+
+```cpp
+//遍历数组，统计每一个数组的个数，另外准备一个used[i]数组用来统计该数是否被使用
+class Solution {
+
+public:
+
+  int majorityElement(vector<int>& nums) {
+​    vector<bool>used(nums.size(),false);
+​    int n=nums.size()/2;
+​    for(int i=0;i<nums.size();i++)
+​    {
+​      used[i]=true;
+​      int flag=1;
+​      for(int j=0;j<nums.size();j++)
+​      {
+​        if(i!=j&&nums[i]==nums[j]&&used[j]==false)
+​        {
+​          used[j]=true;
+​          flag++;
+​        }
+​      }
+​      if(flag>n)
+​      return nums[i];
+​    }
+​    return -1;
+  }
+};
+```
+
+> 方法二：先排序，如果是主要元素它的长度超过数组长度的一半，那么中间元素必定是主要元素，则我们只要先排序，再查找中间元素的个数就可以判断是否为中间元素了
+
+```cpp
+//主要元素是指数组中出现超过一半的元素，将数组进行排序之后，这个主要元素一定会跨越左右两个区域，则中间元素一定为主要元素
+//将数组排序，找出中间元素，然后从前往后遍历找这个中间元素的个数，如果中间元素的个数大于元素个数的一半，那么就存在主要元素
+//否则，就不存在主要元素
+
+class Solution {
+public:
+
+  int majorityElement(vector<int>& nums) {
+​    sort(nums.begin(),nums.end());
+​    int a=nums[nums.size()/2];
+​    int flag=0;
+​    for(int i=0;i<nums.size();i++)
+​    {
+​      if(nums[i]==a)
+​      {
+​        flag++;
+​      }
+​    }
+​    if(flag>nums.size()/2)
+​    return a;
+​    return -1;
+  }
+};
+```
+
