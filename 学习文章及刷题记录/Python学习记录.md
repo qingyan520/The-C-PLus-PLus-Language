@@ -28,3 +28,5 @@ print("hello"+"world",8)
 
 ### 2.python的数据类型
 
+基本与c/c++一致，也具有int,float,str，bool类型
+
