@@ -30,3 +30,6 @@ print("hello"+"world",8)
 
 基本与c/c++一致，也具有int,float,str，bool类型
 
+3.条件判断
+
+4.循环
