@@ -88,3 +88,23 @@ grep:行过滤工具
 
 grep -n '9999' file.txt
 
+简单用户切换：su -
+
+zip test.c:压缩
+
+unzip:解压缩
+
+tar:打包/解包
+
+tar czf test.tgz *
+
+tar xzf test.tgz s
+
+
+
+tac test.c:逆向进行输出
+
+
+
+
+
