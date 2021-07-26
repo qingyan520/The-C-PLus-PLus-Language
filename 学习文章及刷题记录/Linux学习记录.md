@@ -100,11 +100,13 @@ tar czf test.tgz *
 
 tar xzf test.tgz s
 
-
-
 tac test.c:逆向进行输出
 
+#include<unistd.h>
 
+Sleep(1)
 
+PID:当前进程的pid
 
+  
 
