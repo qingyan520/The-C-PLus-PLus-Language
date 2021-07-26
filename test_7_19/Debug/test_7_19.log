@@ -1,0 +1,3 @@
+﻿  test.cpp
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_7_19\test.cpp(6,16): error C2440: “类型强制转换”: 无法从“std::string”转换为“int”
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_7_19\test.cpp(6,10): message : 没有可用于执行该转换的用户定义的转换运算符，或者无法调用该运算符
