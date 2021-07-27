@@ -110,3 +110,123 @@ PID:当前进程的pid
 
   
 
+![image-20210727190603783](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20210727190603783.png)
+
+文件类型：(第一个字符)
+
+d:文件夹
+
+-：普通文件
+
+l:软链接(类似Windows得快捷方式)
+
+b:块设备文件(例如硬盘，光驱)
+
+p:管道文件
+
+c:字符设备文件(例如屏幕等串口设备)
+
+s:套接口文件
+
+ root,普通用户（sjw）:充当拥有者，也可以充当所属组，也可以充当other
+
+![image-20210727191929772](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20210727191929772.png)
+
+Linux中，所有的用户都要隶属于某一个组，哪怕这个组只有你一个人(面对的大部分情况)
+
+为什么要用所属组：更灵活的进行权限配置，满足团队合作
+
+![](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20210727191929772.png)
+
+-rw-rw-r-- 1 sjw sjw 0 Jul 26 19:30 lesson3
+
+-rw-rw-r-- ：其中第一个表示文件类型，剩下9个字符3个3个分为1组，代表三种不同的权限
+
+rw-:拥有者权限
+
+rw-:所属组权限
+
+r--:other
+
+r：读
+
+w:写
+
+x:可执行
+
+-：没有对应权限
+
+如何阐述一个文件的权限：-rw-rw-r--
+
+答：拥有者有读权限，写权限，没有可执行权限，所属组具有读权限，写权限，没有可执行权限，other拥有读权限，没有写权限和可执行权限
+
+对应权限：---：第一个代表是否具有读权限，是为r，否为-
+
+​                           第二个位置代表是否具有写权限，是为w,否为-
+
+​                           第三个位置代表是否具有可执行权限，是为x，否为-
+
+每个位置权限位置固定
+
+改变权限：
+
+改变user的权限
+
+chmod u-r file.txt:减少user的读权限
+
+  chmod u+x file.txt:增加user的可执行程序，但是文件不一定变得可执行，要取决于文件里面是否有二进制代码或者可执行脚本
+
+chmod u-rwx file.txt:去掉user的所有权限
+
+chmod u+rw file.txt:加上user的read,write权限
+
+改变所属组(group)的权限
+
+chmod g-r file.txt:减少所属组的读权限
+
+chmod g-rwx file.txt:减少所属组所有权限
+
+chmod g+rwx file.txt:加上所属组所有权限
+
+改变other的所有权限：
+
+chmod o+rwx file.txt:为other加上所有权限
+
+一次对多个人多个权限进行修改：
+
+chmod u-rwx,g-rwx,o-rwx file.txt:一次干掉所有人的所有权限
+
+chomd u+rw,g+rw,o+w file.txt
+
+目录：
+
+1.cd进入目录需要：可执行权限x(必须具备的权限)
+
+2.ls查看目录下所有文件需要：读权限
+
+3.touch写文件需要：写权限
+
+文件拥有者修改：sudo chown root file.txt
+
+文件组群修改：sudo chgrp root file.txt
+
+两者同时修改：sudo chown whb:whb file.txt
+
+umask:
+
+为什么创建的普通目录文件会有默认权限，并且这些为何又是当前这样
+
+默认起始权限：666开始
+
+凡是在umask出现的权限为不应该在七十权限位出现
+
+不是减去
+
+最终权限=default&(~umask)
+
+目录777开始
+
+粘滞位：对目录进行操作chmod a+t dir
+
+如果目录本身是你的，那么加粘滞位后照样可以删
+
