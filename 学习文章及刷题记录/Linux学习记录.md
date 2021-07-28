@@ -230,3 +230,27 @@ umask:
 
 如果目录本身是你的，那么加粘滞位后照样可以删
 
+安装程序：sudo yum install sl
+
+vim:代码编写工具，文本编辑器
+
+多模式文本编辑器
+
+默认打开为命令模式：shitf+:q退出
+
+a变为insert插入模式
+
+esc,再shitf+:
+
+
+
+
+
+shift+$/shift+^:锚点，光标左右移动
+
+shift+g,:将光标定位到结尾/shift+gg:直接到开口
+
+n+shift+g:到第几行
+
+光标定位到改行开头，yy,p,
+
