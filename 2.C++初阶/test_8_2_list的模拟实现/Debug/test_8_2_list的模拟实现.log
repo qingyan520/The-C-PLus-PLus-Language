@@ -1,0 +1,20 @@
+﻿  test_8_2_list的模拟实现.cpp
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_8_2_list的模拟实现\test_8_2_list的模拟实现.cpp(14,5): error C3861: “val”: 找不到标识符
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_8_2_list的模拟实现\test_8_2_list的模拟实现.cpp(20): message : 查看对正在编译的 类 模板 实例化“hello::_list_node<T>”的引用
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_8_2_list的模拟实现\test_8_2_list的模拟实现.cpp(26,30): error C2977: “hello::_list_node”: 模板 参数太多
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_8_2_list的模拟实现\test_8_2_list的模拟实现.cpp(7): message : 参见“hello::_list_node”的声明
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_8_2_list的模拟实现\test_8_2_list的模拟实现.cpp(64): message : 查看对正在编译的 类 模板 实例化“hello::_list_iterator<T,Ref,Ptr>”的引用
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_8_2_list的模拟实现\test_8_2_list的模拟实现.cpp(26,35): error C2955: “hello::_list_node”: 使用 类 模板 需要 模板 参数列表
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_8_2_list的模拟实现\test_8_2_list的模拟实现.cpp(7): message : 参见“hello::_list_node”的声明
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_8_2_list的模拟实现\test_8_2_list的模拟实现.cpp(39,1): error C2955: “hello::_list_node”: 使用 类 模板 需要 模板 参数列表
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_8_2_list的模拟实现\test_8_2_list的模拟实现.cpp(7): message : 参见“hello::_list_node”的声明
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_8_2_list的模拟实现\test_8_2_list的模拟实现.cpp(39,31): error C2955: “hello::_list_node”: 使用 类 模板 需要 模板 参数列表
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_8_2_list的模拟实现\test_8_2_list的模拟实现.cpp(7): message : 参见“hello::_list_node”的声明
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_8_2_list的模拟实现\test_8_2_list的模拟实现.cpp(45,1): error C2955: “hello::_list_node”: 使用 类 模板 需要 模板 参数列表
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_8_2_list的模拟实现\test_8_2_list的模拟实现.cpp(7): message : 参见“hello::_list_node”的声明
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_8_2_list的模拟实现\test_8_2_list的模拟实现.cpp(52,1): error C2955: “hello::_list_node”: 使用 类 模板 需要 模板 参数列表
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_8_2_list的模拟实现\test_8_2_list的模拟实现.cpp(7): message : 参见“hello::_list_node”的声明
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_8_2_list的模拟实现\test_8_2_list的模拟实现.cpp(58,1): error C2955: “hello::_list_node”: 使用 类 模板 需要 模板 参数列表
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_8_2_list的模拟实现\test_8_2_list的模拟实现.cpp(7): message : 参见“hello::_list_node”的声明
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_8_2_list的模拟实现\test_8_2_list的模拟实现.cpp(41,23): error C2039: "_pnode": 不是 "hello::_list_node" 的成员
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_8_2_list的模拟实现\test_8_2_list的模拟实现.cpp(7): message : 参见“hello::_list_node”的声明
