@@ -307,3 +307,4 @@ centos7中gcc中默认生成的可执行程序时release版本的，不可以被
 -g:以debug版本发布
 
 debug版本携带调试信息
+
