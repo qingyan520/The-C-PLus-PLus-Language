@@ -308,3 +308,115 @@ centos7中gcc中默认生成的可执行程序时release版本的，不可以被
 
 debug版本携带调试信息
 
+
+
+make/makefile实现多文件编程
+
+make是一个命令，makefile是一个文件，两个搭配使用，完成项目的自动化构建
+
+多文件编程方法：
+
+方法一：
+
+test.c,main.c,test.h
+
+1.gcc -o mytest main.c test.c (默认不需要写test.h，会直接在当前目录下寻找test.h)
+
+默认生成mytest
+
+./mytest执行程序
+
+2. gcc -c main.c -o main.o
+
+   gcc -c test.c -o test.o
+
+   gcc -o mytest main.o test.o
+
+   ./mytest
+
+方法二：make指令配合makefile文件实现多文件编程
+
+1.在当前目录下创建名为Makefile的文件：touch Makefile
+
+2.vim Makefile 
+
+单个文件：
+
+mytest:test.c(依赖关系)
+
+​	gcc -o mytest test.c(依赖方法)
+
+.PHONY:clean
+
+clean:
+
+​	rm -f mytest
+
+make clean
+
+
+
+多文件：
+
+mytest:main.o test.o
+
+​	`gcc -o main.o test.o
+
+main.o:main.c
+
+​	gcc -c main.c
+
+test.o:test.c
+
+​	gcc -c test.c
+
+.PHONY:clean
+
+clean:
+
+​	rm -f *.o mytest
+
+![image-20210809212930987](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20210809212930987.png)
+
+
+
+
+
+进度条的实现：
+
+缓存区：并不是立即被刷新出来，
+
+无缓冲
+
+行缓冲
+
+全缓冲
+
+带\n：立即刷新，行刷新，行缓冲
+
+不带的话
+
+![image-20210809214445644](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20210809214445644.png)
+
+换到下一行：换行\n
+
+回到下一行的开始：回车\r
+
+  
+
+![image-20210810194337010](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20210810194337010.png)
+
+git的使用：
+
+git add
+
+git commit -m "日志"
+
+git push 
+
+版本控制，分支管理，多人协作
+
+
+
+进程的基本概念：
+
