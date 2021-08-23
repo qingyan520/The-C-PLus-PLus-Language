@@ -1,6 +1,6 @@
 # 剑指offer刷题集合
 
-### day1 栈与队列
+### day1 栈与队列   
 
 ###### [剑指 Offer 09. 用两个栈实现队列 - 力扣（LeetCode） (leetcode-cn.com)](https://leetcode-cn.com/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/)
 
@@ -127,5 +127,4 @@ public:
 
 };
 ```
-
 
