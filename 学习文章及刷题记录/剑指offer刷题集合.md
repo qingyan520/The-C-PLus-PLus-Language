@@ -121,6 +121,8 @@ public:
 
  
 
+    
+    
   int min() {
 ​    return s2.top();
   }
