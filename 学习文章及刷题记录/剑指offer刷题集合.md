@@ -119,9 +119,7 @@ public:
 ​    return s1.top();
   }
 
- 
-
-    
+  
     
   int min() {
 ​    return s2.top();
