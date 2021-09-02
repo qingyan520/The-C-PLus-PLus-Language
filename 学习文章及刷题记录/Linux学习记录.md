@@ -495,3 +495,24 @@ struct task_struct{
 优先级：获得某种资源的顺序
 
 tack_struct
+
+ps aux a|head
+
+标识符信息：pid
+
+获取当前进程的pid:getpid()        
+
+gitppid:获取当前进程父进程的pid 
+
+kill pid:结束当前进程
+
+子进程不影响父进程
+
+每个运行的进程，都有自己的时间片
+
+基于时间片的轮转
+
+
+
+程序计数器和上下文数据:
+
