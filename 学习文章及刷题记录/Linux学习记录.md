@@ -512,7 +512,445 @@ kill pid:结束当前进程
 
 基于时间片的轮转
 
-
+、、
 
 程序计数器和上下文数据:
+
+
+
+vs test.c
+
+gcc工作原理：默认一次性做完四步
+
+touch mytest.c
+
+预处理：
+
+gcc -E test.c -o mytest.i
+
+-E:进行预处理工作
+
+-o mytest.i:将预处理后的结果放到mytest.o当中去
+
+gcc mytest.c -D os=0
+
+-D os=0:动态设置宏定义
+
+编译：
+
+将C语言代码编程汇编语言
+
+gcc -S mytest.i  -o mytest.s
+
+-S:进行程序的翻译，到编译完截至
+
+
+
+汇编：将汇编代码翻译成二进制文件(目标文件，可重定向文件)
+
+gcc -c mytest.s -o mytest.o
+
+-c:
+
+链接：一般目标文件，只有函数调用，没有函数实现，链接的本质是将程序的调用与程序的库向关联起来
+
+gcc mytest.o -o mytest
+
+一般情况下gcc使用方法：gcc test.c -o mytest
+
+gdb使用：
+
+默认生realse版本，不可以调试
+
+如果想调试： -g以debug方式发布
+
+gdb mytest
+
+list:显示代码(简称：l):l 1
+
+run /r:运行
+
+先显示l 1
+
+然后打断点
+
+b:断点  b   16 //打断点到16行
+
+info b:查看当前断点信息
+
+b 20
+
+info b:
+
+取消断点：d  Num//删除断点
+
+P 变量名 //查看断点处的值
+
+P &变量名//查看断点对应的地址值
+
+n（next）:进入下一行，逐过程
+
+s:进入函数
+
+display i://长显示i的值
+
+display &start：取出变量的地址
+
+undisplay Num(i):取消监视
+
+until  行号：跳转到指定行
+
+ finish ：当在函数中运行时，直接结束该函数
+
+c(continue)：直接跳转到下一个断点
+
+info 函数名：给这个函数第一行打断点
+
+set i=100:在监视窗口对某个值进行修改
+
+quit:退出gdb调试
+
+
+
+项目自动化构建工具-make/Makefile
+
+方法一:gcc -o mytest main.c test.c//头文件默认在该目录下寻找
+
+方法二：先将要用的文件形成二进制文件，再将两个二进制文件链接起来
+
+```shell
+gcc -c main.c -o main.o
+
+gcc -c test.c  -o test.o
+
+gcc -o Mytest test.o main.o
+```
+
+方法三：make指令+Makefile构建自动化项目
+
+```shell
+//Makefile实现单文件编程
+touch Makefile
+Mytest:test.c//依赖关系
+	gcc -o Mytest test.c//依赖方法
+.PHONY:clean//伪目标
+clean:
+	rm -f Mytest
+//.PHONY:伪目标：依赖方法总是被执行的
+```
+
+```shell
+//多文件编程
+Mytest:test.o main.o
+	gcc -o mytest test.o main.o
+test.o:test.c
+	gcc -c test.c
+main.o:main.c
+	gcc -c main.c
+.PHONY:clean
+clean:
+	rm -f *.o mytest
+```
+
+```
+//最终版Makefile
+$@:依赖关系中的目标文件
+$^:依赖关系中的依赖文件列表
+$<:依赖关系中的一个一个的依赖文件
+mytest:test.o main.o
+mytest:main.o test.o
+	gcc $@ $^
+main.o:main.c
+	gcc -c $<
+test.o:test.c
+	gcc -c $<
+.PHONY:clean
+clean:
+	rm -f *.o mytest
+```
+
+
+
+
+
+
+
+创建进程
+
+fork():创建一个子进程
+
+```cpp
+#include<iostream>
+#include<unistd.h>
+using namespace std;
+int main()
+{
+    fork();
+    while(1)
+    {
+        printf("hehe\n");
+    }
+    return 0;
+}
+```
+
+fork之前的代码，被父进程执行，fork之后的代码，父子都可以执行
+
+fork之后，父子进程代码共享
+
+fork之后，父子进行那个先运行不确定，取决于操作系统调度算法
+
+fork函数会有两次返回值，给父进程返回子进程pid，给子进程返回0
+
+![image-20210911194317560](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20210911194317560.png)
+
+```cpp
+  6   pid_t id=fork();
+  7   if(id==0)
+  8   {
+  9     while(1)
+ 10     {
+ 11       printf("我是子进程\n");
+ 12       sleep(1);
+ 13     }
+ 14   }
+ 15   else if(id>0)
+ 16   {
+ 17     while(1)
+ 18     {
+ 19       printf("父进程\n");
+ 20       sleep(2);
+ 21     }
+ 22   }
+ 23   else
+ 24   {
+ 25     printf("进程创建失败\n");                                                   
+ 26   }
+ 27   return 0
+```
+
+![image-20210911195055735](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20210911195055735.png)
+
+结果：父子进程同时执行
+
+
+
+
+
+进程的状态
+
+进程状态------>数据化-------->
+
+进程数据被保存到tack_struct中
+
+可以同时存在多个R状态的进程
+
+R状态的进程不一定是正在运行的，表示随时可以调用该进程
+
+系统中所有处于R状态的进程都会被连接起来形成调度队列(run_queue)
+
+
+
+
+
+```cpp
+//休眠状态
+#include<stdio.h>
+#include<unistd.h>
+int main()
+{
+  printf("I am Running\n");
+  sleep(10000000);
+  printf("Ending\n");
+  return 0;
+}
+```
+
+S状态：休眠状态(浅度睡眠)通常用来等待某种事件发生，随时可以被唤醒，也可以被杀掉
+
+D状态:深度睡眠状态，D状态没有办法模拟，表示该进程不会被杀掉，即便是操作系统，除非重启杀掉，或者主动醒来
+
+![image-20210911202604639](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20210911202604639.png)
+
+T状态：将进程进行暂停
+
+X状态：死亡进程
+
+
+
+Z状态：僵尸状态
+
+ 进程退出，在操作系统层面，曾经申请的资源，并不是被立即释放，而是要暂存一段事件，供OS(父进程)进行读取，叫做僵尸状态
+
+为什么要有僵尸进程：
+
+进程创建的目的：完成某种工作
+
+当任务完成的时候，调用方应该指导任务完成得怎么样
+
+（除非不关心）
+
+```cpp
+sjw@iZ2zedu4njy79sqivntvprZ test_9_11]$ cat test.c
+#include<stdio.h>
+#include<unistd.h>
+int main()
+{
+  printf("I am Running\n");
+  sleep(10000000);
+  printf("Ending\n");
+  return 20;
+}
+[sjw@iZ2zedu4njy79sqivntvprZ test_9_11]$ echo $?//查看进程码，查看最近一次进程退出时得进程码（如返回值return  0等）
+//进程退出时，进程信息(退出码)是会被暂时保存起来的，相关信息被保存到task_struct,此时，该task_struct相关数据不应该被释放掉   Z
+当有进程来读取信息时，task_struct被释放
+如何读取信息：进程wait
+```
+
+进程退出的信息(退出码)会被暂时保存起来
+
+保存在task_struct中，如果没有人读取，此时，task_struct相关数据不应该被释放
+
+模拟僵尸状态:
+
+```cpp
+#include<stdio.h>
+#include<unistd.h>
+#include<stdlib.h>
+int main()
+{
+  pid_t id=fork();
+  if(id==0)
+  {
+    int count=5;
+    while(count)
+    {
+      printf("I am child, pid:%d, ppid:%d, count:%d\n",getpid(),getppid(),count--);
+    sleep(1);
+    }
+    printf("child exit......\n");
+    exit(-1);
+  }
+  else if(id>0)
+  {
+    while(1)
+    {
+      printf("I am father,pid:%d, ppid:%d\n",getpid(),getppid());
+      sleep(1);
+    }
+  }
+  else
+  {
+    printf("fork fail\n");
+  }
+  return 0;
+}
+
+```
+
+```shell
+[sjw@iZ2zedu4njy79sqivntvprZ test_9_11]$ make clean
+rm -rf *.o myproc
+[sjw@iZ2zedu4njy79sqivntvprZ test_9_11]$ make
+gcc -c test.c -o test.o
+gcc -o myproc test.o
+[sjw@iZ2zedu4njy79sqivntvprZ test_9_11]$ ./myproc
+I am father,pid:9259, ppid:308
+I am child, pid:9260, ppid:9259, count:5
+I am father,pid:9259, ppid:308
+I am child, pid:9260, ppid:9259, count:4
+I am father,pid:9259, ppid:308
+I am child, pid:9260, ppid:9259, count:3
+I am father,pid:9259, ppid:308
+I am child, pid:9260, ppid:9259, count:2
+I am father,pid:9259, ppid:308
+I am child, pid:9260, ppid:9259, count:1
+I am father,pid:9259, ppid:308
+child exit......
+I am father,pid:9259, ppid:308
+I am father,pid:9259, ppid:308
+I am father,pid:9259, ppid:308
+I am father,pid:9259, ppid:308
+I am father,pid:9259, ppid:308
+^Z
+
+```
+
+然后在另外一个窗口输入以下监控脚本：
+
+```shell
+while :; do ps aux | head -1 && ps aux | grep myproc|grep -v grep;echo "#############################"; sleep 1; done
+```
+
+![image-20210911210810042](C:\Users\史金伟\AppData\Roaming\Typora\typora-user-images\image-20210911210810042.png)
+
+刚开始运行时，二者都是S状态，到子进程运行完毕退出进行时，子进程编程僵尸进程
+
+![image-20210911211033832](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20210911211033832.png)  
+
+僵尸进程的危害：
+
+造成内存浪费
+
+造成内存泄漏
+
+
+
+孤儿进程
+
+Linux中，进程关系，主要是父子关系，
+
+孤儿进程：父进程退出，子进程还在运行
+
+孤儿进行会立即被系统领养（操作系统：1号进程）
+
+​	监控脚本：
+
+```shell
+while :; do ps axj | head -1 && ps axj | grep myproc|grep -v grep;echo "#############################"; sleep 1; done
+```
+
+```cpp
+#include<stdio.h>
+#include<stdlib.h>
+#include<unstd.h>
+int main()
+{
+	pid_t id=fork();
+	if(id==0)
+	{
+		while(1)
+		{
+			printf("I am child,pid:%d,ppid:%d\n",getpid(),getppid());
+			sleep(1);
+		}
+	}
+	else if(id>0)
+	{
+		int count=5;
+		while(count)
+		{
+			printf("I am father,pid:%d,ppid:%d,count:%d\n",getpid(),getppid(),count--);
+		}
+		exit(-1);
+	}
+	return 0;
+}
+```
+
+
+
+查看进程:
+
+```shell
+ps aux |grep Mytest
+```
+
+进程是能够知道自己当前所处的工作目录的
+
+
+
+
+
+进程的优先级
 
