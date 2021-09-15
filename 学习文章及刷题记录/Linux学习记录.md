@@ -1,6 +1,6 @@
 # Linux学习记录
 
-## 1.常见指令及权限理解
+
 
 ls 显示当前目录下文件
 
@@ -953,4 +953,142 @@ ps aux |grep Mytest
 
 
 进程的优先级
+
+CPU资源分配的先后顺序，就是指进程的优先级
+
+优先级高的进程有优先执行权利
+
+还可以把进程绑定到指定的CPU上
+
+```shell
+ps -l:显示优先级
+```
+
+```shell
+ps -la:显示更全面的信息
+```
+
+```shell
+Linux中的优先级：优先级+nice值
+```
+
+```
+PRI:表示进程执行的优先级，越小优先级越高
+```
+
+NI(nice)：调整优先级(-20~19)
+
+调整进程优先级：
+
+```shell
+top
+r----->进程id--->回车------>设置nice值------>q退出---->ps-la--->查看myproc的优先级
+```
+
+PRI最低为60，最高为99，每次调整时都是以80为基础进行调整的，与上次调整的没有关系
+
+```
+renice -n :调整优先级nice数据
+```
+
+独立性：多个进程独立运行，互不影响
+
+并行：多个进程早多个CPU下分别，同时运行
+
+并发：多个进程在一个CPU采取进程切换的方式，在一段时间内运行叫做并发
+
+
+
+环境变量
+
+环境变量是指在操作系统中用来指定操作系统运行环境的一些参数
+
+
+
+常见环境变量
+
+PATH:指定搜索路径
+
+```shell
+$ echo PATH
+```
+
+```shell
+sudo cp -f myproc /usr/bin  这样就可以直接执行了，不推荐
+```
+
+```shell
+将当前路径导入环境变量PATH
+$ export PATH=$PATH:/home/sjw/Linux_Learning
+```
+
+```shell
+$ echo $PATH:取消环境变量
+```
+
+
+
+
+
+```shell
+$ echo $HOME:保存当前用户所处的路径
+
+```
+
+
+
+```
+SHELL:
+$ echo $SHELL
+```
+
+```
+env:显示当前环境变量信息
+```
+
+set :显示本地系统中所有的变量
+
+本地变量：只在本进程内有效
+
+echo:显示莫格环境变量的值
+
+```cpp
+int main(int argc,char*argv[],char*envp[])
+{
+	for(int i=0;i<argc;i++)
+    {
+        printf("argv[%d]:%s\n",i,argv[i]);
+    }
+}
+./myproc -a -b -c -d
+    argv[0]=./myproc
+    argv[1]:-a;
+    argv[2]:-b;
+    argv[3]:-c;
+    argv[4]:-d;
+envp:用来存储环境变量
+```
+
+环境变量是一个系统级别的全局变量，更本原因是bash之下所有的进程都可以获取，本质main(,envp.....)
+
+```cpp
+#include<stdlib.h>
+getenv("PATH"):获取系统环境变量
+```
+
+
+
+程序的地址空间
+
+进程的地址空间
+
+
+
+
+
+子进程虚拟地址
+
+父进程虚拟地址
+
+写时拷贝:
 
