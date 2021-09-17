@@ -1010,8 +1010,10 @@ renice -n :调整优先级nice数据
 PATH:指定搜索路径
 
 ```shell
-$ echo PATH
+$ echo $PATH
 ```
+
+
 
 ```shell
 sudo cp -f myproc /usr/bin  这样就可以直接执行了，不推荐
@@ -1019,11 +1021,11 @@ sudo cp -f myproc /usr/bin  这样就可以直接执行了，不推荐
 
 ```shell
 将当前路径导入环境变量PATH
-$ export PATH=$PATH:/home/sjw/Linux_Learning
+export PATH=$PATH:/home/sjw/Linux_Learning
 ```
 
 ```shell
-$ echo $PATH:取消环境变量
+echo $PATH:取消环境变量
 ```
 
 
@@ -1031,7 +1033,7 @@ $ echo $PATH:取消环境变量
 
 
 ```shell
-$ echo $HOME:保存当前用户所处的路径
+echo $HOME:(查看)保存当前用户所处的路径
 
 ```
 
@@ -1039,20 +1041,37 @@ $ echo $HOME:保存当前用户所处的路径
 
 ```
 SHELL:
-$ echo $SHELL
+echo $SHELL(查看)
 ```
 
 ```
 env:显示当前环境变量信息
 ```
 
+```
+echo "hello world">/dev/pts/1
+向这个终端发送东西
+```
+
 set :显示本地系统中所有的变量
 
-本地变量：只在本进程内有效
+unset :清除环境变量
+
+本地变量：只在本进程内有效 
 
 echo:显示莫格环境变量的值
 
+
+
+
+
+main函数带参数
+
 ```cpp
+//命令行参数
+//argc:计数
+//argv:指针数组，里面每一个都是指针
+//envp:存储环境变量
 int main(int argc,char*argv[],char*envp[])
 {
 	for(int i=0;i<argc;i++)
@@ -1069,11 +1088,65 @@ int main(int argc,char*argv[],char*envp[])
 envp:用来存储环境变量
 ```
 
+```cpp
+#include<stdio.h>
+#include<unistd.h>
+int main(int argc char*argvg[],char*envp[])
+{
+    if(argc==2){
+        if(strcmp(argv[1],"-a")==0)
+        {
+            printf("hello world\n");
+        }
+        else if(strcmp(argv[1],"-b")==0)
+        {
+            printf("hello bit\n");
+        }
+        else
+        {
+            printf("hello default\n");
+        }
+    }
+    printf("argc:%d\n",argc);
+}
+./myporc
+    argc:1
+ ./myproc -a
+        hello world
+        argc:2
+ ./myproc -b
+        hello bit
+        argc:2
+  ./myproc -dd
+         hello default
+         argc:2
+ 
+```
+
+```cpp
+//envp获取环境变量
+#include<stdio.h>
+int main(int argc ,char*argv[],char*envp[])
+{
+    int i=0;
+    while(envp[i]!=NULL)
+    {
+        printf("envp[i]:%s\n",i,envp[i]);
+        i++
+    }
+}
+```
+
 环境变量是一个系统级别的全局变量，更本原因是bash之下所有的进程都可以获取，本质main(,envp.....)
 
 ```cpp
 #include<stdlib.h>
-getenv("PATH"):获取系统环境变量
+//getenv("PATH"):获取系统环境变量
+#include<stdio.h>
+int main()
+{
+    printf("%s\n",getenv("PATH"));
+}
 ```
 
 
@@ -1082,13 +1155,81 @@ getenv("PATH"):获取系统环境变量
 
 进程的地址空间
 
+```cpp
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<unistd.h>
+int g_unval;
+int g_val=100;
+int main(int argc,char*argv[],char*envp[])
+{
+    printf("code addr:%p\n",main);
+    char*str="hello";
+    printf("read only addr:%p\n",str);
+    printf("init addr:%p\n",&g_val);
+    printf("uninit addr:%p\n"&g_unval);
+    int*p=malloc(4);
+    printf("heap addr:%p\n",p);
+    printf("stack add:%p\n",&str);
+    printf("stack add:%p\n",&p);
+    for(int i=0;i<argc;i++)
+    {
+        printf("args addr:%p\n",argv[i]);
+    }
+    int i=0;
+    while(envp[i])
+    {
+        printf("env addr:%p",envp[i]);
+        i++;
+    }
+}
+```
 
+```
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<unistd.h>
+#include<sys/type>
 
+int g_val=100;
+int main(int argc,char*argv[],char*envp[])
+{
+	pid_t id=fork();
+	if(id==0)
+	{
+	g_val=200;
+		printf("child:pid:%d,ppid:%d,g_val:%d,&g_val:%p\n",getpid(),getppid(),g_val,&g_val);
+	}
+	else
+	{
+		sleep(2);
+		printf("father:pid:%d,ppid:%d,g_val:%d,&g_val:%p\n",getpid(),getppid(),g_val,&g_val);
+	}
+	sleep(1);
+}
 
+结果：子进程中全局变量变成200，父进程还是100，但是两者的内存地址都是相等的 
+证明：该地址绝对不是物理地址，而是虚拟地址
+是语言层面上见到的地址而不是物理地址
+我们在c/c++语言所看到的地址都是虚拟地址，物理地址，用户一般看不到，由操作系统进行统一管理
+OS(操作系统)负责将虚拟地址转化为物理地址
 
 子进程虚拟地址
-
+			--------》转化
 父进程虚拟地址
+```
 
-写时拷贝:
+每一个进程都有一个进程地址空间，都有一个映射列表
+
+子进程的写入，不会影响父进程(进程之间具有独立性，不会相互影响)
+
+
+
+写时拷贝:写的时候单独拷贝一份空间
+
+数据层面发生了分离
+
+c
 
