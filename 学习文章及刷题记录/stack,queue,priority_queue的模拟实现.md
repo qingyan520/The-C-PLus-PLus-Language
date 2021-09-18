@@ -331,3 +331,18 @@ namespace hello
 ![priority_queue.myqueue_Greater](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/priority_queue.myqueue_Greater.gif)
 
 > 好了，以上就是本片文章所有内容了，欢迎大家一键三联，也欢迎大家斧正，感谢大家的支持
+
+补充一点环形队列的知识：
+
+队尾指针为rear,队头指针为front,其中QueueSize为环形队列的最大长度
+
+1.队空条件：rear==front
+
+2.队满条件：(rear+1)%QueueSize==front
+
+3.计算队列长度：(front-rear+QueueSize)%QueueSize
+
+4.出队列：(front+1)%QueueSize
+
+5.入队列：(rear+1)%QueueSize
+
