@@ -1286,9 +1286,279 @@ task_struct ，mm_struct ,页表
 
 
 
+
+
 2.
 
 
 
 队列：
+
+ 
+
+ 
+
+
+
+进程控制：
+
+1.进程创建：
+
+fork函数：
+
+```cpp
+#include<unistd.h>
+pid_t fork();
+fork函数的返回值位pid_t,给子进程返回，给父进程返回子进程的pid
+为什么又两个返回值，如何理解
+ 父进程可以又多个子进程，每个子进程有且只有一个父进程
+ 父进程：父进程不需要表示，子进程需要标识
+  子进程是要执行任务的，父进程需要区分子进程，子进程不需要
+    
+    子进程相关性息拷贝自父进程，形成子进程对应的数据结构
+    task_struct连接到系统的进程列表中
+    
+```
+
+ 
+
+为何要写时拷贝：
+
+1.进程具有独立性
+
+2.子进程不一定会使用父进程的所有数据，写入本质是需要的时候，按需分配
+
+延时分配：本质，可以高效使用任何内存空间
+
+
+
+fork失败的原因：
+
+1.系统中有太多的进程
+
+2.用户实际的进程数量超过了限制
+
+
+
+进程终止
+
+```cpp
+#include<stdio.h>
+int main()
+{
+    int a=0;
+    int b=0;
+    int c=a+b;
+    return 0;
+}
+```
+
+main函数有返回值：main函数也是函数，程序运行时main函数是入口，由操作系统进行调用，返回值返回给操作系统，运行程序本质是加载，形成进程
+
+目的：为了完成某种工作，
+
+1.代码跑完结果对
+
+2.代码跑完结果不对
+
+3.代码没有跑完,程序退出(进程奔溃)
+
+通过进程退出码判断进程是否正常退出
+
+```shell
+echo $?：查看最近一次进程退出时的退出码
+```
+
+退出码的0与!0：
+
+退出码(0):seccess
+
+0：只有一种情况
+
+!0：失败却有很多种原因
+
+man 3 strerror
+
+```cpp
+#include<stdio.h>
+#include<string.h>
+int main()
+{
+    for(int i=0;i<100;i++)
+    {
+        printf("%d :%s",i,strerror(i));
+    }
+}
+```
+
+每种退出码都有对应的字符串含义，帮助用户确认认为失败的原因
+
+
+
+
+
+exit:
+
+_exit:和exit几乎没有差别
+
+差别：exit会释放进程曾经占用的资源，比如缓冲区
+
+_exit直接结束进程，不会进行其它操作
+
+
+
+进程异常退出
+
+```cpp
+while(1)
+{
+    printf(".\n");
+}
+ctrl+c，异常进程终止
+ 
+    int*p;
+	*p=100;
+
+```
+
+进程异常退出了，进程退出码就没有意义了
+
+进程终止了，操作系统释放曾经申请的数据结构，释放曾经申请的内存，从各种队列数据结构中移除
+
+
+
+进程等待：为了回收子进程资源，获取子进程退出信息
+
+通常由父进程完成
+
+一个进程一旦变成僵尸进程，无法杀死
+
+wait方法：
+
+pid_t wait(int status)
+
+返回值：子进程的id
+
+```cpp
+#include<sys/wait.h>
+#include<sys/types.h>
+int main()
+{
+    pid_t id=fork();
+    if(id==0)
+    {
+     	int count=0;
+        while(count<5)
+        {
+            printf("I am child,pid:%d,ppid:%d\n",getpid(),getppid());
+            count++;
+            sleep(1);
+        }
+        exit(0);
+    }
+    else
+    {
+        printf("I am father,pid:%d,ppid:%d\n",getpid(),getppid());
+        pid_t ret=wait(NULL);
+        if(ret>=0)
+        {
+            printf("wait child success,%d\n",ret);
+        }
+        printf("FAather run.....\n");
+        Sleep(10);
+    }
+}
+```
+
+在子进程运行期间，父进程在wait的时候，父进程在做什么？，就是在”等“子进程退出
+
+“等”的过程叫做阻塞等待
+
+父子谁先运行不确定，但是wait之后，大部分情况都是子进程先退出，父进程读取子进程退出信息后退出
+
+waitpid（pid_t pid,int*status,int options）;
+
+pid
+
+```cpp
+#include<sys/wait.h>
+#include<sys/types.h>
+int main()
+{
+    pid_t id=fork();
+    if(id==0)
+    {
+     	int count=0;
+        while(count<5)
+        {
+            printf("I am child,pid:%d,ppid:%d\n",getpid(),getppid());
+            count++;
+            sleep(1);
+        }
+        exit(0);
+    }
+    else
+    {
+        printf("I am father,pid:%d,ppid:%d\n",getpid(),getppid());
+        int status=0;
+        pid_t ret=waitpid(id,&status,0);
+        if(ret>=0)
+        {
+            printf("wait child success,%d\n",ret);
+            printf("child exit:%d\n",(status>>8)&0xFF);
+        };
+                    printf("child get signal:%d\n",status&0x7F);
+        }；
+        printf("FAather run.....\n");
+        Sleep(10);
+    }
+}
+```
+
+等待成功，不意味着子进程运行成功
+
+等待成功只意味着子进程退出了，不意味着子进程运行成功
+
+status：退出结果
+
+次低8为代表进程退出时的退出码
+
+低7位代表进程退出时的退出信息
+
+(status>>8)&0XFF
+
+进程异常的时候本质是进程运行的时候出现了某种错误，导致进程收到信号
+
+```cpp
+int main()
+{
+    pid_t ids[10];
+    for(int i=0;i<10;i++)
+    {
+        pid_t id=fork();
+        if(id==0)
+        {
+            while(10--)
+            printf("child do sumething:pid%d",getpid,getppid);
+        }
+        exit(i);
+        ids[i]=id;
+    }
+    int count=0;
+    while(count<10)
+    {
+        int status=0;
+        //批量化wait
+        pid_t ret=waitpid(ids[count],&status,0);
+        
+        
+        count++;
+    }
+}
+```
+
+```
+WIFEXITED(status):查看进程退出时的信号
+WEXITSTATUS(status):查看退出码
+```
 
