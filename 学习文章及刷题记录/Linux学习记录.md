@@ -1523,7 +1523,7 @@ status：退出结果
 
 次低8为代表进程退出时的退出码
 
-低7位代表进程退出时的退出信息
+低7位代表进程退出时的退出信息(信号)
 
 (status>>8)&0XFF
 
@@ -1560,5 +1560,181 @@ int main()
 ```
 WIFEXITED(status):查看进程退出时的信号
 WEXITSTATUS(status):查看退出码
+```
+
+非阻塞等待
+
+```cpp
+
+int main()
+{
+    pid_t id=for();
+	if(id==0)
+    {
+        int count=0;
+        while(cout<10)
+        {
+            printf("I am child,pid:%d,ppid%d",getpid(),getppid());
+            sleep(1);
+            count++;
+        }
+        exit(1);
+    }
+    while(1)
+    {
+        int status=0;
+        pid _t ret=waitpid(id,&status,WNOHANG);
+        if(ret>0)
+        {
+            printf("watit success\n");
+            printf("exit codfe:%d",WEXITSTATUS(staus));
+            break;
+        }
+        else if(ret==0)
+            //子进程没有退出，等待是成功的
+            printf("father do   other thing ret:%d\n",ret);
+        else
+        {
+            printf("waitpid 
+                  error\n");
+                   break;
+        }
+    }
+
+    return 0;
+}
+```
+
+```
+WNOHANG:
+ret=waitpid(id,&status,WNOHANG);
+ret==0,当前子进程还没有退出
+```
+
+进程程序替换
+
+替换原理：
+
+int execl(const char//*path,const char*  arg,...)
+
+execl(程序路径(包含可执行程序)，代表选项)
+
+```cpp
+int main()
+{
+    printf("I am a process!\n");
+    sleep(5);
+   // execl("/usr/bin/ls","ls","-a","-i","-l",NULL);
+    / execl("/usr/bin/top","top",NULL);
+    //不会看到这句话
+    printf("you can see me!\n");
+    
+}
+```
+
+当前进程在进行程序替换时，没有创建进程，是发生了进程程序替换
+
+进程程序替换，一经替换，决不返回，后续代码不会执行
+
+程序替换可能失败，程序后续并不会受到影响
+
+execl系列的函数，根本不需要判断返回值，只要返回，就是失败
+
+```cpp
+int mainI()
+{
+    piud_t id=fork();
+    if(id==0)
+    {
+        printf("I am a process\n");
+        execl("/usr/bin/top","top",NULL);
+        exit(10);
+    }
+    else
+    {
+        int status=0;
+        pid_t ret=waitpid(id,&status,0);
+        if(ret>0)
+        {
+            printf("signal:%d\n",status&)X7F;
+            printf("exit code:%d\n",(status>>8)>>0xFF);
+        }
+    }
+}
+```
+
+execlp(命令)：不需要写路径,在环境变量path中寻找
+
+```cpp
+excelp("ls","-a"，NULL);
+```
+
+execv:v代表数组
+
+```cpp
+char*myargv[]={"ls","-a","-i","-l",NULL};
+execv("/usr/bin/ls",myargv);
+```
+
+execlvp:不需要写路径
+
+```cpp
+char*myargv[]={"ls","-a","-i","-l",NULL};
+execlvp("ls",myargv);
+```
+
+execve/execle:两者没有本质区别
+
+
+
+
+
+```makefile
+Makefile只能生成从上到下所遇到的第一个程序
+exec:wxec.c
+	gcc -o $@ $^
+
+
+```
+
+```cpp
+int main()
+{
+    printf("I am s new exe,mycmd\n");
+    
+}
+```
+
+make cmd
+
+```makefile
+make生成多个可执行程序
+.PHONY:all
+all:exec cmd
+exec:exec.c
+	gcc -o $@ $^
+cmd:cmd.c
+	gcc -o $@ $^
+.PYONY:clean
+clean:
+	rm -rf *.o cmd exec
+```
+
+```cpp
+int main()
+{
+    execl("./cdm");
+}
+```
+
+```cpp
+
+execl("./test.sh","test.sh");
+```
+
+```cpp
+char*myenv[]={"MYENV=HELLO",NULL};
+
+execl("./cmd","cmd",NULL,myenv);
 ```
 
