@@ -557,3 +557,154 @@ public:
 > ps:由于上述循环都是常数级别的，因此时间复杂度为O(1)
 
 > 感谢大家的观看，期待大家的评论，点赞，收藏，我们下次再见！ To Be Continued.......
+
+#### [10_4_482. 密钥格式化](https://leetcode-cn.com/problems/license-key-formatting/)
+
+> 有一个密钥字符串 S ，只包含字母，数字以及 '-'（破折号）。其中， N 个 '-' 将字符串分成了 N+1 组。
+>
+> 给你一个数字 K，请你重新格式化字符串，使每个分组恰好包含 K 个字符。特别地，第一个分组包含的字符个数必须小于等于 K，但至少要包含 1 个字符。两个分组之间需要用 '-'（破折号）隔开，并且将所有的小写字母转换为大写字母。
+>
+> 给定非空字符串 S 和数字 K，按照上面描述的规则进行格式化。
+
+```cpp
+示例 1：
+输入：S = "5F3Z-2e-9-w", K = 4
+输出："5F3Z-2E9W"
+解释：字符串 S 被分成了两个部分，每部分 4 个字符；
+     注意，两个额外的破折号需要删掉。
+     
+示例 2：
+输入：S = "2-5g-3-J", K = 2
+输出："2-5G-3J"
+解释：字符串 S 被分成了 3 个部分，按照前面的规则描述，第一部分的字符可以少于给定的数量，其余部分皆为 2 个字符。
+```
+
+> 思路：该题为字符串的模拟，统计字符然后重新分组即可
+>
+> 1.统计非“-”字符的个数count
+>
+> 2.count/K即为要分的组数，count%K即为第一组的个数
+>
+> 3.循环构建每一组
+
+```cpp
+class Solution {
+public:
+    string licenseKeyFormatting(string s, int k) {
+    //1.处理特殊情况，只有一个字符的情况
+        if(s.size()==1)
+        {
+            if(s[0]>='a'&&s[0]<='z')
+            {
+                s[0]-=32;
+            }
+            else if(s=="-")
+            {
+                return "";
+            }
+            return s;
+        }
+        //2.统计正常字符的个数
+        int count=0;
+        string ret="";
+        for(int i=0;i<s.size();i++)
+        {
+            if(s[i]!='-')
+            {
+                count++;
+            }
+        }
+		//3.计算出每组的字符个数
+        int n=count/k;
+        int mod=count%k;
+        int i=0;//记录ret
+        int j=0;//字符串s
+        //4.处理第一组的数据
+        if(mod!=0)
+        {
+            while(i<mod)
+            {
+                if(s[j]!='-')
+                {
+                    if(s[j]>='a'&&s[j]<='z')
+                    s[j]-=32;
+                    ret+=s[j];
+                    i++;
+                    j++;
+                }
+                else
+                {
+                    j++;
+                }
+            }
+            ret+='-';
+        }
+        //cout<<k<<endl;
+        //处理后面的数据
+        while(n--&&j<s.size())
+        {
+            int h=k;
+            while(h&&j<s.size())
+            {
+                
+                if(s[j]!='-')
+                {
+                    if(s[j]>='a'&&s[j]<='z')
+                    s[j]-=32;
+                    ret+=s[j];
+                    j++; 
+                    h--;
+                }
+                else
+                {
+                    j++;
+                }
+            }
+            //每一次内层循环结束后判断是否需要加“-”，如果是最后一次循环就不需要加“-”
+            if(n!=0)
+            ret+='-';
+        }
+        return ret;
+    }
+};
+```
+
+
+
+```cpp
+//官方思路：与我想的思路几乎相同，但是他是反方向来的，逆向思维
+class Solution {
+public:
+    string licenseKeyFormatting(string s, int k) {
+        string ret;
+        int count=0;
+      
+        for(int i=s.size()-1;i>=0;i--)
+        {
+            if(s[i]!='-')
+            {
+                if(s[i]>='a'&&s[i]<='z')
+                {
+                    s[i]-=32;
+                }
+                ret.push_back(s[i]);
+                count++;
+            if(count%k==0)
+            {
+                ret.push_back('-');
+            }
+            }
+              
+        }
+        if(ret.size()>0&&ret.back()=='-')
+        {
+            ret.pop_back();
+        }
+        reverse(ret.begin(),ret.end());
+        return ret;
+
+
+    }
+};
+```
+
