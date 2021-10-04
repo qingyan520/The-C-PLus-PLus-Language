@@ -330,3 +330,146 @@ s.earse():删除接口[string::erase - C++ Reference (cplusplus.com)](http://cpl
 
 3.传起始与结束位置的迭代器进行删除
 
+### 6.string类的模拟实现
+
+> string类的模拟实现主要包括它的构造函数，拷贝构造函数，赋值运算符重载，析构函数，三种遍历方式模拟实现，插入，删除
+
+##### 1.构造函数
+
+```cpp
+string的拷贝构造函数采取初始化列表的方式进行书写，其中str是我们要传入的字符串，_str是我们string类里面封装的指针
+//构造函数
+string(const char* str = "") :
+	_str(nullptr),
+	_size(strlen(str)),
+	_capacity(strlen(str)+1)
+	{
+        //如果传入的字符串不为空，就开一段新的空间，注意要比str的长度多一，然后将str拷贝到_str当中
+		if (str != nullptr)
+		{
+			_str = new char[strlen(str) + 1];
+			strcpy(_str, str);
+
+		}
+	}
+```
+
+##### 2.拷贝构造函数
+
+> 深浅拷贝：如果一个类的数据里面含有指针，那么我们一定要自己写一个拷贝构造函数和赋值运算符重载，不然编译器会自动生成拷贝构造函数和赋值运算符重载进行浅拷贝，使两个对象中的指针指向同一块内存空间，这样在最终析构函数进行析构的时候会造成同一块内存空间被释放了两个，造成内存泄漏，而我们自己写一个拷贝构造函数和赋值运算符重载就不会出现深浅拷贝了
+
+```cpp
+//传统版本的拷贝构造函数和赋值运算符重载
+//拷贝构造函数
+string(const string& str):
+	_str(nullptr),
+	_size(strlen(str._str)),
+	_capacity(strlen(str._str)+1)
+	{
+		_str = new char[strlen(str._str) + 1];
+        if(_str!=nullptr)
+		strcpy(_str, str._str);
+
+	}
+```
+
+
+
+```cpp
+//现代版本的拷贝构造函数：
+string(const string& str):
+	_str(nullptr),
+	_size(strlen(str._str)),
+	_capacity(_size+1)
+	{
+        //创建一个临时对象，调用临时对象的默认构造函数，然后交换两块指针的指向
+		string temp(str._str);
+		swap(_str, temp._str);
+	}
+```
+
+##### 3.赋值运算符重载
+
+```cpp
+//传统写法
+//赋值运算符重载
+string& operator=(const string& str)
+{
+    //首先判断是不是自己给自己赋值
+	if (&str != this)
+	{
+        //删除就空间
+		delete []_str;
+        //开辟新空间并且将数据拷贝进来(注意开空间时多开一个存储'\0')
+		_str = new char[strlen(str._str) + 1];
+		strcpy(_str, str._str);
+        //改变size和capacity的数值
+		_size = strlen(str._str);
+		_capacity = _size + 1;
+		}
+    //返回引用，方便连续赋值
+	return *this;
+}
+```
+
+
+
+```cpp
+//赋值运算符重载的现代写法
+//现代版本的赋值运算符重载
+string& operator=(const string& str)
+{
+    //判断是否在给自己赋值
+	if (this != &str)
+	{
+        //和上面拷贝构造一样，创建临时对象，然后调用临时对象的默认构造函数
+		string temp(str._str);
+        //交换两个指针的指向
+		swap(_str, temp._str);
+        //更新size和capacity的值
+		_size = strlen(temp._str);
+		cout << strlen(temp._str) << endl;
+		_capacity = _size + 1;
+	}
+    //返回对象的引用，方便后面连续赋值
+	return *this;
+}
+```
+
+##### 4.其它功能
+
+```cpp
+//返回数据个数
+int size()
+{
+	return _size;
+}
+
+//返回容量
+int capacity()
+{
+	return _capacity;
+}
+
+//析构函数
+~string()
+{
+	delete[]_str;
+	_str = nullptr;
+	_size = 0;
+	_capacity = 0;
+}
+
+
+//返回C语言风格的字符串
+char* c_str()
+{
+	return _str;
+}
+
+```
+
+> 致于像push_back,pop_back之类的接口比较简单，这里就不再过多的赘述了
+
+> 源码地址：[The-C-PLus-PLus-Language/2.C++初阶/test_7_20_string类的模拟实现 at master · qingyan520/The-C-PLus-PLus-Language (github.com)](https://github.com/qingyan520/The-C-PLus-PLus-Language/tree/master/2.C%2B%2B初阶/test_7_20_string类的模拟实现)
+
