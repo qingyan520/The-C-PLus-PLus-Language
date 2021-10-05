@@ -146,3 +146,127 @@ temp=(1,)//只有一个元素
 
 ```
 
+
+
+列表
+
+```python
+a=list()
+a
+>>>[]
+b="I love you"
+b=list(b)
+>>>b
+>>>['I',' l'.........'y','o','u']
+
+>>>len("ABC")#len返回长度
+>>>3
+
+max(1,2,3,4,5)#返回最大值
+>>>5
+max(b)
+>>>v
+numbers=[1，18，0，-98，34，54，76，32]
+max(numbers)
+>>>>76
+
+min(1,2,3,4)#返回最小值
+>>>1
+
+max和min里面的数据类型要一致
+
+tuple2=(3,1,2,4,5)
+sum(tuple2)
+>>15
+sum(tuple2,10)#后面再加一个数字
+>>>25
+
+sorted(tuple2)
+>>>>1,,2,3,4,5
+
+a=list(reversed(tuple2))#翻转
+
+list(enumerate(numbers))
+>>>>[(0,1),(1,18),(2,13)]
+
+a=[1,2,3,4,5,6,7,8]
+b=[4,5,6,7,8]
+list(zip(a,b))
+>>>>[(1,4),(2,5),(3,6),(4,7),(5,8)]
+```
+
+
+
+函数的书写
+
+```python
+def MYfunc():
+    print("hello myfunc")
+>>>MYfunc()#调用函数
+
+```
+
+```python
+#带参数函数的书写
+def test(name):
+    printf(name+"hello")
+>>>test("python")
+>>>pythonhello 
+
+def test(nums1,nums2):
+    printf(nums1+nums2)
+>>>>test(1,2)
+>>>>3
+```
+
+函数的返回值
+
+```python
+def add(nums1,nums2):
+    return (nums1+nums2)
+>>>>print(add(1,10))
+>>>111
+```
+
+形参和实参
+
+```python
+#函数定义过程中的位置叫做形参
+#实际传递的值叫做实参
+```
+
+关键字参数
+
+```python
+def test(name,word):
+    printf("name"+"word")
+>>>def("name","hello")
+#或者可以直接进行指定
+
+```
+
+默认参数
+
+```python
+def test(name="hello",word="python"):
+    print(name+" "+world)
+
+```
+
+命令行参数
+
+```python
+def test(*parmas,exp):
+    print("参数的长度为：",Len(parmas),exp)
+    printf("第二个参数是："，psrmas[1])
+>>>>test('h',1,2,3,exp="jell")
+```
+
+```
+global:定义函数为全局变量
+```
+
+
+
+在python中函数容许函数定义嵌套调用与使用
+
