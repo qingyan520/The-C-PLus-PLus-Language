@@ -440,7 +440,7 @@ public:
 };
 ```
 
-#### [36. 有效的数独](https://leetcode-cn.com/problems/valid-sudoku/)
+#### [9_20_36. 有效的数独](https://leetcode-cn.com/problems/valid-sudoku/)
 
 > 请你判断一个 9x9 的数独是否有效。只需要 根据以下规则 ，验证已经填入的数字是否有效即可。
 >
@@ -704,6 +704,56 @@ public:
         return ret;
 
 
+    }
+};
+```
+
+#### [10_6_414. 第三大的数](https://leetcode-cn.com/problems/third-maximum-number/)
+
+给你一个非空数组，返回此数组中 **第三大的数** 。如果不存在，则返回数组中最大的数。
+
+```cpp
+示例 1：
+输入：[3, 2, 1]
+输出：1
+解释：第三大的数是 1 。
+    
+示例 2：
+输入：[1, 2]
+输出：2
+解释：第三大的数不存在, 所以返回最大的数 2 。
+    
+示例 3：
+输入：[2, 2, 3, 1]
+输出：1
+解释：注意，要求返回第三大的数，是指在所有不同数字中排第三大的数。
+此例中存在两个值为 2 的数，它们都排第二。在所有不同数字中排第三大的数为 1 。
+```
+
+> 思路：先从大到小排序然后遍历寻找第三大的数字
+
+```cpp
+class Solution {
+public:
+    int thirdMax(vector<int>& nums) {
+        if(nums.size()==1)
+        return nums[0];
+        if(nums.size()==2)
+        return max(nums[0],nums[1]);
+        sort(nums.begin(),nums.end(),greater<>());
+        int count=1;
+        int i=1;
+        for(;i<nums.size();i++)
+        {
+            if(nums[i]!=nums[i-1])
+            {
+                count++;
+            }
+            if(count==3)
+            return nums[i];
+            
+        }
+        return nums[0];
     }
 };
 ```
