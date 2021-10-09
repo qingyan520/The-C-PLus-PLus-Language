@@ -1738,3 +1738,167 @@ char*myenv[]={"MYENV=HELLO",NULL};
 execl("./cmd","cmd",NULL,myenv);
 ```
 
+
+
+基础IO
+
+复习C语言io相关操作
+
+认识文件系统调用接口
+
+认识文件描述符。理解重定向
+
+杜比fd,FILE,理解系统调用和库函数的关系
+
+理解文件系统中的inode的概念
+
+
+
+C语言文件操作
+
+```cpp
+#include<stdio.h>
+#include<unistd.h>
+#include<
+using namespace std;
+int main()
+{
+   FILE*fp=fopen("test.txt","r");
+    //在当前路径创建文件：进程运行时所处的路径，
+    if(fp==NULL)
+    {
+        perror("fopen");
+        return 1;
+    }
+    //打开文件，一定是进程运行时打开的，
+   // int count=10;
+    //while(count--)
+    //{
+      //  fputs("hello world\n",fp);
+    //}
+    int ct=10;
+    char buf[1024];
+    while(count--)
+    {
+        fgets("buf",1024,fp);
+        printf("%s",buf);
+    }
+    
+    
+    
+    fclose(fp);
+    
+}
+```
+
+读写，关闭，打开都是进程完成的
+
+任何进程在运行的时候，默认打开三个输入输出流
+
+stdin:键盘
+
+stdout:屏幕
+
+stderr:显示器
+
+extern FILE*stdin
+
+extern FILE*stdout
+
+extern FILE*stderror
+
+```cpp
+FILE*fp=fopen("log.txt","a");//a:append
+//a:追加也是写入
+w vs a:都是写入，w从开始写入，a从结尾追加
+```
+
+```
+r+:
+w+:
+```
+
+系统IO：
+
+```cpp
+#include<stdio.h>
+#include<sys/types>
+#include<string.h>
+#include<unistd.h>
+#include<sys/stat.h>
+#include<fcntl.h>
+int main()
+{
+    umask(0);
+    int fp=open("log.txt",O_WRONLY|O_CREAT,0666);
+    //fd>0代表创建成功了
+    if(fd<0)
+    {
+        return 1;
+    }
+    int ct=5;
+    const char*str="hello";
+    while(ct--)
+    {
+        write(fd,str,strlen(str));
+    }
+    
+     printf("%d",fd);
+    close(fd);
+    return 0;
+}
+```
+
+系统函数参数传参标志位：int 32bit,故理论上可以传递32个标志位
+
+//二进制序列中，只有一个比特位是1
+
+#define x 0x1
+
+#define Y 0x2
+
+open(arb1,arg2=x|y,arg3);
+
+
+
+文件描述符本质是数组下标
+
+```cpp
+int main()
+{
+    const char*str="hello";
+    write(1,str,strlen(str));
+    char buf[32];
+    read(0,buf,)
+}
+```
+
+Linux默认打开三个文件描述符
+
+一个进程可以打开多个文件
+
+多个进程
+
+系统中，任何时刻都可能存在大量已经打开的文件
+
+文件有几部分构成：文件的属性(元信息)
+
+文件=内容+属性
+
+```cpp
+int main()
+{
+    int fd=open("log.txt",O_WRN);
+    if(fd<0)
+    {
+        return 1;
+    }
+    
+    return 0;
+}
+```
+
+重定向本质是:
+
+文件描述符fd下标对应的struct File*指针，
+
