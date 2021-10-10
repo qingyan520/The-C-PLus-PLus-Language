@@ -1902,3 +1902,37 @@ int main()
 
 文件描述符fd下标对应的struct File*指针，
 
+```
+open返会成功会返回文件描述符，失败返回-1
+头文件如下：
+#include<sys/types.h>
+#include<sys/stat.h>
+#include<fcntl.h>
+O_WRONLY:只写
+O_RDONLY:只读
+O_WRRD:可读可写
+//上述三个选项只能选择一个
+O_CTREAT:如果文件不存在则创建文件
+
+```
+
+
+
+```
+ssize_t read(int fd,void*buf,size_t count);
+read返回值是读到字符的个数
+fd:打开文件时得文件描述符
+buf:文件缓冲区，将读到的文件内容保存到buf中
+count:期望读到多少个字符
+```
+
+
+
+```
+ssize_t write(fd,const void*buf,ssize_t count);
+fd:打开文件时得文件描述符
+buf:要写的东西
+count:buf的长度（字节）
+
+```
+
