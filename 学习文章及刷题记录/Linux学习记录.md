@@ -1936,3 +1936,172 @@ count:buf的长度（字节）
 
 ```
 
+
+
+
+
+```cpp
+//重定向myproc.c
+#include<stdio.h>
+#include<sys/types.h>
+#include<sys/stat.h>
+#include<fcntl.h>
+#include<unistd.h>
+int main()
+{
+    umask(0);
+    close(1);
+    //fd=1;
+	int fd=open("log.txt",O_WRONLY|O_CREAT,0666);
+    if(fd<0)
+    {
+        perror("open");
+        return 1;
+    }
+    printf("hello world\n");//stdout内部封装了
+    fprintf(stdout,"hello fprintf\n");
+    fputs("hello fputs %d %d %c\n",stdout);
+    fflush(stdout);
+    
+    close(fd);
+    return 0;
+}
+```
+
+C语言FILE是一个结构体，内部封装了fd
+
+fopen:
+
+1.给用户申请struct FILE结构体变量，并且返回地址
+
+2.在底层通过open打开文件，返回fd，吧把fd填充到FILE变量中的fileno
+
+```cpp
+//输入重定向myproc.c：
+#include<stdio.h>
+#include<sys/types.h>
+#include<sys/stat.h>
+#include<fcntl.h>
+#include<unistd.h>
+int main()
+{
+    umask(0);
+    close(0);
+    //fd=1;
+	int fd=open("log.txt",O_RDONLY|O_CREAT,0666);
+    if(fd<0)
+    {
+        perror("open");
+        return 1;
+    }
+  //  printf("hello world\n");//stdout内部封装了
+   // fprintf(stdout,"hello fprintf\n");
+    //fputs("hello fputs %d %d %c\n",stdout);
+    char*buf[100];
+    fgets(,buf,100,stdin);
+    printf("%s",buf);
+    fflush(stdout);
+    
+    close(fd);
+    return 0;
+}
+```
+
+```
+echo "hello ">>log.txt
+```
+
+
+
+```cpp
+//追加重定向myproc.c：
+#include<stdio.h>
+#include<sys/types.h>
+#include<sys/stat.h>
+#include<fcntl.h>
+#include<unistd.h>
+int main()
+{
+    umask(0);
+    close(0);
+    //fd=1;
+	int fd=open("log.txt",O_WRONLY|O_APPEND);
+    if(fd<0)
+    {
+        perror("open");
+        return 1;
+    }
+  //  printf("hello world\n");//stdout内部封装了
+   // fprintf(stdout,"hello fprintf\n");
+    //fputs("hello fputs %d %d %c\n",stdout);
+    char*buf[100];
+    fgets(,buf,100,stdin);
+    printf("%s",buf);
+    fflush(stdout);
+    
+    close(fd);
+    return 0;
+}
+```
+
+
+
+凡是显示到显示器上的内容，都是字符
+
+凡是从键盘上读取的内容都是字符
+
+所以键盘和显示器都被称为字符设备
+
+
+
+vim 中格式化替换
+
+后面加/g:全部替换
+
+![image-20211011193824035](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211011193824035.png)
+
+缓冲区的概念：
+
+```cpp
+#include<unistd.h>
+int main()
+{
+    //先炮hello world,但是hello wolrd被保存到了缓冲区，没有刷新出来，没有立马显示出来，加“\n"
+    printf("hello world");
+    sleep(10);
+}
+缓冲：
+    1.无缓冲
+    2.行缓冲：常见的是对显示器进行刷新数据时(效率和可用性的平衡)
+    3.全缓冲：对文件写入的时候采用全缓冲;
+
+
+int main()
+{
+    printf("hello \n");
+    fprintf(stdout,"helllp\n");
+    
+    //fflush(stdout);
+    const char*str="helll write\n ";
+    write(1,str,strlen(str));
+    fork();
+    sleep(10);
+}
+./test>log.txt;
+//打印了2遍内容：重定向还是会改变进程的缓冲方式，c接口打了2次，系统接口打了1次，
+//显示器打印：行刷新
+//父进程的数据发生写实拷贝，所以i打印了2次
+//write打印一次：说明write没有缓冲区
+
+//如果缓冲区是操作系统提供的，则所有接口都要打印两次，故缓冲区是C语言自带的
+缓冲区的位置：
+    内存
+缓冲区是谁提供的：
+    语言提供的，在FILE中维护
+Os也有缓冲吗：
+ 
+struct FILE：
+    1.fd
+    2.用户缓冲区
+```
+
