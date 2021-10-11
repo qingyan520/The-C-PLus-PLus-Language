@@ -2105,3 +2105,46 @@ struct FILE：
     2.用户缓冲区
 ```
 
+
+
+
+
+dup2系统调用
+
+```cpp
+#include<stdio.h>
+#include<unistd.h>
+#include<fcntl.h>
+int main()
+{
+    printf("hello printf\n");
+    fprintf(stdout,"hello fprintf\n");
+    
+}
+```
+
+
+
+所有的外设硬件，都有自己的读写方法
+
+
+
+```cpp
+//重定向
+int dup2(fd,1)
+#include<unistd.h>
+
+int main()
+{
+    int fd=open("log.txt",O_WRONLY|CREAT,0666);
+    close(1);
+    dup2(fd,1);
+    printf("hello world\n");//stdout内部封装了
+    fprintf(stdout,"hello fprintf\n");
+    fputs("hello fputs %d %d %c\n",stdout);
+    fflush(stdout);
+    
+    return 0;
+}
+```
+
