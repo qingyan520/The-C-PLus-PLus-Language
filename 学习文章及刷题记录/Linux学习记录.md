@@ -2265,3 +2265,192 @@ ln mytest mytest-h
 
 ```
 
+
+
+
+
+
+
+
+
+
+
+进程间通信
+
+进程间通信的目的：进行数据传输，将一个进程的数据发送到另外一个进程
+
+资源共享：
+
+通知事件：一个进程向另一个进程发送消息
+
+进程控制：有些进程希望完全控制另外一个进程的执行
+
+
+
+
+
+```cpp
+touch 
+```
+
+
+
+进程一般具有独立性
+
+进程间通信，一般一定要借助第三方(OS)资源
+
+通信本质是”数据的拷贝“，进程A------->数据拷贝到OS------->OS数据拷贝到进程B
+
+(OS一定提供一段内存区域，能够被双方进程看到)
+
+进程间通信本质然不同的进程先看到同一份资源(内存，文件内核缓冲等)
+
+
+
+管道用的是文件策略，但是不会把文件刷新到磁盘，有IO存在，会降低效率，也没有必要
+
+
+
+```
+匿名管道:本质没有文件名
+管道只能进行单向通信
+原型：int pipe(int fp[2]);
+fd为输出线参数
+```
+
+
+
+```cpp
+#include<stdio.h>
+#include<unistd.h>
+#include<sys/types.h
+#include<sys
+using namespace std;
+int main()
+{
+    
+    return 0;
+}
+```
+
+1.父进程创建管道
+
+2.父进程fork出子进程：
+
+本质是为了让父子进程看到同一份资源
+
+3.确认谁读谁写，关闭读写端，父进程进行读，子进程负责写数据
+
+fd[0]:读文件描述符
+
+fd[1]:写端文件描述符
+
+```cpp
+#include<stdio.h>
+#include<unistd.h>
+#include<sys/types.h>
+#include<sys/wait.h>
+#include<string.h>
+#include<stdlib.h>
+using namespace std;
+//子进程写入，父进程进行读取
+int main()
+{
+    int fd[2]={0};
+    int pipe(fd[2]);
+    if(pipe<0)
+    {
+        perror("pipe");
+        return 1;
+    }
+    //默认打开0，1，2文件描述符
+   printf("fd[0]:%d,fd[1]:%d\n",fd[0],fd[1]);
+    pid_t id=ork();
+    if(id==0)
+    {
+        close(fd[0]);
+        int count=10;
+        while(count--)
+        {
+            write(fd[1],"hello father\n",sizeof("hello father\n"));
+            sleep(1);
+        }
+        close(fd[1]);
+        exit(0);
+    }
+    else
+    {
+        close(fd[1]);
+        char buf[1024];
+        while(1)
+        {
+           ssize_t s=  read(fd[0],buf,1024);
+            if(s>0)
+            {
+                buf[s]='\0';
+               printf("%s\n",buf);
+            }
+            //文件结尾
+            else if(s==0)
+            {
+                printf("read file end!\n");
+                break;
+            }
+            else
+            {
+                break;
+            }
+            
+        }
+        waitpid(id,NULL,0);
+        
+    }
+    
+    return 0;
+}
+```
+
+父子进程通信不可以通过创建全局缓冲区完成通信
+
+父进程，进程运行具有独立性，写时拷贝对全局变量做的修改子进程看不到
+
+
+
+多执行流下(父子)，看到同一份资源，临界资源
+
+同步与互斥：
+
+互斥：任何适合只能够有一个正在使用某种资源
+
+1.管道内部已经自动提供了互斥与同步机制
+
+```cpp
+#include<stdio.h>
+int main()
+{
+    while(1)
+    {
+        printf("a\n");
+        
+    }
+    return 0;
+}
+```
+
+如果写段关闭，读端就会read返回值0，代表文件结束
+
+3.如果打开文件的进程退出了，文件就会被关闭
+
+
+
+4.管道提供流式服务
+
+5.管道是半双工通信
+
+6.匿名管道，适合具有血缘关系的进程进行进程间通信，常用于父子间通信
+
+
+
+全双工：
+
+半双工：(人在正常沟通过程中)管道
