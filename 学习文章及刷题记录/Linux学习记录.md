@@ -2315,7 +2315,7 @@ touch
 匿名管道:本质没有文件名
 管道只能进行单向通信
 原型：int pipe(int fp[2]);
-fd为输出线参数
+fd为输出型参数
 ```
 
 
@@ -2357,7 +2357,7 @@ using namespace std;
 int main()
 {
     int fd[2]={0};
-    int pipe(fd[2]);
+    pipe(fd);
     if(pipe<0)
     {
         perror("pipe");
@@ -2455,9 +2455,84 @@ int main()
 
 半双工：(人在正常沟通过程中)管道
 
+read:管道里面必须有数据
 
+write:管道里面必须有空间
 
+不满足上面两个条件对应进程进会被挂起
 
+```
+不write，一直read,read阻塞
+不read,一直write，write阻塞
+write写完，关闭，read返回值为0
+read关闭，一直写，写方(child)被操作系统杀死，写入无意义
+```
 
+管道的容量：
 
+```cpp
+//测试管道容量的代码
+if(id==0)
+{
+    int count=0;
+    char a='a';
+    while(1)
+    {
+        write(fd[1],&a,1);
+        count++;
+    }
+}
+//测试容量为:65536字节
+```
+
+命名管道:实现非父子关系进程的通信
+
+通过名字打开同一个文件，看到同一份资源，具备通信的条件
+
+```makefile
+首先建立文件：mkfifo fifo;
+//p:命名管道
+touch client.c server.c;
+vim Makefile;
+.PHONY:all
+all:client sever
+client:client.c
+    gcc -o $@ $^
+sever:sever.c
+    gcc -o $@ $^
+.PHONY:clean
+clean:
+	rm -rf server client
+```
+
+sever.c
+
+```cpp
+#include<stdio.h>
+#include<sys/types.h>
+#include<sys/stat.h>
+using namespace std;
+#define "myfifo"
+int main()
+{
+    if(mkfifo("myfifo",0644)<0)
+    {
+        perror("mkfifo");
+        return 1;
+    }
+    
+    return 0;
+}
+```
+
+client.c
+
+```cpp
+#include<stdio.h>
+int main()
+{
+    printf("hello\n");
+    return 0;
+}
+```
 
