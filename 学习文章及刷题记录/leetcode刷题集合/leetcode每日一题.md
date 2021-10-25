@@ -792,3 +792,54 @@ public:
 };
 ```
 
+#### [10_25_240. 搜索二维矩阵 II](https://leetcode-cn.com/problems/search-a-2d-matrix-ii/)
+
+编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target 。该矩阵具有以下特性：
+
+每行的元素从左到右升序排列。
+每列的元素从上到下升序排列。
+
+![image-20211025102406502](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211025102406502.png)
+
+```cpp
+输入：matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 5
+输出：true
+```
+
+![image-20211025102459983](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211025102459983.png)
+
+```cpp
+输入：matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 20
+输出：false
+
+```
+
+> 最暴力的方式就是直接搜索，时间复杂度O(N^2),容易超时，那么我们就需要借助题目所描述的这个二维矩阵的性质了，题目上说这个矩阵是从左到右是有序的，从上到下也是有序的，那么问题就简单多了，我们可以从右上角或者左下角开始搜索，我们下面以右上角为例进行说明，我们从右上角开始查找，如果target<matrix(i)(j),那么说明它在matrix的左边，如果target>maxtrix(i)(j),说明它在matrix的下面，如果正好相等就返回
+
+```cpp
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int i=0;
+        int j=matrix[0].size()-1;
+        while(i<matrix.size()&&j>=0)
+        {
+            if(target<matrix[i][j])
+            {
+                j--;
+            }
+            else if(target>matrix[i][j])
+            {
+                i++;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        return false;
+        
+    }
+};
+```
+
