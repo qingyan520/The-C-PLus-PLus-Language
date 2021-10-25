@@ -2257,15 +2257,35 @@ ln mytest mytest-h
 
 进入目录需要：x权限
 
-```
+目录默认硬连接数为2
+
+目录里面的文件数量=硬连接数量-2
+
+
+
+Access:文件最近被访问的时间
+
+MOdify:文件最近被修改的时间
+
+Change:文件属性最近被改变的时间(每次修改文件内容会引起文件大小改变从而改变change)
+
+
+
+```shell
 动静态库本质是可执行程序的"半成品"
 静态库：.a
-
+程序在编译时把库里面的代码连接到可执行文件中，程序运行起来的时候不再需要静态库
 动态库：.so
-
+程序在运行时才去链接动态库的代码，多个程序共享使用库的代码
 ```
 
+所有的库本质是:一堆.o的集合，布伯涵main,但是包含了大量的方法
 
+认识动静态库
+
+```
+ldd:查看一个可执行程序所依赖的库
+```
 
 
 
@@ -2508,10 +2528,7 @@ clean:
 sever.c
 
 ```cpp
-#include<stdio.h>
-#include<sys/types.h>
-#include<sys/stat.h>
-using namespace std;
+#include"com.h"
 #define "myfifo"
 int main()
 {
@@ -2520,19 +2537,490 @@ int main()
         perror("mkfifo");
         return 1;
     }
+    int fd=open("myfifo",O_RDONLY);
+    if(fd<0)
+    {
+        perror("open error!\n");
+        return 2;
+    }
+    char buf[64];
+    while(1)
+    {
+        buf[0]=0;
+        ssize_t ret=read(fd,buf,sizeof(buf)-1);
+        if(ret>0)
+        {
+            buf[ret]='\0';
+            printf("client# %s\n",buf);
+        }
+        else if(ret==0)
+        {
+            printf("client quit!\n");
+            break;
+        }
+        else
+        {
+            printf("read error!\n");
+            break;
+        }
+    }
     
     return 0;
 }
 ```
 
+comm.h
+
+```cpp
+#pragma once 
+#include<stdio.h>
+#include<stdio.h>
+#include<sys/types.h>
+#include<sys/stat.h>
+#include<fcntl.h>
+using namespace std;
+#define FILE_NAME myfifo
+```
+
+
+
 client.c
 
 ```cpp
-#include<stdio.h>
+#include"comm.h"
 int main()
 {
-    printf("hello\n");
+    int fd=open(FILE_NAME,O_WRONLY);
+    if(fd<0)
+    {
+        perror("open error!\n");
+        return 1;
+    }
+    char msg[128];
+    while(1)
+    {
+        msg[0]=0;
+        printf("Please Enter#");
+        fflush(stdout);
+        ssize_t s=read(0,buf,sizeof(msg));
+        if(s>0)
+        {
+            msg[s-1]=0;
+            write(fd,msg,strlen(msg));
+        }
+    }
+    
+    
+    close(fd);
     return 0;
 }
+```
+
+进程通信实现简单shell
+
+```cpp
+#include"com.h"
+#include<sys/wait.h>
+
+#define "myfifo"
+int main()
+{
+    if(mkfifo("myfifo",0644)<0)
+    {
+        perror("mkfifo");
+        return 1;
+    }
+    int fd=open("myfifo",O_RDONLY);
+    if(fd<0)
+    {
+        perror("open error!\n");
+        return 2;
+    }
+    char buf[64];
+    while(1)
+    {
+        buf[0]=0;
+        ssize_t ret=read(fd,buf,sizeof(buf)-1);
+        if(ret>0)
+        {
+            buf[ret]='\0';
+            printf("client# %s\n",msg);
+            if(fork()==0)
+            {
+                execlp(msg,msg,NULL);
+                exit(1);
+            }
+            waitpit(-1,NULL,0);
+          
+        }
+        else if(ret==0)
+        {
+            printf("client quit!\n");
+            break;
+        }
+        else
+        {
+            printf("read error!\n");
+            break;
+        }
+    }
+    
+    return 0;
+}
+```
+
+进程通信实现简单计算器：
+
+```cpp
+  #include"com.h"
+#include<sys/wait.h>
+
+#define "myfifo"
+int main()
+{
+    if(mkfifo("myfifo",0644)<0)
+    {
+        perror("mkfifo");
+        return 1;
+    }
+    int fd=open("myfifo",O_RDONLY);
+    if(fd<0)
+    {
+        perror("open error!\n");
+        return 2;
+    }
+    char buf[64];
+    while(1)
+    {
+        buf[0]=0;
+        ssize_t ret=read(fd,buf,sizeof(buf)-1);
+        if(ret>0)
+        {
+            buf[ret]='\0';
+            printf("client# %s\n",msg);
+            char*p=msg;
+            cosnt chsr*llable="+-*/%";
+            int flag=0;//0+,1*
+            while(*p)
+            {
+            	switch(*p)
+            	{
+            		case '+':
+                        falg=0
+            			break;
+            		case '-':
+                        flag=1;
+            			break;
+            		case '*':
+                        flag=2;
+            			break;
+                    case '/':
+                        flag=3;
+                        break;
+                    case '%':
+                        flag=4;
+                        break;
+            	}
+                *p++;
+            }
+            char*data1=strtok(msg,"+-*%");
+            char*data2=strok(NULL,"+-*%")
+            int x=atoi(data1);
+            int y=atoi(data2);
+            int z=0;
+            swtich(flag)
+            {
+                case 0:
+    				z=x+y;
+                    break;
+                case 1:
+                	z=x-y;
+                	break;
+                case 2:
+                	z=x*y;
+                	break;
+                case 3:
+                	z=x/y;
+                	break;
+                case 4:
+                	z=x%y;
+                	break;
+            }
+            printf("%d %c %d =%d\n",x,lable[flag],y,z);
+            //(fork()==0)
+           //
+               //xeclp(msg,msg,NULL);
+              //exit(1);
+          //}
+           //aitpit(-1,NULL,0);
+          
+        }
+        else if(ret==0)
+        {
+            printf("client quit!\n");
+            break;
+        }
+        else
+        {
+            printf("read error!\n");
+            break;
+        }
+    }
+    
+    return 0;
+}
+```
+
+进程间通信的意义：让多个进程协同完成某种事情：执行命令，发送字符串，协助计算等
+
+
+
+匿名管道和命名管道的区别：
+
+创建或者打开的方式不一样
+
+
+
+
+
+进程间通信实现简单文件拷贝
+
+![image-20211025195747269](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211025195747269.png)
+
+touch file.txt
+
+sever.c
+
+```cpp
+#include"com.h"
+#define "myfifo"
+int main()
+{
+    if(mkfifo("myfifo",0644)<0)
+    {
+        perror("mkfifo");
+        return 1;
+    }
+    int fd=open("myfifo",O_RDONLY);
+    if(fd<0)
+    {
+        perror("open error!\n");
+        return 2;
+    }
+    int out=open("file_bak.txt",O_CREAT|O_WRONLY,0644);
+    char buf[64];
+    while(1)
+    {
+        buf[0]=0;
+        ssize_t ret=read(fd,buf,sizeof(buf)-1);
+        if(ret>0)
+        {
+            write(out,msg,ret);
+            //buf[ret]='\0';
+            //printf("client# %s\n",buf);
+        }
+        else if(ret==0)
+        {
+            printf("client quit!\n");
+            break;
+        }
+        else
+        {
+            printf("read error!\n");
+            break;
+        }
+    }
+    close(out);
+    close(fd);
+    
+    return 0;
+}
+```
+
+
+
+client.c
+
+```cpp
+#include"comm.h"
+int main()
+{
+    int fd=open(FILE_NAME,O_WRONLY);
+    if(fd<0)
+    {
+        perror("open error!\n");
+        return 1;
+    }
+    int in=open("file.txt",O_RDONLY);
+    char msg[128];
+    dup2(in,0);
+    while(1)
+    {
+        msg[0]=0;
+        //printf("Please Enter#");
+        //fflush(stdout);
+        ssize_t s=read(0,buf,sizeof(msg));
+        if(s==sizeof(msg))
+        {
+            msg[s-1]=0;
+            write(fd,msg,strlen(msg));
+        }
+        else if(s<sizeof(msg))
+        {
+            write(fd,msg,s);
+            printf("read end of file\n");
+            break;
+        }
+        else
+        {
+            break;
+        }
+    }
+    
+    
+    close(fd);
+    close(in);
+    return 0;
+}
+```
+
+
+
+
+
+
+
+管道本质是基于文件的，操作系统没有做过过多的设计工作
+
+
+
+system V进程间通信：OS特地设计的通信方式(想尽一切办法，让不同的进程看到同一份资源)
+
+共享内存：以传送数据为目的
+
+消息队列：以传送数据为目的
+
+信号量：保证进程的同步与互斥设计的，属于通信范畴
+
+物理内存映射到进程的地址空间
+
+映射本质就是修改页表，虚拟地址空间中开辟空间
+
+用的是系统接口：完成所谓的开辟空间，建立映射，开辟虚拟地址，返回给用户，都是操作系统做的
+
+![image-20211025203719438](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211025203719438.png)
+
+共享内存建立的过程：
+
+1.申请共享内存(物理内存已经建立好了)
+
+2.共享内存挂接到地址空间(建立映射关系)
+
+建立完前两部就可以开始通信了
+
+3.去关联共享内存(修改页表，取消映射关系)
+
+4.释放共享内存(内存归还给系统)
+
+后两步是释放资源的过程
+
+代码实现：
+
+touch client.c sever.c
+
+make Makefile
+
+```makefile
+.PHONY:all
+all:
+```
+
+shmget:创建共享内存
+
+#include<sys/ipc.h>
+
+#include<sys/shm.h>
+
+int shmget(key_t key,size_t size,int shmflg);
+
+//系统中可能存在多个共享内存
+
+//OS管理共享内存：先描述，再组织，为共享内存维护相关数据结构
+
+//如何保证共享内存本身的唯一性
+
+//
+
+//如何保证不同的进程看到的是同一个共享内存(shm)
+
+//如何保证共享内存是唯一的
+
+//key保证IPC资源(shm)的唯一性
+
+//IPC_CREAT:shmflg:如果共享内存存在，直接返回该共享内存，不存在则创建，一定会获得一个共享内存，调用成功的情况下，无法确认是否是全新的shm
+
+//IPC_EXCL:不能单独使用，单独使用无意义，经常和IPC_CREAT组合使用，例如：IPC_CREAT|IPC_EXCL，意义为shm不存在，则创建，如果存在，则出错返回，调用成功，一定会获得一个全新的共享内存
+
+通信双方中一个创建shm，一个获取shm
+
+key_t key的获取：ftok(工程名称,工程编号);(路径名，数据)
+
+​                                          任意指定
+
+
+
+```cpp
+//sever.c
+int main()
+{
+    key_t=ftok(PATHNAME,PROJ_ID);
+    if(k<0)
+    {
+        printf("ftok errot\n");
+        return 1;
+    }
+    int shm=shmget(key,SIZE,IPC_CREAT|IPC_EXCL);
+    if(shm<0)
+    {
+        perror("shmget");
+        return 2;
+    }
+    sleep(10);
+    //删除共享内存
+    shmctl(shm,IPC_RMID,NULL);
+    sleep(10);
+    
+    return 0;
+}
+```
+
+查看共享内存：ipcs -m
+
+进程退出，但是创建的共享内存还存在，说明shm的生命周期是随内核的
+
+进程不主动删除或者用命令删除，共享内存一直存在，直到关机重启  system v IPC都是这样的
+
+IPC一定是由内核提供并且维护的
+
+删除命令：ipcrm -m shmid(用户层id)
+
+
+
+
+
+```cpp
+com.h;
+#ifndef _COMM_H_
+#define _COMM_H_
+#define PATHNAME "hem"
+#defien PROJ_ID 0x666
+#define SIZE 4096
+#endif
+```
+
+
+
+```cpp
+
 ```
 
