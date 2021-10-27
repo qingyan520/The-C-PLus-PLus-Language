@@ -2459,7 +2459,7 @@ int main()
 
 如果写段关闭，读端就会read返回值0，代表文件结束
 
-3.如果打开文件的进程退出了，文件就会被关闭
+3.如果打开文件的进程退出了，文件就会被关闭1
 
 
 
@@ -2525,6 +2525,17 @@ clean:
 	rm -rf server client
 ```
 
+
+
+```shell
+管道文件的创建：
+int mkfifo("myfifo",权限)
+#include<sys/type.h>
+#include<sys/stat.h>
+```
+
+
+
 sever.c
 
 ```cpp
@@ -2578,7 +2589,6 @@ comm.h
 #include<sys/types.h>
 #include<sys/stat.h>
 #include<fcntl.h>
-using namespace std;
 #define FILE_NAME myfifo
 ```
 
@@ -2910,6 +2920,8 @@ system V进程间通信：OS特地设计的通信方式(想尽一切办法，让
 
 ![image-20211025203719438](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211025203719438.png)
 
+
+
 共享内存建立的过程：
 
 1.申请共享内存(物理内存已经建立好了)
@@ -2967,10 +2979,38 @@ key_t key的获取：ftok(工程名称,工程编号);(路径名，数据)
 
 ​                                          任意指定
 
+![image-20211026184925967](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211026184925967.png)
+
+
+
+![image-20211026185227716](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211026185227716.png)
+
+1.创建shm
+
+2.关联进程
+
+3.取消关联
+
+4.删除shm
+
+com.h
+
+```
+#pragma once
+#define SIZE 4096
+#define PATHNAME
+#define PROJ_ID
+```
+
 
 
 ```cpp
 //sever.c
+#include"com.h"
+#include<sys/shm.h>
+#include<sys/ipc.h>
+#include<unistd.h>
+#include<sys/types.h>
 int main()
 {
     key_t=ftok(PATHNAME,PROJ_ID);
@@ -2979,20 +3019,72 @@ int main()
         printf("ftok errot\n");
         return 1;
     }
-    int shm=shmget(key,SIZE,IPC_CREAT|IPC_EXCL);
-    if(shm<0)
+    int shmid=shmget(key,SIZE,IPC_CREAT|IPC_EXCL|0666);
+    if(shmid<0)
     {
         perror("shmget");
         return 2;
     }
-    sleep(10);
+
+    char*mem=shmat(shmid,NULL,0);//关联
+    
+    while(1)
+    {
+        printf("client message %s\n",mem);
+        sleep(1);
+    }
+    
+    
+    shmdt(mem);//去关联
+    
+    
+    
+    //sleep(10);
     //删除共享内存
     shmctl(shm,IPC_RMID,NULL);
-    sleep(10);
+   // sleep(10);
     
     return 0;
 }
 ```
+
+
+
+client.c
+
+```cpp
+#include"com.h"
+int main()
+{
+    key_t key=ftok(PATHNME,PROJ_ID);
+    if(key<0)
+    {
+        perror("ftok");
+        return 1;
+    }
+    int shmid=shmfet(key,SIZE,IPC_CREAT);
+    if(shmid<0)
+    {
+        perror("shmget");
+        return 2;
+    }
+    
+    char*mem=shmat(shmid,NULL,0);
+    int i=0;
+    while(1)
+    {
+        mem[i]='A'+i;
+        sleep(1);
+        i++;
+        mem[i]='\0';
+    }
+    
+    shmdt(mem);
+    return 0;
+}
+```
+
+
 
 查看共享内存：ipcs -m
 
@@ -3012,7 +3104,7 @@ IPC一定是由内核提供并且维护的
 com.h;
 #ifndef _COMM_H_
 #define _COMM_H_
-#define PATHNAME "hem"
+#define PATHNAME "工程路径"
 #defien PROJ_ID 0x666
 #define SIZE 4096
 #endif
@@ -3023,4 +3115,46 @@ com.h;
 ```cpp
 
 ```
+
+读写共享内存的时候有没有系统接口：没有
+
+共享内存时进程间通信中最快的：拷贝次数少，不提供任何保护机制(没有互斥与同步)
+
+管道·得从内核到用户，从用户到内核
+
+
+
+
+
+消息队列
+
+
+
+
+
+
+
+进程间通信：共享资源--->解决了通信前提但是产生了新的问题---->临界资源被多个进程共享---->数据不一致问题---->加锁(同步与互斥)------>效率的降低------>其它机制
+
+加锁是给代码加锁
+
+信号量----->二元信号量，多元信号量
+
+信号量本质是一个计数器
+
+
+
+要申请一个资源，必须进程之间占有这个资源吗？只有你申请信号量成功了，就一定有你的资源
+
+信号量用来描述临界资源中的资源数目
+
+
+
+整体来看，一个进程访问共享内存，要么没有访问，要么访问完毕了(原子性：要么操作了，要么没有操作)
+
+信号量本身也是临界资源
+
+
+
+PV操作，必须保证原子性
 
