@@ -3026,7 +3026,7 @@ int main()
         return 2;
     }
 
-    char*mem=shmat(shmid,NULL,0);//关联
+    char*chmem=shmat(shmid,NULL,0);//关联
     
     while(1)
     {
