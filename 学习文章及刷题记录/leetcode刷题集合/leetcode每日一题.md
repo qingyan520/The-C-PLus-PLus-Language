@@ -843,3 +843,94 @@ public:
 };
 ```
 
+#### [10_28_869. 重新排序得到 2 的幂](https://leetcode-cn.com/problems/reordered-power-of-2/)
+
+> 给定正整数 N ，我们按任何顺序（包括原始顺序）将数字重新排序，注意其前导数字不能为零。
+>
+> 如果我们可以通过上述方式得到 2 的幂，返回 true；否则，返回 false。
+>
+
+```cpp
+示例 1：
+输入：1
+输出：true
+
+示例 2：
+输入：10
+输出：false
+
+示例 3：
+输入：16
+输出：true
+
+示例 4：
+输入：24
+输出：false
+
+示例 5：
+输入：46
+输出：true
+```
+
+> 解法一：
+>
+> 将n转化为字符串，回溯法求它的全排列，然后与1~10^9内2^n进行对比，判断它是不是2^n次幂
+>
+> 解法二：
+>
+> 首先1~10^9内2^n只有30个数，创建一个二维数组，其中每一个一维数组代表2^n方中每个数字的位数，比如235，那么这个一维数组中a[2]=1,a[3]=1,a[5]=1,其它数字全为0，就代表该数字由1个2，1个3，1个5构成，我们将1~10^9内所有的2^n全部统计出来，然后再统计n的个数，判断n的数字位数构成在前面那个二维数组中存不存在，不存在返回false
+
+```cpp
+class Solution {
+public:
+    bool reorderedPowerOf2(int n) {
+        vector<vector<int>>arr1;
+        //找到1~10^9中2^n的数字各个位的个数
+        for(long long int i=1;i<=1000000000;i*=2)
+        {
+            vector<int>temp(10,0);
+            long long int j=i;
+            while(j)
+            {
+                temp[j%10]++;
+                j/=10;
+            }
+            arr1.push_back(temp);
+       
+        }
+        //找到n的位数构成
+        vector<int>arr2(10,0);
+        while(n)
+        {
+        
+            arr2[n%10]++;
+            n/=10;
+          
+        }
+		//判断是否存在
+        
+        for(long long int i=0;i<30;i++)
+        {
+            int j=0;
+            for(;j<10;j++)
+            {
+                if(arr1[i][j]!=arr2[j])
+                {
+                    break;
+                }
+            }
+
+            if(j==10)
+            {
+                return true;
+            }
+        }
+
+        return false;
+
+    }
+};
+
+//ps:此算法实际的时间复杂度位O(N)
+```
+
