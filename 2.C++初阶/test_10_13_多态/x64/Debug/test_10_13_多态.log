@@ -1,0 +1,3 @@
+﻿  test.cpp
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_10_13_多态\test.cpp(379,51): warning C4312: “类型强制转换”: 从“int”转换到更大的“VFunc *”
+  test_10_13_多态.vcxproj -> C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_10_13_多态\x64\Debug\test_10_13_多态.exe
