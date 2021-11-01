@@ -3158,3 +3158,197 @@ com.h;
 
 PV操作，必须保证原子性
 
+
+
+
+
+
+
+
+
+信号
+
+1.信号还没有产生的时候，对于我们普通人来说，我们是知道信号产生之后应该怎么做
+
+要想知道信号得先识别出来
+
+我们为什么可以识别信号：曾经有人“教育”过我们
+
+将信号特征，如何识别，处理过程记住了
+
+
+
+信号产生时,和人的正常生活之间的运行关系是什么样的
+
+![image-20211101191553550](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211101191553550.png)
+
+
+
+2.当信号产生的时候，我们不一定立马去处理信号，可能在做优先级更高的事情
+
+此时信号已经到来，暂时没有处理：
+
+在合适的时候处理信号
+
+此时这个信号处于已经产生，但是暂时没有处理(时间窗口),你一定要有某种方式记下来这个信号已经产生
+
+![image-20211101192500322](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211101192500322.png)
+
+
+
+
+
+3.准备处理信号(信号产生后)
+
+a.默认行为
+
+b.自定义行为()
+
+c.忽略信号(非常规)
+
+
+
+1.进程虽然现在没有收到任何信号，但是进程知道收到信号之后该怎么做
+
+进程内部一定能够识别信号
+
+程序员已经在编写设计进程的时候已经内置了信号的处理方案
+
+信号属于进程内部特有的特征
+
+
+
+![image-20211101193734066](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211101193734066.png)
+
+2.当信号到来的时候，进程可能正在处理更重要的事情，信号可能不会被立即处理(信号来了，信号暂时被进程保存起来)，等合适的时候进行处理
+
+3.信号开始处理信号，一般有三种方式：
+
+a.默认行为(终止进程，暂停，继续运行)
+
+b.自定义行为
+
+c.忽略信号
+
+![image-20211101194307101](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211101194307101.png)
+
+
+
+信号是如何发送的以及如何记录的
+
+```shell
+//查看Linux下信号
+kill -l
+1-31号叫做普通信号
+34-64为实时信号
+```
+
+![image-20211101194646719](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211101194646719.png)
+
+信号的记录是在进程的Task_struct（PCB)，结构体变量，本质更多的是为了记录信号是否产生
+
+采用位图来存储信号信息
+
+```
+unsigned int signal:
+0000 0000 0000 0000 0000 0000 0000 0000
+比特位的位置代表信号编号，比特位的内容代表是否收到信号
+
+```
+
+本质是OS，直接去修改进程task_struct种的位图信息
+
+信号发送只有操作系统有资格
+
+但是信号发送的方式可以有多种
+
+
+
+```
+Ctrl C:被操作系统识别为2号信号
+
+```
+
+
+
+```cpp
+signal(int signum,sighandler_t handler);
+
+```
+
+
+
+```cpp
+#include<signal.h>
+#include<stdio.h>
+#include<unistd.h>
+void handler(int signo)
+{
+    printf("get a signal signo:%d",signo);
+}
+int main()
+{
+	signal(2,handler);
+    while(1)
+    {
+        printf("hello bit\n");
+        sleep(1);
+    }
+    
+}
+```
+
+![image-20211101201413410](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211101201413410.png)
+
+![image-20211101201457966](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211101201457966.png)
+
+![image-20211101202005901](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211101202005901.png)
+
+
+
+```
+limit -a:
+ulimit -c 10240
+
+```
+
+![image-20211101204718499](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211101204718499.png)
+
+代码运行种的时候出错了，我们也要有办法盘点给是什么原因出错了
+
+
+
+![image-20211101205053136](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211101205053136.png)
+
+一般云服务器，线上生产环境，默认是关闭的，
+
+
+
+为什么c/c++进程会奔溃？
+
+本质就是因为收到了信号
+
+为什么会出现信号：
+
+信号都是由操作系统发送的
+
+
+
+产生信号的方式：
+
+1.键盘
+
+2.程序异常
+
+
+
+![image-20211101212548194](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211101212548194.png)
+
+
+
+![image-20211101212826918](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211101212826918.png)
+
+
+
+有些信号是不能被捕捉的，比如9号信号
+
