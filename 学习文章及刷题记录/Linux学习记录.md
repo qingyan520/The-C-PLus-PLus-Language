@@ -3350,5 +3350,11 @@ ulimit -c 10240
 
 
 
+
+
+![image-20211102161743507](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211102161743507.png)
+
 有些信号是不能被捕捉的，比如9号信号
+
+
 
