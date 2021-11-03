@@ -3358,3 +3358,208 @@ ulimit -c 10240
 
 
 
+
+
+信号发送：
+1.键盘组合键发送，产生信号
+
+2.程序异常产生信号
+
+3.系统或者其它调用接口产生信号
+
+```cpp
+#include<stdio.h>
+#include<sys/types.h>
+#include<signal.h>
+#include<stdlib.h>
+void User(cosnt char*msg)
+{
+    printf("Usage:%s pid signo\n",proc);
+}
+int main(int argc,char*argv[])
+{
+   	if(argc!=3)
+    {
+        User(argv[0]);
+        rerturn 1;
+    }
+    
+    pid_t pid=(aoti)argv[1];
+    int signo=(atoi)argv[2];
+    kill(pid,signo);
+    
+    return 0;
+}
+```
+
+
+
+```cpp
+#include<sys/types.h>
+
+void handler(int signo)
+{
+    printf("%d",signo)
+}
+int main()
+{
+    sianal(6,handler);
+    while(1)
+    {
+printf("%d",pid());
+    sleep(1);
+        //自己给自己发送信号
+        //raise(2);
+        abort();
+    }
+}
+//abrt:自己给自己发送信号,终止进程
+```
+
+4.由软件条件产生信号
+
+```cpp
+#include<sys/types.h>
+#include<signal>
+void handler(int signo)
+{
+    printf("%d",signo)
+}
+int main()
+{
+    //设定闹钟判断一秒内可以将count++到多少
+    alarm(1);
+    int count=0;
+    while(1)
+    {
+printf("%d",count++);
+   // sleep(1);
+        //自己给自己发送信号
+        //raise(2);
+        //abort();
+    }
+}
+//abrt:自己给自己发送信号,终止进程
+```
+
+```cpp
+#include<sys/types.h>
+#include<signal>
+void handler(int signo)
+{
+    printf("%d",signo)
+}
+int main()
+{
+    //设定闹钟判断一秒内可以将count++到多少
+    signal()
+    alarm(1);
+    int count=0;
+    while(1)
+    {
+printf("%d",count++);
+   // sleep(1);
+        //自己给自己发送信号
+        //raise(2);
+        //abort();
+    }
+}
+//abrt:自己给自己发送信号,终止进程
+```
+
+![image-20211103195035087](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211103195035087.png)
+
+以上方式必须经过OS进行发送
+
+
+
+保存信号：
+忽略：本质是处理信号的一种方式，是递达后的一种信号处理方式
+
+阻塞：本质让信号不要递达
+
+
+
+阻塞信号block：
+
+比特位的位置，代表信号编号
+
+比特位的内容，代表是否阻塞该信号
+
+发送信号->修改pending->时间合适->检查block->对应的信号没有被递达
+
+![image-20211103202029404](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211103202029404.png)
+
+
+
+
+
+```cpp
+#include<stdio.h>
+#include<unistd.h>
+#include<signal.h>
+int main()
+{
+    sigset_t s;
+    //以下函数不会影响进程的任何行为
+    //通过系统调用，设置进操作系统
+    sigemptyset(&s);
+    
+    sigfillset(&s);
+    
+    sigaddset(&s,SIGNT);
+    return 0;
+}
+```
+
+1.先把2号信号屏蔽
+
+2.kill||键盘发送2号信号，2号信号不会被递达
+
+3.二号信号将会一直被阻塞，一定一直在pending种
+
+4.使用sigpending获取当前进程的pending信号集
+
+```cpp
+#include<stdio.h>
+#include<unistd.h>
+#include<signal.h>
+void printPending(sigset_t *pending)
+{
+    for(int i=1;i<=31;i++)
+    {
+        if(sigismember(pending,i))
+        {
+            printf("1 ");
+        }
+        else
+        {
+            printf("0");
+        }
+    }
+    printf("\n");
+}
+
+int main()
+{
+    sigset_t s oset;
+    sigemptyset(&set);
+    sigemptyset(&oset);
+    sigaddset(&set,2);
+    sigprocmask(SIG_SETMASK,&set,&oset);//成功阻塞了二号信号
+    sigset_t pending;
+    while(1)
+    {
+        sigemptyset(&pending);
+        sigpending(&pending);
+        
+        printPending(&pending);
+        
+        sleep(1);
+    }
+    return 0;
+}
+```
+
+![image-20211103214641950](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211103214641950.png)
+
