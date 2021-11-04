@@ -1,0 +1,4 @@
+﻿  test.cpp
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_11_2\test.cpp(13,20): warning C4018: “<”: 有符号/无符号不匹配
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_11_2\test.cpp(15,21): warning C4018: “<”: 有符号/无符号不匹配
+  test_11_2.vcxproj -> C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_11_2\Debug\test_11_2.exe
