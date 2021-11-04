@@ -1,0 +1,9 @@
+﻿  test.c
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_10_8\test.c(24,19): warning C4013: “malloc”未定义；假设外部返回 int
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_10_8\test.c(24,1): warning C4047: “初始化”:“int *”与“int”的间接级别不同
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_10_8\test.c(49,1): warning C4047: “初始化”:“TreeNode *”与“int”的间接级别不同
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_10_8\test.c(51,1): warning C4047: “初始化”:“TreeNode *”与“int”的间接级别不同
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_10_8\test.c(52,1): warning C4047: “初始化”:“TreeNode *”与“int”的间接级别不同
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_10_8\test.c(53,1): warning C4047: “初始化”:“TreeNode *”与“int”的间接级别不同
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_10_8\test.c(54,1): warning C4047: “初始化”:“TreeNode *”与“int”的间接级别不同
+  test_10_8.vcxproj -> C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_10_8\Debug\test_10_8.exe

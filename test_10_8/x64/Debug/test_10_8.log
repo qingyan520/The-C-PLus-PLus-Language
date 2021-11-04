@@ -1,0 +1,10 @@
+﻿  test.c
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_10_8\test.c(107,22): warning C4133: “=”: 从“ListNode *”到“ListNode *”的类型不兼容
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_10_8\test.c(108,24): warning C4133: “=”: 从“ListNode *”到“ListNode *”的类型不兼容
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_10_8\test.c(98,1): warning C4133: “初始化”: 从“ListNode *”到“ListNode *”的类型不兼容
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_10_8\test.c(101,1): warning C4133: “初始化”: 从“ListNode *”到“ListNode *”的类型不兼容
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_10_8\test.c(165,21): warning C4133: “=”: 从“ListNode *”到“ListNode *”的类型不兼容
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_10_8\test.c(167,21): warning C4133: “=”: 从“ListNode *”到“ListNode *”的类型不兼容
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_10_8\test.c(169,21): warning C4133: “=”: 从“ListNode *”到“ListNode *”的类型不兼容
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_10_8\test.c(171,21): warning C4133: “=”: 从“ListNode *”到“ListNode *”的类型不兼容
+  test_10_8.vcxproj -> C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_10_8\x64\Debug\test_10_8.exe
