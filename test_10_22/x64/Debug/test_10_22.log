@@ -1,0 +1,6 @@
+﻿  test.cpp
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_10_22\test.cpp(15,9): warning C4477: “printf”: 格式字符串“%11u”需要类型“unsigned int”的参数，但可变参数 3 拥有了类型“uint64_t”
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_10_22\test.cpp(15,9): message : 请考虑在格式字符串中使用“%llu”
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_10_22\test.cpp(15,9): message : 请考虑在格式字符串中使用“%Iu”
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_10_22\test.cpp(15,9): message : 请考虑在格式字符串中使用“%I64u”
+  test_10_22.vcxproj -> C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_10_22\x64\Debug\test_10_22.exe
