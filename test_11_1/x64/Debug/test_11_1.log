@@ -1,0 +1,6 @@
+﻿  test.cpp
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_11_1\test.cpp(217,46): error C3867: “std::vector<int,std::allocator<int>>::size”: 非标准语法；请使用 "&" 来创建指向成员的指针
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_11_1\test.cpp(217,46): error C2664: “Matrix::Matrix(const Matrix &)”: 无法将参数 1 从“unsigned __int64”转换为“const Matrix &”
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_11_1\test.cpp(217,46): message : 原因如下: 无法从“unsigned __int64”转换为“const Matrix”
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_11_1\test.cpp(217,46): message : 无构造函数可以接受源类型，或构造函数重载决策不明确
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_11_1\test.cpp(178,1): message : 参见“Matrix::Matrix”的声明
