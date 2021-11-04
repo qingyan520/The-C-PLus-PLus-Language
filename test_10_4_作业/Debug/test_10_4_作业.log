@@ -1,0 +1,5 @@
+﻿  test.cpp
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_10_4_作业\test.cpp(11,1): error C2059: 语法错误:“private”
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_10_4_作业\test.cpp(12,6): error C2760: 语法错误: 意外标记 "标识符"，应为 "表达式"
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_10_4_作业\test.cpp(12,6): error C2146: 语法错误: 缺少“;”(在标识符“_a”的前面)
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_10_4_作业\test.cpp(7,3): error C2065: “_a”: 未声明的标识符
