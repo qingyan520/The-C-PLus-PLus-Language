@@ -158,8 +158,6 @@ class AVLTree
         if(subLR!=nullptr)
         subLR->_parent=parent;
         
-        subL->_right=parent;
-        parent->_parent=subL;
         
         subL-->_bf=paretn->-bf=0;
         if(Parent==nullptr)
@@ -180,6 +178,8 @@ class AVLTree
                 subL->_parent=Parent;
             }
         }
+          subL->_right=parent;
+        parent->_parent=subL;
         
     }
     
@@ -204,9 +204,7 @@ class AVLTree
 
 AVL树的四种旋转
 
-右单旋
+当新插入的节点位于左子树的左侧时，进行右单旋
 
-![image-20211105205350716](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211105205350716.png)
-
-遵循搜索树的规则，尽量平衡
+![image-20211106171625424](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211106171625424.png)
 
