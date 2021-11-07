@@ -4,6 +4,7 @@ AVL树
 
 ```cpp
 #include<iostream>
+#include<string.h>
 using namespace std;
 template <class K,vlass V>
 struct AVLTreeNode
@@ -39,18 +40,34 @@ class AVLTree
     
     //拷贝构造和赋值需要深拷贝
     
-    
+    void _Destoey(Node*root)
+    {
+        if(root==nullptr)
+        {
+            return;
+        }
+        _Dserory(root->left);
+        _Destory(root->right);
+     	delete root;
+    }
     ~AVLTree()
     {
-        
+        _Destory(_root);
+        _root=nullptr;
+    }
+    V&operator[](const K&key)
+    {
+        pair<Node*,bool>ret=Insert(make_pair(key,V());
+        return ret.first->_kc.second;
     }
     
     
-    bool Insert(const pair<K,V>&kv)
+    pair<Node*,bool> Insert(const pair<K,V>&kv)
     {
         if(_root==nullptr)
         {
             _root=new Node(kv);
+            return make_pair<_root,true>;
         }
         //找到存储位置，插入数据
         Node*parent=_root;
@@ -135,6 +152,7 @@ class AVLTree
                         
                     }
                 }
+                break;
             }
             else
             {
@@ -183,17 +201,174 @@ class AVLTree
         
     }
     
+    void RomateL(Node*&parent)
+    {
+        Node*grandparent=parent->_parent;
+        Node*subR=parent->_right;
+        Node*subRL=subR->_left;
+        parent->_right=subRL;
+        if(subRL!=nullptr)
+            subRL->_parent=parent;
+        subR->left=parent;
+        parent->_parent=subR;
+        subR->_bf=parent->_bf=0;
+        if(grandparent==nullptr)
+        {
+            subR->_parent=nullptr;
+            _root=subR;
+        }
+        else
+        {
+            if(grandparent->_left==parent)
+            {
+                grandparent->_left=subR;
+                subR->_parent=grandparent;
+                
+            }
+            else
+            {
+                grandparent->_right=subR;
+                grandparent->parent=subR;
+            }
+        }
+    }
+    
+    void RomateLR(Node*&parent)
+    {
+        Node*subL=parent->_left;
+        Node*subLR=subL->_right;
+        int bf=subLR->_bf;
+        RomateL(parent->_left);
+        RomateR(parent);
+        if(bf==-1)
+        {
+            subL->_bf=0;
+            parent->_bf=1;
+            subLR->_bf=0;
+        }
+        else if(bf==1)
+        {
+            parent->_bf=0;
+            subL->_bf=-1;
+            subLR->_bf=0;
+        }
+        else if(bf==0)
+        {
+            parent->_bf=0;
+            subL->_bf=0;
+            subLR->_bf=0;
+        }
+        else
+        {
+            assert(false);
+        }
+    }
+    
+    
+    void RomateRL(Node*&parent)
+    {
+        Node*subR=parent->_right;
+        Node*subRL=subR->right;
+        int _bf=subRL->_bf;
+        RomateR(parent->_right);
+  
+        RomateL(parent);
+        
+        if(_bf==1)
+        {
+            subR->_bf=0;
+            parent->_bf=-1;
+            subRL->_bf=0;
+        }
+        else if(_bf==-1)
+        {
+            parent->_bf=0;
+            subR->_bf=1;
+            subRL->_bf=0;
+        }
+        else if(_bf==0)
+        {
+            parent->_bf=0;
+            subR->_bf=0;
+            subRL->_bf=0;
+        }
+        else
+        {
+            assert(false);
+        }
+    }
+    
+    
+    
     Node*find(const K&key)
     {
-        
+     	Node*cur=_root;
+        while(cur)
+        {
+            if(key<cur->_kc.first)
+            {
+                cur=cur->left;
+            }
+            else if(key>cur->_kv.first)
+            {
+                cur=cur->right;
+            }
+            else
+            {
+                return true;
+            }
+        }
         return nullptr;
     }
     
     bool Erase(const K&key)
     {
+        
         return fasle;
     }
     
+    void _Inorder(Node*root)
+    {
+        if(root==nullptr)
+            return ;
+        _Inorder(root->left);
+        cout<<root->_kv.first<<":"<<root->_kv.second<<endl;
+        _Inorder(root->right);
+    }
+    
+    void Inorder()
+    {
+        _Inorder(_root);
+    }
+    
+    int _Height(Node*root)
+    {
+        if(root==nullptr)
+        {
+            return 0;
+        }
+        return max(_Height(root->left)+1,_Height(root->right)+1);
+    }
+    
+    bool _IsBanlance(Node*root)
+    {
+     	if(root==nullptr)
+            return true;
+        int leftHeight=_Height(root->left);
+        int rightHeight=_height(root->right);
+        if(rightHeight-leftHeight!=root->_bf)
+        {
+            cout<<"平衡因子异常"<<root->_kv.first<<endl;
+            return false;
+        }
+        return abs(rightHeight-leftHeight)<2&&_sBanlance(root->left)
+            &&IsBanlance(root->_right);
+    }
+    
+    bool IsAVLTree()
+    {
+        return _IsBanlance(_root);
+    }
     
     private:
     Node*_root;
@@ -207,4 +382,26 @@ AVL树的四种旋转
 当新插入的节点位于左子树的左侧时，进行右单旋
 
 ![image-20211106171625424](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211106171625424.png)
+
+
+
+
+
+平衡因子的更新
+
+![image-20211107101352580](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211107101352580.png)
+
+
+
+
+
+
+
+
+
+![image-20211107101421717](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211107101421717.png)
+
+
+
+![image-20211107102257083](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211107102257083.png)
 
