@@ -26,7 +26,13 @@ class AVLTree
 {
 	typedef AVLTreeNode<K, V> Node;
 public:
-	bool Insert(const pair<K, V>& kv)
+	AVLTree() :
+		_root(nullptr)
+	{
+
+	}
+
+	bool Insert(const pair<K,V>&kv)
 	{
 		if (_root == nullptr)
 		{
@@ -38,14 +44,14 @@ public:
 		//1.找到要插入的节点位置，插入该节点
 		Node* cur = _root;
 		Node* parent = _root;
-		while (cur)
+		while (cur!=nullptr)
 		{
-			if (kv.first > cur->_kv.first)
+			if (kv.first >cur->_kv.first)
 			{
 				parent = cur;
 				cur = cur->_right;
 			}
-			else if (kv->first < cur->_kv.first)
+			else if (kv.first < cur->_kv.first)
 			{
 				parent = cur;
 				cur = cur->_left;
@@ -74,17 +80,17 @@ public:
 		{
 			if (parent->_left == cur)
 			{
-				parent->_kv--;
+				parent->_bf--;
 			}
 			else
 			{
-				parent->_kv++;
+				parent->_bf++;
 			}
-			if (parent->_kv == 0)
+			if (parent->_bf == 0)
 			{
 				break;
 			}
-			else if (parent->_bf == 2 || parent->_parent == -2)
+			else if (parent->_bf == 2 || parent->_bf == -2)
 			{
 				//不平衡了，需要进行旋转
 
@@ -96,20 +102,25 @@ public:
 						//这时候需要进行右旋转
 						RomateR(parent);
 					}
+
+					else
+					{
+						RomateLR(parent);
+					}
 				}
 
 				else
 				{
 					if (cur->_bf == 1)
 					{
-						RoMateL(parent);
+						RomateL(parent);
 					}
 					else
 					{
-
+						RomateRL(parent);
 					}
 				}
-
+				break;
 
 
 			}
@@ -127,7 +138,7 @@ public:
 	
 
 	//当左边节点高于右边节点时，进行右旋
-	void RomateR(Node*& parent)
+	void RomateR(Node* parent)
 	{
 		//找到父亲节点
 		Node* grandparent = parent->_parent;
@@ -173,7 +184,7 @@ public:
 	}
 
 	//当右边节点高于左边节点时，进行左旋，即左边进行改变
-	void RoMateL(Node*& parent)
+	void RomateL(Node* parent)
 	{
 		Node* grandparent = parent->_parent;
 		Node* subR = parent->_right;
@@ -184,13 +195,15 @@ public:
 		{
 			subRL->_parent = parent;
 		}
-
-		subRL->_bf = parent->_bf = 0;
+		subR->_left = parent;
+		parent->_parent = subR;
+		subR->_bf = parent->_bf = 0;
 		if (grandparent == nullptr)
 		{
 			subR->_parent = nullptr;
 			_root = subR;
 		}
+		
 		else
 		{
 			if (grandparent->_left == parent)
@@ -204,19 +217,147 @@ public:
 				subR->_parent = grandparent;
 			}
 		}
-		subR->_left = parent;
-		parent->_parent = subR;
+	}
+
+	void RomateRL(Node* parent)
+	{
+		//先右旋，再左旋
+		Node* subR = parent->_right;
+		Node* subRL = subR->_left;
+		int bf = subRL->_bf;
+
+		RomateR(parent->_right);
+
+		RomateL(parent);
+
+		//最关键的就是平衡因子的更新
+		if (bf == 1)
+		{
+			parent->_bf = -1;
+			subR->_bf = 0;
+			subRL->_bf = 0;
+		}
+		else if (bf == -1)
+		{
+			parent->_bf = 0;
+			subR->_bf = 1;
+			subRL->_bf = 0;
+		}
+		else if (bf == 0)
+		{
+			parent->_bf = 0;
+			subR->_bf = 0;
+			subRL->_bf = 0;
+		}
+		else
+		{
+			assert(false);
+		}
 	}
 
 
+	void RomateLR(Node* parent)
+	{
+		Node* subL = parent->_left;
+		Node* subLR = subL->_right;
+		int bf = subLR->_bf;
+
+		//先左旋，再右旋
+		RomateL(parent->_left);
+		RomateR(parent);
+
+		//更新平衡因子
+		if (bf == 1)
+		{
+			parent->_bf = 0;
+			subL->_bf = -1;
+			subLR->_bf = 0;
+		}
+		else if (bf == -1)
+		{
+			parent->_bf = 1;
+			subL->_bf = 0;
+			subLR->_bf = 0;
+		}
+		else if (bf == 0)
+		{
+			parent->_bf = 0;
+			subL->_bf = 0;
+			subLR->_bf = 0;
+		}
+		else
+		{
+			assert(false);
+		}
+	}
+
+
+	void Inorder()
+	{
+		_Inorder(_root);
+	}
+
+
+	//验证这棵树是不是AVL树
+
+	bool Is_Banlance()
+	{
+		return _Is_Banlance(_root);
+	}
+
 
 private:
+
+	void _Inorder(Node* root)
+	{
+		if (root == nullptr)
+			return;
+		_Inorder(root->_left);
+		cout << root->_kv.first << ":" << root->_kv.second <<" "<<root->_bf << endl;
+		_Inorder(root->_right);
+	}
+	int _Height(Node* root)
+	{
+		if (root == nullptr)
+		{
+			return 0;
+		}
+		return max(_Height(root->_left) + 1, _Height(root->_right) + 1);
+	}
+	bool _Is_Banlance(Node* root)
+	{
+		if (root == nullptr)
+		{
+			return true;
+		}
+		int left_height = _Height(root->_left);
+		int right_height = _Height(root->_right);
+		if ((right_height-left_height) != root->_bf)
+		{
+			cout << "平衡因子发生异常" << "right_height-left_height=" << right_height - left_height << "   " << "root->key=" << root->_kv.first<<"  " << "root->_bf=" << root->_bf << endl;
+			return false;
+		}
+
+		return (right_height - left_height) == root->_bf &&
+			_Is_Banlance(root->_left) &&
+			_Is_Banlance(root->_right);
+
+	}
+
 	Node* _root;
 };
 
 int main()
 {
 	AVLTree<int, int>a;
+	int arr[]{4,2,6,1,3,5,15,7,16,14};
+	for (auto e : arr)
+	{
+		a.Insert(make_pair(e, e));
+	}
+	//a.Insert(make_pair(1, 1));
+	a.Inorder();
 
+	a.Is_Banlance();
 	return 0;
 }
