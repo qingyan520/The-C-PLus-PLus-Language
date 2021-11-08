@@ -3480,6 +3480,26 @@ printf("%d",count++);
 
 
 
+信号的其它相关概念：
+
+实际执行信号的处理动作称为信号递达
+
+信号从产生到递达之间的状态，称为信号的未决
+
+进程可以选择阻塞(Block)某个信号
+
+被阻塞的信号产生时将保持在未决状态，知道进程解除对信号的阻塞，才执行递达动作
+
+注意：阻塞和忽略是不同的，只要信号被阻塞就不会递达，而忽略是在递达之后可选的一种处理动作
+
+![image-20211108154817669](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211108154817669.png)
+
+每个信号都有两个标志位分别表示阻塞(block)和未决(pending),还有一个函数指针表示处理动作，信号产生时，内核在进程控制块中设置该信号的未决标志，直到信号递达才清除该标志，在上图的例子中，SIGHUP信号未阻塞也未产生过，当它递达时执行默认处理动作
+
+SIGINT信号产生过，但正在被阻塞，所以暂时不能递达，虽然它的处理动作是忽略，但在没有接触阻塞之前不能忽略这个信号，因为进程仍然有机会改变处理动作之后再解除阻塞
+
+SIGQUIT信号从未产生过，一旦产生SIGQUIT信号被阻塞，它的处理动作是用户自定义函数函数sighandler,如果在进程解除对某个信号的阻塞之前这种信号产生过多次，将如何处理？1.容许系统传递该信号一次或者多次。Linux是这样实现的：常规信号在递达之前产生多吃只记一次，而实时信号在递达之前产生多次可以一次返点高一个队列中
+
 阻塞信号block：
 
 比特位的位置，代表信号编号
@@ -3489,6 +3509,12 @@ printf("%d",count++);
 发送信号->修改pending->时间合适->检查block->对应的信号没有被递达
 
 ![image-20211103202029404](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211103202029404.png)
+
+sigset_t
+
+从上图来看，每个信号只有一个bit的未决标志，非0即1，不记录该信号产生了多少次，阻塞标志也是这样表示的，英雌，未决和阻塞标志可以用相同的数据类型sigset_t来存储，sigset_t称为信号集，这个类型表示每个信号的有效或无效状态，在阻塞信号集中有效和无效的含义是该信号是否被阻塞，而在未决信号集中"有效"和"无效"的含义是该信号是否处于未决状态
+
+
 
 
 
@@ -3539,15 +3565,21 @@ void printPending(sigset_t *pending)
     }
     printf("\n");
 }
+void handler(int signo)
+{
+    printf("handler signo:%d\n",signo);
+}
 
 int main()
 {
-    sigset_t s oset;
+    signal(2,heandler);
+    sigset_t set oset;
     sigemptyset(&set);
     sigemptyset(&oset);
     sigaddset(&set,2);
     sigprocmask(SIG_SETMASK,&set,&oset);//成功阻塞了二号信号
     sigset_t pending;
+    int count=0;
     while(1)
     {
         sigemptyset(&pending);
@@ -3556,6 +3588,11 @@ int main()
         printPending(&pending);
         
         sleep(1);
+        if(count==10)
+        {
+            sigprocmask(SIG_SETMASK,&oset,NULL);//恢复曾经的信号屏蔽字
+            printf("恢复信号屏蔽字\n");
+        }
     }
     return 0;
 }
@@ -3563,3 +3600,64 @@ int main()
 
 ![image-20211103214641950](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211103214641950.png)
 
+
+
+
+
+
+
+信号的捕捉
+
+进程收到信号后不会立即处理信号，而是在合适的时候进行处理
+
+
+
+什么是合适的时候：
+
+从内核态切换回用户态的时候进行信号处理
+
+内核态通常用来执行OS代码，是一种权限非常高的状态
+
+用户态是一种用来执行普通用户代码的状态，是一种受监管的状态
+
+
+
+信号可以被捕捉(自定义)，当前身份是内核态，可以访问用户态代码吗？
+
+理论是可以的，但是绝对不可以这样设计，因为用户提供的代码可能存在非法操作
+
+![image-20211108194046904](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20211108194046904.png)
+
+```
+#include<signal.h>
+sigaction
+```
+
+
+
+```cpp
+#include<stdio.h>
+#include，signal.h>
+#include<unistd.h>
+int main()
+{
+    struct sigaction act,oact;
+    memset(&act,0,sizeof(act));
+    memset(&oact,0,sizeof(oact));
+    sigaction(2,)
+    while(1)
+    {
+        printf("I am a process!\n");
+        sleep(1);
+    }
+    return 0;
+}
+```
+
+
+
+在bash中只容许存在一个前台进程(bash也是一个进程)
+
+
+
+多线程
