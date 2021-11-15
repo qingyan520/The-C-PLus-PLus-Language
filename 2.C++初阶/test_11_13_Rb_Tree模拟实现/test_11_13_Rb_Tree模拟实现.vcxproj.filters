@@ -18,5 +18,8 @@
     <ClCompile Include="Rb_Tree.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Rb_Tree+iterator.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

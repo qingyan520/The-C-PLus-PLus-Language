@@ -347,7 +347,7 @@ private:
 };
 
 
-int main()
+int main01()
 {
 	RbTree<int, int>r;
 	//int arr[]{ 16,3,7,11,9,26,18,15,15 };
@@ -358,4 +358,5 @@ int main()
 	}
 	r.Inorder();
 	r.Is_RbTree();
+	return 0;
 }
