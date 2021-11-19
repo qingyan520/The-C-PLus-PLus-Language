@@ -396,6 +396,9 @@ struct _TreeIterator
 {
     typedef RBTreeNode<T>Node;
     typedef _TreeIterator<T,Ref.Ptr>Self;
+   
+    typedef Ref refence;
+    typedef Ptr
     
     Node*node;
     _TreeIterator(Node*_node):
@@ -417,7 +420,7 @@ struct _TreeIterator
         return _node!=s._node;
     }
     
-    Self operator++()
+    Self& operator++()
     {
         if(_node->_right)
         {
@@ -445,13 +448,111 @@ struct _TreeIterator
         }
         return *this;
     }
+    //前置--运算符重载
+    Self& operator--()
+    {
+        if(_node->_left!=nullptr)
+        {
+            //左子树的最右节点
+            Node*right=_node->_left;
+            while(right->_right)
+            {
+                right=right->_right;
+            }
+            _node=right;
+        }
+        else
+        {
+            NOde*parent=_node->_parent;
+            Node*cur=_node;
+            while(paretn&&parent->_left==cur)
+            {
+                cur=cur->_parent;
+                parent=parent->_parent;
+            }
+            _node=parent;
+        }
+        return *this;
+    }
     
 }
+
+
+
+//反向迭代器适配器：封装了正向迭代器
+template<class Iterator>
+struct ReverseIterator
+{
+    typedef typename _RbTreeIterator::reference Ref;
+    typedef typename
+        
+        
+    typedef ReverseIterator(iterator) reverse_iterator;
+    
+    
+   
+   
+    
+    ReverseIterator(Iterator it):
+    _it(it)
+    {
+        return *_it;
+    }
+    
+    Ref operator*()
+    {
+        return *_it;
+    }
+    
+    Ptr*operator->()
+    {
+        return _it.operator();
+    }
+    
+    Self&operator++()
+    {
+        --_it;
+        return *this;
+    }
+    Self&operator++()
+    {
+        ++_it;
+        return *this;
+    }
+    
+    bool operator!=(const Self&s)
+    {
+        return _it!=s._it;
+    }
+    bool operator==(const Self&s)
+    {
+        return _it==s._it;
+    }
+    
+    Iterattor _it;
+}
+
 template<class K,class T,class KeyOfT>
 class RBTree
 {
     typedef RBTReeNode<T> Node;
-    typedef iterator _TreeIterator<T,T&,T*>;
+    typedef iterator _TreeIterator<T,T&,T*> iterator;
+    
+     typedef ReverseIterator<iterator> reverse_iterator;
+    
+    reverse_iterator rbegin()
+    {
+        Node*right=_root;
+        while(right&&right->_right)
+        {
+            right=right->_right;
+        }
+        return reverse_iterator(right);
+    }
+    reverse_iterator rend()
+    {
+        return nullptr;
+    }    
     
    
     public:
@@ -517,13 +618,13 @@ class RBTree
     //拷贝构造operator=
     
     
-    pair<Node*,bool> Insert(const T&data)
+    pair<iterator,bool> Insert(const T&data)
     {
         if(_root==nullptr)
         {
             _root=new Node(data);
             _root->col=BLACK;
-            return make_pair<_root,true>;
+            return make_pair<iterator(_root),true>;
         }
         
         Node*cur=_root;
@@ -544,7 +645,7 @@ class RBTree
             }
             else
             {
-                return make_pair(cur,flase);
+                return make_pair(iterator(cur),flase);
             }
          }
         Node*newNode=new Node(kv)
@@ -617,7 +718,7 @@ class RBTree
         }
         
         _root->_col=BLACK;
-        return make_pair(newnode,true);
+        return make_pair(iterator(newnode),true);
     }
     
     
@@ -642,11 +743,26 @@ class map
         }
     }
     public:
-    bool Insert(const pair<const K,V>&kv)
+    typedef RBTree<K,pair<const K,V>,MapKeyofT>::iterator iterator;
+    iterator begin()
     {
-        _t.insert(kv);
-        return true;
+        return _t.begin();
     }
+    iterator end()
+    {
+        return _t.end();
+    }
+    pair<iterator,bool> Insert(const pair<const K,V>&kv)
+    {
+     return   _t.insert(kv);
+       
+    }
+    V&operator [](const K&key)
+    {
+      pair<iterator ,bool> ret=insert(make_pair(key,V()));
+      return ret.first->second;
+    }
+    
     private:
     RbTree<K,pair<const k,V>,MapKeyOfT>_t;
 }
@@ -699,6 +815,8 @@ int main()
     
     Set<int,int>s;
     s.Insert(make_pair(1,1));
+    
+    map<int,int>::iterator it=
 }
 ```
 
