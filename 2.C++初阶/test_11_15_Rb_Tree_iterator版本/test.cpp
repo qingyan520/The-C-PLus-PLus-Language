@@ -62,26 +62,6 @@ struct _RbTreeIterator
 
 	}
 
-	_RbTreeIterator(const Self&s)
-	{
-		_node = copy(s._node);
-	}
-
-	_RbTreeIterator& operator=(const Self& s)
-	{
-		if (this != &s)
-		{
-			Self temp(s);
-			swap(_node, temp._node);
-		}
-		return *this;
-	}
-
-	~_RbTreeIterator()
-	{
-		Destory(_node);
-		_node = nullptr;
-	}
 
 	//_RbTreeIterator(const Self& node)
 	//{
@@ -194,38 +174,6 @@ private:
 			_node = parent;
 		}
 
-	}
-
-	//void copy(Node*)
-	Node* copy(Node* root,Node*root_parent)
-	{
-		if (root == nullptr)
-		{
-			return nullptr;
-		}
-
-		Node* copyNode = new Node(root->_data,root->_col);
-		if (root_parent != nullptr)
-		{
-			copyNode->_parent = root_parent;
-		}
-		root_parent = root;
-		copyNode->_left = copy(root->_left,root);
-		copyNode->_right = copy(root->_right,root);
-		return copyNode;
-	}
-
-
-	//析构函数
-	void Destory(Node*root)
-	{
-		if (root == nullptr)
-		{
-			return;
-		}
-		Destory(root->_left);
-		Destory(root->_right);
-		delete root;
 	}
 
 
@@ -642,6 +590,7 @@ struct KeyOfT
 
 int main()
 {
+	//定义红黑树
 	RbTree<int, pair<const int, int>, KeyOfT<int,pair<const int,int>>>m;
 	//int arr[]{16,3,7,11,9,26,18,14,15};
 	int arr[]{ 4,2,6,1,3,5,15,7,16,14};
@@ -653,13 +602,13 @@ int main()
 
 	cout << endl;
 	RbTree<int, pair<const int, int>, KeyOfT<int, pair<const int, int>>>s;
-	s = m;
-	RbTree<int, pair<const int, int>, KeyOfT<int, pair<const int, int>>>::iterator it = s.begin();
+	s = m;//赋值运算符重载
+	RbTree<int, pair<const int, int>, KeyOfT<int, pair<const int, int>>>::iterator it = s.begin();//迭代器遍历
 	while (it != s.end())
 	{
 		cout << it->first << ":" << it->second << endl;
 		++it;
 	}
 	cout << endl;
-	cout << s.Is_RbTree() << endl;
+	cout << s.Is_RbTree() << endl;//红黑树的验证
 }
