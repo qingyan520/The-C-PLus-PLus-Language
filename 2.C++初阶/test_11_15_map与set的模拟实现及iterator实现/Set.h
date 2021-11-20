@@ -14,6 +14,16 @@ namespace hello
 		};
 	public:
 		typedef typename RbTree<K, const K, KeyOfT>::iterator iterator;
+		typedef typename RbTree<K, const K, KeyOfT>::reverse_iterator reverse_iterator;
+		reverse_iterator rbegin()
+		{
+			return _t.rbegin();
+		}
+
+		reverse_iterator rend()
+		{
+			return _t.rend();
+		}
 
 		iterator begin()
 		{

@@ -13,12 +13,38 @@ namespace world
 			}
 		};
 	public:
-		
-
-		bool insert(const pair<const K,V>&key)
+		typedef typename RbTree<K, pair<const K, V>, KeyOfT>::iterator iterator;
+		typedef typename RbTree<K, pair<const K, V>, KeyOfT>::reverse_iterator reverse_iterator;
+		reverse_iterator rbegin()
 		{
-			_t.Insert(key);
-			return true;
+			return _t.rbegin();
+		}
+
+		reverse_iterator rend()
+		{
+			return _t.rend();
+		}
+
+		iterator begin()
+		{
+			return _t.begin();
+		}
+
+		iterator end()
+		{
+			return _t.end();
+		}
+
+		pair<iterator,bool> insert(const pair<const K,V>&key)
+		{
+			return _t.Insert(key);
+			
+		}
+
+		V& operator[](const K&key)
+		{
+			pair<iterator,bool> ret =insert(make_pair(key,V()));
+			return ret.first->second;
 		}
 
 		bool Is_Map()

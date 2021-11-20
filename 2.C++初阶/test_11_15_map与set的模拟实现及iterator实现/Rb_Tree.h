@@ -33,7 +33,8 @@ struct _RbTreeIterator
 {
 	typedef RbTreeNode<T>Node;
 	typedef _RbTreeIterator<T, Ref, Ptr> Self;
-
+	typedef Ref Ref;
+	typedef Ptr Ptr;
 	Node* _node;
 
 	_RbTreeIterator(Node* node) :_node(node)
@@ -54,6 +55,11 @@ struct _RbTreeIterator
 	bool operator!=(const Self& s)
 	{
 		return _node != s._node;
+	}
+
+	bool operator==(const Self& s)
+	{
+		return _node == s._node;
 	}
 
 	Self operator++()
@@ -82,9 +88,85 @@ struct _RbTreeIterator
 	}
 
 
+	Self& operator--()
+	{
+		if (_node->_left)
+		{
+			Node* right = _node->_left;
+			while (right && right->_right)
+			{
+				right = right->_right;
+			}
+			_node = right;
+		}
+		else
+		{
+			Node* cur = _node;
+			Node* parent = cur->_parent;
+			while (parent && parent->_left == cur)
+			{
+				cur = cur->_parent;
+				parent = parent->_parent;
+			}
+			_node = parent;
+		}
+		return *this;
+	}
+
+
 
 
 };
+
+template<class Iterator>
+struct Reverse_Iterator
+{
+	typedef Reverse_Iterator<Iterator> Self;
+	typedef typename Iterator::Ptr Ptr;
+	typedef typename Iterator::Ref Ref;
+
+
+	Reverse_Iterator(Iterator it):
+		_it(it)
+	{}
+
+	Ref operator*()
+	{
+		return _it.operator*();
+	}
+
+	Ptr operator->()
+	{
+		return _it.operator->();
+	}
+
+
+	//前置++运算符
+	Self& operator++()
+	{
+		_it.operator--();
+		return *this;
+	}
+
+	Self& operator--()
+	{
+		_it.operator++();
+		return *this;
+	}
+
+	bool operator!=(const Self& s)
+	{
+		return _it!=s._it;
+	}
+
+	bool operator==(const Self& s)
+	{
+		return _it==s._it;
+	}
+
+	Iterator _it;
+};
+
 
 
 template<class K, class T,class KeyOfT>
@@ -98,7 +180,23 @@ public:
 	}
 
 	//
-	typedef _RbTreeIterator<T, T&, T*> iterator;
+	typedef typename _RbTreeIterator<T, T&, T*> iterator;
+	typedef typename Reverse_Iterator<iterator> reverse_iterator;
+
+	reverse_iterator rbegin()
+	{
+		Node* right = _root;
+		while (right && right->_right)
+		{
+			right = right->_right;
+		}
+		return	reverse_iterator(right);
+	}
+
+	reverse_iterator rend()
+	{
+		return reverse_iterator(nullptr);
+	}
 
 	iterator begin()
 	{
@@ -112,20 +210,20 @@ public:
 
 	iterator end()
 	{
-		return nullptr;
+		return iterator(nullptr);
 	}
 
 	//拷贝构造与赋值运算符重载
 
 
 	//插入
-	pair<Node*, bool> Insert(const T& data)
+	pair<iterator, bool> Insert(const T& data)
 	{
 		if (_root == nullptr)
 		{
 			_root = new Node(data);
 			_root->_col = Color::BLACK;
-			return make_pair(_root, true);
+			return make_pair(iterator(_root), true);
 		}
 
 		Node* cur = _root;
@@ -147,7 +245,7 @@ public:
 			}
 			else
 			{
-				return make_pair(cur, false);
+				return make_pair(iterator(cur), false);
 			}
 		}
 
@@ -249,7 +347,7 @@ public:
 		}
 
 		_root->_col = BLACK;
-		return make_pair(newnode, true);
+		return make_pair(iterator(newnode), true);
 	}
 
 
