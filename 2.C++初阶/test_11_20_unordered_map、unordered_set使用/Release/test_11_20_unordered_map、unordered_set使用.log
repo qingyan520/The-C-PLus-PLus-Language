@@ -1,0 +1,10 @@
+﻿  test.cpp
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_11_20_unordered_map、unordered_set使用\test.cpp(127,19): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_11_20_unordered_map、unordered_set使用\test.cpp(155,15): warning C4834: 放弃具有 "nodiscard" 属性的函数的返回值
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_11_20_unordered_map、unordered_set使用\test.cpp(162,14): warning C4834: 放弃具有 "nodiscard" 属性的函数的返回值
+  正在生成代码
+  3 of 326 functions ( 0.9%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
+  已完成代码的生成
+  test_11_20_unordered_map、unordered_set使用.vcxproj -> C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_11_20_unordered_map、unordered_set使用\Release\test_11_20_unordered_map、unordered_set使用.exe
