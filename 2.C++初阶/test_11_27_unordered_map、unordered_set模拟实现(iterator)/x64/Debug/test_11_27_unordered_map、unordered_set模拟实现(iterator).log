@@ -1,0 +1,68 @@
+﻿  test.cpp
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_11_27_unordered_map、unordered_set模拟实现(iterator)\HashTable.h(100,1): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_11_27_unordered_map、unordered_set模拟实现(iterator)\HashTable.h(91): message : 在编译 类 模板 成员函数“HashIterator<K,T,KeyOfT,HashFunc> &HashIterator<K,T,KeyOfT,HashFunc>::operator ++(void)”时
+          with
+          [
+              K=std::string,
+              T=std::pair<const std::string,std::string>,
+              KeyOfT=unordered_map<std::string,std::string>::KeyOfT,
+              HashFunc=Hash<std::string>
+          ]
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_11_27_unordered_map、unordered_set模拟实现(iterator)\test.cpp(58): message : 查看对正在编译的函数 模板 实例化“HashIterator<K,T,KeyOfT,HashFunc> &HashIterator<K,T,KeyOfT,HashFunc>::operator ++(void)”的引用
+          with
+          [
+              K=std::string,
+              T=std::pair<const std::string,std::string>,
+              KeyOfT=unordered_map<std::string,std::string>::KeyOfT,
+              HashFunc=Hash<std::string>
+          ]
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_11_27_unordered_map、unordered_set模拟实现(iterator)\test.cpp(54): message : 查看对正在编译的 类 模板 实例化“HashIterator<K,T,KeyOfT,HashFunc>”的引用
+          with
+          [
+              K=std::string,
+              T=std::pair<const std::string,std::string>,
+              KeyOfT=unordered_map<std::string,std::string>::KeyOfT,
+              HashFunc=Hash<std::string>
+          ]
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_11_27_unordered_map、unordered_set模拟实现(iterator)\HashTable.h(219,1): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_11_27_unordered_map、unordered_set模拟实现(iterator)\HashTable.h(175): message : 在编译 类 模板 成员函数“std::pair<HashIterator<K,T,KeyOfT,HashFunc>,bool> HashTable_Open<K,T,KeyOfT,HashFunc>::Insert(const T &)”时
+          with
+          [
+              K=std::string,
+              T=std::pair<const std::string,std::string>,
+              KeyOfT=unordered_map<std::string,std::string>::KeyOfT,
+              HashFunc=Hash<std::string>
+          ]
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_11_27_unordered_map、unordered_set模拟实现(iterator)\unordered_Map.h(30): message : 查看对正在编译的函数 模板 实例化“std::pair<HashIterator<K,T,KeyOfT,HashFunc>,bool> HashTable_Open<K,T,KeyOfT,HashFunc>::Insert(const T &)”的引用
+          with
+          [
+              K=std::string,
+              T=std::pair<const std::string,std::string>,
+              KeyOfT=unordered_map<std::string,std::string>::KeyOfT,
+              HashFunc=Hash<std::string>
+          ]
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_11_27_unordered_map、unordered_set模拟实现(iterator)\unordered_Map.h(16): message : 查看对正在编译的 类 模板 实例化“HashTable_Open<K,std::pair<const K,V>,unordered_map<K,V>::KeyOfT,Hash<std::string>>”的引用
+          with
+          [
+              K=std::string,
+              V=std::string
+          ]
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_11_27_unordered_map、unordered_set模拟实现(iterator)\test.cpp(49): message : 查看对正在编译的 类 模板 实例化“unordered_map<std::string,std::string>”的引用
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_11_27_unordered_map、unordered_set模拟实现(iterator)\HashTable.h(233,1): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_11_27_unordered_map、unordered_set模拟实现(iterator)\HashTable.h(228): message : 在编译 类 模板 成员函数“HashIterator<K,T,KeyOfT,HashFunc> HashTable_Open<K,T,KeyOfT,HashFunc>::Find(const K &)”时
+          with
+          [
+              K=std::string,
+              T=std::pair<const std::string,std::string>,
+              KeyOfT=unordered_map<std::string,std::string>::KeyOfT,
+              HashFunc=Hash<std::string>
+          ]
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_11_27_unordered_map、unordered_set模拟实现(iterator)\HashTable.h(178): message : 查看对正在编译的函数 模板 实例化“HashIterator<K,T,KeyOfT,HashFunc> HashTable_Open<K,T,KeyOfT,HashFunc>::Find(const K &)”的引用
+          with
+          [
+              K=std::string,
+              T=std::pair<const std::string,std::string>,
+              KeyOfT=unordered_map<std::string,std::string>::KeyOfT,
+              HashFunc=Hash<std::string>
+          ]
+  test_11_27_unordered_map、unordered_set模拟实现(iterator).vcxproj -> C:\Users\史金伟\source\The-C-PLus-Plus-Language\2.C++初阶\test_11_27_unordered_map、unordered_set模拟实现(iterator)\x64\Debug\test_11_27_unordered_map、unordered_set模拟实现(iterator).exe
