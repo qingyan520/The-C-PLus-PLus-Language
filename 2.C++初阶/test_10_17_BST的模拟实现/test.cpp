@@ -423,6 +423,11 @@ int main()
 	}
 	s.inroder_R();
 	//s.find_R(5);
+	for (auto e : a)
+	{
+		s.erase_R(e);
+		s.inroder();
+	}
 
 	//s.erase_R(0);
 	//s.inroder_R();
