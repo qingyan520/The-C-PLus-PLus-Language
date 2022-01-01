@@ -1,0 +1,5 @@
+﻿  带括号的算数表达式的计算.c
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_2022_1_1_带括号的表达式的计算\带括号的算数表达式的计算.c(62,18): warning C4244: “return”: 从“double”转换到“int”，可能丢失数据
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_2022_1_1_带括号的表达式的计算\带括号的算数表达式的计算.c(153,36): warning C4244: “函数”: 从“double”转换到“char”，可能丢失数据
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_2022_1_1_带括号的表达式的计算\带括号的算数表达式的计算.c(89,21): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  test_2022_1_1_带括号的表达式的计算.vcxproj -> C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_2022_1_1_带括号的表达式的计算\x64\Debug\test_2022_1_1_带括号的表达式的计算.exe
