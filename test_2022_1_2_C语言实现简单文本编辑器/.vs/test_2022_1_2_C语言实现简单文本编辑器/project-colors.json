@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "0fdc1cf5-7125-4e86-bab7-fbe4a06c6d34": {
+      "ProjectGuid": "0fdc1cf5-7125-4e86-bab7-fbe4a06c6d34",
+      "DisplayName": "test_2022_1_2_C语言实现简单文本编辑器",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}

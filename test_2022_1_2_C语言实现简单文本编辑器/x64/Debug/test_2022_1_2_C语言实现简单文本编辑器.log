@@ -1,0 +1,4 @@
+﻿  test.c
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_2022_1_2_C语言实现简单文本编辑器\test.c(54,16): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_2022_1_2_C语言实现简单文本编辑器\test.c(106,16): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  test_2022_1_2_C语言实现简单文本编辑器.vcxproj -> C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_2022_1_2_C语言实现简单文本编辑器\x64\Debug\test_2022_1_2_C语言实现简单文本编辑器.exe

@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "b8c333ea-c5ff-49e2-b657-e96e7d9aa67f": {
+      "ProjectGuid": "b8c333ea-c5ff-49e2-b657-e96e7d9aa67f",
+      "DisplayName": "test_2022_1_1_稀疏矩阵的乘法",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}
