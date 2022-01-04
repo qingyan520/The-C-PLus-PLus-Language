@@ -1,0 +1,57 @@
+﻿  test.c
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(72,2): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(80,3): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(82,3): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(84,3): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(86,3): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(88,3): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(90,3): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(92,3): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(94,3): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(99,3): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(107,71): warning C4033: “statistic_data”必须返回值
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(124,3): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(151,3): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(163,5): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(171,5): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(179,3): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(191,5): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(199,5): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(216,71): warning C4033: “delete_choose”必须返回值
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(224,3): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(248,3): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(253,4): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(260,6): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(269,6): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(276,4): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(283,6): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(292,6): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(310,48): warning C4474: printf: 格式字符串中传递的参数太多
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(310,48): message : 占位符和其参数预计 0 可变参数，但提供的却是 1 参数
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(312,48): warning C4474: printf: 格式字符串中传递的参数太多
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(312,48): message : 占位符和其参数预计 0 可变参数，但提供的却是 1 参数
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(314,60): warning C4474: printf: 格式字符串中传递的参数太多
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(314,60): message : 占位符和其参数预计 0 可变参数，但提供的却是 1 参数
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(316,54): warning C4474: printf: 格式字符串中传递的参数太多
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(316,54): message : 占位符和其参数预计 0 可变参数，但提供的却是 1 参数
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(318,54): warning C4474: printf: 格式字符串中传递的参数太多
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(318,54): message : 占位符和其参数预计 0 可变参数，但提供的却是 1 参数
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(320,55): warning C4474: printf: 格式字符串中传递的参数太多
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(320,55): message : 占位符和其参数预计 0 可变参数，但提供的却是 1 参数
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(322,60): warning C4474: printf: 格式字符串中传递的参数太多
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(322,60): message : 占位符和其参数预计 0 可变参数，但提供的却是 1 参数
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(324,54): warning C4474: printf: 格式字符串中传递的参数太多
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(324,54): message : 占位符和其参数预计 0 可变参数，但提供的却是 1 参数
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(304,2): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(311,3): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(313,3): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(315,3): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(317,3): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(319,3): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(321,3): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(323,3): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(325,3): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(331,3): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(427,3): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(472,3): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28\test.c(479,4): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
