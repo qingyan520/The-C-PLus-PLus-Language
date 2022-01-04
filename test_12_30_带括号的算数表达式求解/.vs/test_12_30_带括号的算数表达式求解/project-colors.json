@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "d5b5e8ba-89cd-49dd-9744-d293e031c7dc": {
+      "ProjectGuid": "d5b5e8ba-89cd-49dd-9744-d293e031c7dc",
+      "DisplayName": "test_12_30_带括号的算数表达式求解",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}

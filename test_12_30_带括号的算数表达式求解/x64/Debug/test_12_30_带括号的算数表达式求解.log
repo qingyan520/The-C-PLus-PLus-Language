@@ -1,0 +1,5 @@
+﻿  test.c
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_30_带括号的算数表达式求解\test.c(274,18): warning C4244: “return”: 从“double”转换到“int”，可能丢失数据
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_30_带括号的算数表达式求解\test.c(364,36): warning C4244: “函数”: 从“double”转换到“char”，可能丢失数据
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_30_带括号的算数表达式求解\test.c(300,21): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  test_12_30_带括号的算数表达式求解.vcxproj -> C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_30_带括号的算数表达式求解\x64\Debug\test_12_30_带括号的算数表达式求解.exe
