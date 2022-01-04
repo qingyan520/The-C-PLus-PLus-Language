@@ -1,0 +1,4 @@
+﻿  带括号的算术表达式的计算.cpp
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_2022_1_3_带括号的算数表达式的计算\带括号的算术表达式的计算.cpp(31,34): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_2022_1_3_带括号的算数表达式的计算\带括号的算术表达式的计算.cpp(84,34): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  test_2022_1_3_带括号的算数表达式的计算.vcxproj -> C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_2022_1_3_带括号的算数表达式的计算\x64\Debug\test_2022_1_3_带括号的算数表达式的计算.exe

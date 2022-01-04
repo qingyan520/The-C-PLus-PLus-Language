@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "7c9ef9fd-1dd0-48aa-9baa-0d6da24dc1fa": {
+      "ProjectGuid": "7c9ef9fd-1dd0-48aa-9baa-0d6da24dc1fa",
+      "DisplayName": "test_2022_1_3_带括号的算数表达式的计算",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}
