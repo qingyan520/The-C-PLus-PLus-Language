@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31919.166
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_12_28_代做_学生成绩管理代码补全", "test_12_28_代做_学生成绩管理代码补全\test_12_28_代做_学生成绩管理代码补全.vcxproj", "{8921D98A-611C-49D4-99E2-65C3A5FF3FFB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8921D98A-611C-49D4-99E2-65C3A5FF3FFB}.Debug|x64.ActiveCfg = Debug|x64
+		{8921D98A-611C-49D4-99E2-65C3A5FF3FFB}.Debug|x64.Build.0 = Debug|x64
+		{8921D98A-611C-49D4-99E2-65C3A5FF3FFB}.Debug|x86.ActiveCfg = Debug|Win32
+		{8921D98A-611C-49D4-99E2-65C3A5FF3FFB}.Debug|x86.Build.0 = Debug|Win32
+		{8921D98A-611C-49D4-99E2-65C3A5FF3FFB}.Release|x64.ActiveCfg = Release|x64
+		{8921D98A-611C-49D4-99E2-65C3A5FF3FFB}.Release|x64.Build.0 = Release|x64
+		{8921D98A-611C-49D4-99E2-65C3A5FF3FFB}.Release|x86.ActiveCfg = Release|Win32
+		{8921D98A-611C-49D4-99E2-65C3A5FF3FFB}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {000E7AEE-5D64-48B9-9A98-AC6190E72076}
+	EndGlobalSection
+EndGlobal
