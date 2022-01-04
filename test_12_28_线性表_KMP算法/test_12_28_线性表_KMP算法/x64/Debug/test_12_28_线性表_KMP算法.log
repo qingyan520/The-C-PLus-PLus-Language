@@ -1,0 +1,4 @@
+﻿  test.c
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28_线性表_KMP算法\test_12_28_线性表_KMP算法\test.c(222,10): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 2 拥有了类型“size_t”
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28_线性表_KMP算法\test_12_28_线性表_KMP算法\test.c(222,10): message : 请考虑在格式字符串中使用“%zd”
+  test_12_28_线性表_KMP算法.vcxproj -> C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_12_28_线性表_KMP算法\x64\Debug\test_12_28_线性表_KMP算法.exe
