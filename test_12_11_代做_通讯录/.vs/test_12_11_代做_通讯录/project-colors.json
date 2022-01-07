@@ -1,0 +1,16 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "53147536-4714-44a6-ac95-cabf4c808fb0": {
+      "ProjectGuid": "53147536-4714-44a6-ac95-cabf4c808fb0",
+      "DisplayName": "test_12_11_代做_通讯录",
+      "ColorIndex": 0
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "杂项文件",
+      "ColorIndex": -1
+    }
+  },
+  "NextColorIndex": 1
+}
