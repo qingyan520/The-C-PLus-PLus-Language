@@ -1,0 +1,6 @@
+﻿  test.cpp
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_2022_1_7\test.cpp(72,21): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_2022_1_7\test.cpp(128,21): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_2022_1_7\test.cpp(198,28): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_2022_1_7\test.cpp(333,2): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  test_2022_1_7.vcxproj -> C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_2022_1_7\x64\Debug\test_2022_1_7.exe
