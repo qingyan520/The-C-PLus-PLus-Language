@@ -7,6 +7,11 @@ Student::Student(int id, string name, string password)
 	this->m_Pwd = password;
 }
 
+Student::Student()
+{
+
+}
+
 void Student::operMenu()
 {
 

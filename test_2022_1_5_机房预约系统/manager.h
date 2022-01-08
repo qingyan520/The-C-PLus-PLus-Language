@@ -1,6 +1,7 @@
 #pragma once
 
 #include"Identity.h"
+#include"globalFile.h"
 
 class Manger :public Identity
 {

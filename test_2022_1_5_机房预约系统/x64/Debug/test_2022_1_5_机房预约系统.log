@@ -1,2 +1,9 @@
-﻿  机房预约系统.cpp
-  test_2022_1_5_机房预约系统.vcxproj -> C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_2022_1_5_机房预约系统\x64\Debug\test_2022_1_5_机房预约系统.exe
+﻿  manger.cpp
+  student.cpp
+  teacher.cpp
+  机房预约系统.cpp
+  正在生成代码...
+机房预约系统.obj : error LNK2019: 无法解析的外部符号 "public: void __cdecl Manger::showPerson(void)" (?showPerson@Manger@@QEAAXXZ)，函数 "void __cdecl MangerMenu(class Identity * &)" (?MangerMenu@@YAXAEAPEAVIdentity@@@Z) 中引用了该符号
+机房预约系统.obj : error LNK2019: 无法解析的外部符号 "public: void __cdecl Manger::showComputer(void)" (?showComputer@Manger@@QEAAXXZ)，函数 "void __cdecl MangerMenu(class Identity * &)" (?MangerMenu@@YAXAEAPEAVIdentity@@@Z) 中引用了该符号
+机房预约系统.obj : error LNK2019: 无法解析的外部符号 "public: void __cdecl Manger::cleanFile(void)" (?cleanFile@Manger@@QEAAXXZ)，函数 "void __cdecl MangerMenu(class Identity * &)" (?MangerMenu@@YAXAEAPEAVIdentity@@@Z) 中引用了该符号
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_2022_1_5_机房预约系统\x64\Debug\test_2022_1_5_机房预约系统.exe : fatal error LNK1120: 3 个无法解析的外部命令

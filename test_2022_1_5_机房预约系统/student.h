@@ -4,14 +4,9 @@
 class Student :public Identity
 {
 public:
-	Student()
-	{
+	Student();
 
-	}
-
-	Student(int id, string name, string pwd)
-	{
-	}
+	Student(int id, string name, string pwd);
 	//≤Àµ•ΩÁ√Ê
 	virtual void operMenu();
 
