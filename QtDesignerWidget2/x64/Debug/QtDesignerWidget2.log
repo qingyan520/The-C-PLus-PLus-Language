@@ -1,0 +1,8 @@
+﻿  Reading Qt configuration (D:/QT/5.14.2/msvc2017_64/bin/qmake)
+  moc QtDesignerWidget2Plugin.h
+  QtDesignerWidget2.cpp
+  QtDesignerWidget2Plugin.cpp
+  moc_QtDesignerWidget2.cpp
+  moc_QtDesignerWidget2Plugin.cpp
+    正在创建库 C:\Users\史金伟\source\The-C-PLus-Plus-Language\QtDesignerWidget2\x64\Debug\QtDesignerWidget2.lib 和对象 C:\Users\史金伟\source\The-C-PLus-Plus-Language\QtDesignerWidget2\x64\Debug\QtDesignerWidget2.exp
+  QtDesignerWidget2.vcxproj -> C:\Users\史金伟\source\The-C-PLus-Plus-Language\QtDesignerWidget2\x64\Debug\QtDesignerWidget2.dll
