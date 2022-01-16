@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "1277ab34-39c2-433d-a935-f0afbec80ee6": {
+      "ProjectGuid": "1277ab34-39c2-433d-a935-f0afbec80ee6",
+      "DisplayName": "test_2022_1_16_布隆过滤器",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}
