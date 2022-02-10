@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_2022_2_10_代做_学生信息管理系统(简易版本)", "test_2022_2_10_代做_学生信息管理系统(简易版本).vcxproj", "{A3F87F8E-C7F8-4073-8BD1-2E2DB8127651}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A3F87F8E-C7F8-4073-8BD1-2E2DB8127651}.Debug|x64.ActiveCfg = Debug|x64
+		{A3F87F8E-C7F8-4073-8BD1-2E2DB8127651}.Debug|x64.Build.0 = Debug|x64
+		{A3F87F8E-C7F8-4073-8BD1-2E2DB8127651}.Debug|x86.ActiveCfg = Debug|Win32
+		{A3F87F8E-C7F8-4073-8BD1-2E2DB8127651}.Debug|x86.Build.0 = Debug|Win32
+		{A3F87F8E-C7F8-4073-8BD1-2E2DB8127651}.Release|x64.ActiveCfg = Release|x64
+		{A3F87F8E-C7F8-4073-8BD1-2E2DB8127651}.Release|x64.Build.0 = Release|x64
+		{A3F87F8E-C7F8-4073-8BD1-2E2DB8127651}.Release|x86.ActiveCfg = Release|Win32
+		{A3F87F8E-C7F8-4073-8BD1-2E2DB8127651}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {62B93A6A-FFF9-4D3B-A728-40CACEBBF8A4}
+	EndGlobalSection
+EndGlobal
