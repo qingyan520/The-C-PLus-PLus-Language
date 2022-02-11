@@ -1,0 +1,5 @@
+﻿  test.c
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_2022_2_10_代做_学生信息管理系统(简易版本)\test.c(43,95): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_2022_2_10_代做_学生信息管理系统(简易版本)\test.c(174,92): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_2022_2_10_代做_学生信息管理系统(简易版本)\test.c(212,92): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  test_2022_2_10_代做_学生信息管理系统(简易版本).vcxproj -> C:\Users\史金伟\source\The-C-PLus-Plus-Language\test_2022_2_10_代做_学生信息管理系统(简易版本)\x64\Debug\test_2022_2_10_代做_学生信息管理系统(简易版本).exe
