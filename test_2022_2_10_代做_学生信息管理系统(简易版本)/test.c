@@ -218,14 +218,14 @@ void Modify_Number()
 }
 
 
-//按照总分进行排序
+//按照学号进行排序
 void Sort()
 {
 	for (int i = 0; i < size - 1; i++)
 	{
 		for (int j = 0; j < size - 1 - i; j++)
 		{
-			if (Student[j].sum < Student[j + 1].sum)
+			if (atoi(Student[j].Number) < atoi(Student[j + 1].Number))
 			{
 				Stu_Info temp = Student[j];
 				Student[j] = Student[j + 1];
@@ -240,18 +240,17 @@ void Sort()
 //打印所有成绩信息
 void Show()
 {
-	printf("%-20s\t%-20s\t%-10s\t%-10s\t%-10s\t%-10s\t%-10s\t%-5s\n", "学号", "姓名", "语文", "数学", "英语", "平均分", "总分", "排名");
+	printf("%-20s\t%-20s\t%-10s\t%-10s\t%-10s\t%-10s\t%-10s\n", "学号", "姓名", "语文", "数学", "英语", "平均分", "总分");
 	for (int i = 0; i < size; i++)
 	{
-		printf("%-20s\t%-20s\t%-10d\t%-10d\t%-10d\t%-10.2f\t%-10d\t%-5d\n",
+		printf("%-20s\t%-20s\t%-10d\t%-10d\t%-10d\t%-10.2f\t%-10d\n",
 			Student[i].Number,
 			Student[i].Name,
 			Student[i].Chinese,
 			Student[i].Math,
 			Student[i].English,
 			Student[i].average,
-			Student[i].sum,
-			i + 1
+			Student[i].sum
 		);
 	}
 }
@@ -381,7 +380,7 @@ void menu()
 	printf("\t\t6.查询位于某分数段内的学生\n");
 	printf("\t\t7.统计分数段内学生\n");
 	printf("\t\t8.显示所有学生信息\n");
-	printf("\t\t9.按照总分进行排序\n");
+	printf("\t\t9.按照学号进行排序\n");
 	printf("\t\t0.退出\n");
 
 }
