@@ -304,27 +304,62 @@ void Search_Sum()
 //各分数段统计
 void Count()
 {
-	int count1 = 0;//0~100分数段
-	int count2 = 0;//100~200分数段
-	int count3 = 0;//200~300分数段
+
+	int english0 = 0, english1 = 0, english2 = 0;
+	int math0 = 0, math1 = 0, math2 = 0;
+	int chinese0 = 0, chinese1 = 0, chinese2 = 0;
 	for (int i = 0; i < size; i++)
 	{
-		if (Student[i].sum >= 0 && Student[i].sum <= 100)
+		if (Student[i].Chinese >= 0 && Student[i].Chinese < 60)
 		{
-			count1++;
+			chinese0++;
 		}
-		if (Student[i].sum > 100 && Student[i].sum <= 200)
+		if (Student[i].Chinese >= 60 && Student[i].Chinese < 90)
 		{
-			count2++;
+			chinese1++;
 		}
-		if (Student[i].sum > 200 && Student[i].sum <= 300)
+		if (Student[i].Chinese >= 90 && Student[i].Chinese <=120)
 		{
-			count3++;
+			chinese2++;
+		}
+
+		if (Student[i].Math >= 0 && Student[i].Math < 60)
+		{
+			math0++;
+		}
+		if (Student[i].Math >= 60 && Student[i].Math < 90)
+		{
+			math1++;
+		}
+		if (Student[i].Math >= 90 && Student[i].Math <=120)
+		{
+			math2++;
+		}
+
+		if (Student[i].English >= 0 && Student[i].English < 60)
+		{
+			english0++;
+		}
+		if (Student[i].English >= 60 && Student[i].English < 90)
+		{
+			english1++;
+		}
+		if (Student[i].English >= 90 && Student[i].English <= 120)
+		{
+			english2++;
 		}
 	}
-	printf("0~100分之间:%d人\n", count1);
-	printf("100~200分之间:%d人\n", count2);
-	printf("200~300分之间:%d人\n", count3);
+	//printf("0~100分之间:%d人\n", count1);
+	//printf("100~200分之间:%d人\n", count2);
+	//printf("200~300分之间:%d人\n", count3);
+	printf("语文:\n");
+	printf("0~60:%d人  60~90:%d人  90~120:%d人\n",chinese0,chinese1,chinese2);
+	printf("数学:\n");
+	printf("0~60:%d人  60~90:%d人  90~120:%d人\n", math0, math1, math2);
+	printf("英语:\n");
+	printf("0~60:%d人  60~90:%d人  90~120:%d人\n",english0, english1, english2);
+
+
 }
 
 
