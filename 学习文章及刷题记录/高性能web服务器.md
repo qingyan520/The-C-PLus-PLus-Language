@@ -244,7 +244,26 @@ classe HttpServer{
 #include<vector>
 #include<string stream>
 #include<unorder_map>
+#include<sys/stat.h>
+#include<sys/sendfile.h>
+#include<fcntl.h>
 #define SEP ": "
+#define WEB_ROOT "wwwroot"
+#define HOME_PAGE "index.html"
+#define HTPP_VERSION "HTTP/1.0"
+
+#define OK 200
+#define NOT_FOUND 404
+static std::string Code2Desc(int code)
+{
+    switch(code){
+        case 200:
+            return "OK";
+        case 404:
+            return "Not Found";
+    }
+}
+
 class HttpRequest{
     public:
     
@@ -254,8 +273,12 @@ class HttpRequest{
     std::string request_body;
       //解析后的结构
     std::string method;
-    std::string uri;
+    std::string uri;//path?参数
     std::string version; std::unorder_map<std::string,std::string>header_kv;
+    int content_length=0;
+    std::stringpath;
+    std::string query_string;
+    bool cgi=false;
 };
 
 class HttpReponse{
@@ -264,7 +287,9 @@ class HttpReponse{
     std::vector<string>response_header;
     std::string blank;
     std::response_body;
-  
+  	int status_code=OK;
+    int fd;
+    int size;
 };
 
 
@@ -275,6 +300,9 @@ class EndPoint{
     int sock;
     HttpRequest http_request;
     HttpResponse http_response;
+    int code;
+    
+    
     private:
     void RecvHttpRequestLine(){
         Util::ReadLine(sock,http_request.request_line);
@@ -286,7 +314,8 @@ class EndPoint{
         {
             line.clear();
             Util::Readline(sock,line);
-		   line.pop_back();            http_request.request_header.push_back(line);  
+		   line.pop_back();           
+            http_request.request_header.push_back(line);  
         }
         if(line=="\n")
         {
@@ -314,6 +343,58 @@ class EndPoint{
         }      
         
     }
+    
+    //读取正文部分
+    bool IsNeedRecvHttpRequestBody(){
+        auto &method=http_request.method;
+        if(method=="POST"){
+            auto &header_kv=http_request.header_kv;
+            auto iter=header_kv.find("Content-Length");
+            if(iter!=header_kv.end()){
+                http_rrequest.content_length=stoi(iter->second);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    
+    void RecvHttpRequestBody(){
+        if(IsNeedRequestBody()){
+            int content_length=http_request.content_length;
+            auto &body=http_request.request_body;
+            char ch=0;
+            while(content_length){
+                ssize_t=recv(sock,&ch,1,0);
+                if(s>0){
+                    body.push_back(ch);
+                    content_length--;
+                }
+            }
+        }
+    }
+    
+    int ProcessNonCgi(int size)//返回简单的静态网页
+    {
+        http_response.fd=open(http_request.path.c_str(),O_RDONLY);
+        if(http_response.fd>=0)
+        {
+             http_response.status_line=VERSION;
+        	http_response.status_line+=" ";
+        	http_response.status_line+=to_string(http_response.status_code);
+        	http_response.status_line+=" ";
+        	http_response.status_line+=Code2Desc(http_response.status_code);
+        	http_response.status_line+="\r\n";   
+            http_response.size=size;
+            return OK;
+        }
+        return 404;
+            
+ 
+        
+        
+        return 0;
+    }
     public:
     
     EndPoint(int _sock):sock(_sock){
@@ -321,24 +402,118 @@ class EndPoint{
     }
     
     //接受http请求，将请求一行一行进行读取，拆分请求行和请求报头
+        //解析http协议，将请求行拆分成method，uri，version
+    //将请求报头拆分成kv形式
     void RecvHttpquest(){
         this->RecvHttpRequestLine();
         this->void RecvHttpRequestHeader();
-    }
-    
-    //解析http协议，将请求行拆分成method，uri，version
-    //将请求报头拆分成kv形式
-    void ParseHttpRequest(){
+        
         ParseHttpRequestLine();
-       ParseHttpRequestHeader();
+        ParseHttpRequestHeader();
+        RecvHttpRequestBody();
     }
     
+
+    //处理请求
     void BuildHttpResponse(){
+          std::string _path;
+          auto&code=http_response.status_code; 	
+          if(http_request.method!="GET"&&http_request.method!="POST"){
+          	 //非法请求  
+              LOG(WARNING,"method is not right!");
+              code=NOT_FOUNT;
+         	  goto END;
+              
+            
+        }
+        
+        if(http_request.method=="GET")
+        {
+            //判断是否带参数
+            int pos=http_request.uri.find("?");
+            if(pos!=std::npos){
+                http_request.path=http_request.uri.substr(0,pos);
+                http_request.query_string=http_request.uri.substr(pos+1,string::npos);
+                http_quest.cgi=true;
+                
+            }
+            else
+            {
+                http_request.path=http_request.uri;
+            }
+        }
+        else if(http_request.method=="POST"){
+            //POST
+            http_request.cgi=true;
+        }
+        else{
+            //do_Nothing
+        }
+      	_path=http_request.path;
+        http_request.path=WEB_ROOT;
+        http_request.path+=_path;
+        if(http_request.path[path.size()-1]=='/')
+        {
+            http_request.path+=HOME_PAGE;
+        }
+        
+        struct stat st;
+        int size=0;
+        if(stat(http_request.path.c_str(),&st)==0)
+        {
+            //说明资源存在
+            if(S_ISDIR(st.st_mode)){
+                //说明请求的资源是目录，也是不被容许的，需要做一下相关处理
+                //虽然是一个目录，但是绝对不会以/结尾
+                 http_request.path+="/";
+                http_request.path+=HOME_PAGE;
+                stat(http_request.path.c_str(),&st);
+            }
+            if((st.st_mode&S_IXUSR)||(st.mode&S_IXGRP)||(st.st_mode&S_IXOTH)){
+                //需要进行特殊处理
+                http_request.cgi=true;
+            }
+            size=st.st_size;
+            
+        }
+        else
+        {
+            //资源不存在
+            std::string info=http_request.path;
+            info+="Nod Found";
+            LOG(WARNING,info);
+            code=NOT_FOUND;
+            goto END;
+        }
+        if(http_request.cgi){
+            //ProcessCgi();
+        }
+        else
+        {
+            //1.目标网页一定是存在的
+            //2.返回并不是单单返回网页，而是要构建http响应
+            //
+            code=ProcesNonCgi(size);//简单的网页返回，静态网页
+        }
+        
+        
+        END:
+        if(code!=OK){
+            
+        }
+        return;
         
     }
     
     void SendHttpResponse(){
-        
+        					    send(sock,http_response.status_line.c_str(),http_respconse.status_line.size(),0);
+        for(auto iter:http_response.response_header)
+        {
+            send(sock,iter.c_str(),iter.size(),0);
+        }
+        send(sock,http_response.blank.size(),http_response.blank.size(),0);
+        sendfile(sock,http_response.fd,nullptr,http_response.size);
+        c
     }
     
     ~EndPoint(){
@@ -371,7 +546,7 @@ class Entrance{
         //close(sock);
         EndPoint*ep=new EndPoint(sock);
         ep->RecvHttpRequest();
-        ep->ParseHttpRequest();
+
         ep->BuiltHttpResponse();
         ep->SendHttpResponse();
         delete ep;
@@ -453,6 +628,16 @@ public:
 1.是否有正文需要读取，Method==POST进行判断
 2.确认正文有多少字节需要读取，有Content-Lengthj
 ```
+
+路径表明了服务器上面的某种资源，是从根目录开始吗？//不一定，一般情况下需要指明web根目录，里面必须有一个index.html
+
+path要拼接前缀
+
+这个路径对应的资源是否是存在吗？
+
+存在就是可以访问读取的吗?，不一定，可能是目录
+
+什么时候，需要使用CGI来进行数据处理呢？只要用户上传数据！
 
 2.分析请求
 
