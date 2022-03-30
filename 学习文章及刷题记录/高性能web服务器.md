@@ -143,6 +143,8 @@ int main(int argc,char*argv)
 #include<iostream>
 #include<string>
 #include<ctime>
+#include<sys/wait.h>
+
 #define INFO 1
 #define WARNING 2
 #define ERROR 3
@@ -264,6 +266,24 @@ static std::string Code2Desc(int code)
     }
 }
 
+
+static string Suffix(const string &str)
+{
+ 	unordered_map<string,string>suffix2desc={
+        {".html","text/html"},
+        {".jpg","application/x-jpg"}
+        {".css","text/css"},
+        {".js","application/javascript"},
+        {".xml","application/rs+xml"}
+    }
+    auto iter=suffix2desc.find(str);
+    if(iter!=suffix2desc.end())
+    {
+        rerurn iter->second;
+    }
+    return "text/html";
+}
+
 class HttpRequest{
     public:
     
@@ -279,6 +299,7 @@ class HttpRequest{
     std::stringpath;
     std::string query_string;
     bool cgi=false;
+    std::string suffix;
 };
 
 class HttpReponse{
@@ -290,7 +311,8 @@ class HttpReponse{
   	int status_code=OK;
     int fd;
     int size;
-};
+  
+ };
 
 
 //读取请求，分析请求，构建响应
@@ -386,6 +408,17 @@ class EndPoint{
         	http_response.status_line+=Code2Desc(http_response.status_code);
         	http_response.status_line+="\r\n";   
             http_response.size=size;
+            
+            std::string content_length_string="Content-Length: ";
+            content_length+=to_string(size);
+            centent_lenght+="\r\n";
+            string content_type="Content-Type: ";
+            content_type+=Suffix2Desc(http_request.suffix);
+            content_type+="\r\n";
+            http_response.response_header.push(content_length);
+            http_response.response_header.push(content_type);
+            //获得文件扩展名
+            
             return OK;
         }
         return 404;
@@ -395,6 +428,94 @@ class EndPoint{
         
         return 0;
     }
+    
+    int ProcessCgi()
+    {
+        //父进程数据
+        auto &query_string=http_request.query_string;//GET
+        
+        auto &body_text=http_request.requestr_body;//POST
+        
+        string query_string_env;
+        string method_env;
+        
+        	auto &bin=http_requestt.path;//要让子进程执行的目标可执行程序，一定存在
+        	int input[2];//父进程读，子进程写
+        	int output[2];//父进程写，子进程读
+        	if(pipe(intput)<0)
+            {
+                LOG(ERROR,"pipe input error!")l
+             	return 404;
+            }
+        	if(pipe(output)<0)
+            {
+                LOG(ERROR,"pipe output error!");
+                return 404;
+            }
+		   //创建子进程，让子进程执行程序
+            pid_t pid=fork();
+            if(pid==0)
+            {
+                //站在子进程的角度，input[1]是用来写入的，写出， ----》
+                //outp[0]是用来用来读取的，读入,重定向到标准
+                close(input[0]);
+                close(output[1]);
+                
+                
+                method_env="MEHTOD=";
+                method_env+=http_request.method;
+                putenv(method_env.c_str());
+                if(http_request.method=="GET")
+                {
+                    query_string_env="QUERY_STRING=";
+                    query_string_env+=query_string;
+                    putenv(query_string_env.c_str());
+                }
+                //替换成功之后，目标子进程如何得知，对应的文件描述符是多少呢？不需要，读0，写1即可
+                dup2(output[0],0);
+                dup2(intput[1],1);
+               
+               	execl(bin.c_str(),bin.c_str(),nullptr);
+                close(input[0]);
+                close(output[1])
+                exit(1);
+                //exec相关函数
+            }
+            else if(pid<0)//error
+            {
+                LOG(ERROR,"Fork Error!");
+                return 404;
+            }
+            else//parent
+            {
+                
+                close(input[1]);
+                close(output[0]);
+                
+                if(http_request.method=="POST")
+                {
+                   
+                    const cjar*start=body_text.c_str();
+                    int total=0;
+                    int size=0;
+                    while(( size=write(output[1],start+total,body_text.size()-total))>0)
+                    {
+                       
+                        if(size>0)
+                        {
+                            total+=size;
+                        }
+                    }
+                }
+                
+          
+                waitpid(pid,nullptr,0);
+			                   
+            }
+        	return OK;
+        
+    }
+    
     public:
     
     EndPoint(int _sock):sock(_sock){
@@ -417,6 +538,7 @@ class EndPoint{
     //处理请求
     void BuildHttpResponse(){
           std::string _path;
+        std::size_t found=0;
           auto&code=http_response.status_code; 	
           if(http_request.method!="GET"&&http_request.method!="POST"){
           	 //非法请求  
@@ -485,8 +607,21 @@ class EndPoint{
             code=NOT_FOUND;
             goto END;
         }
+        
+        //后缀填充
+       	found=http_request.path.rfind(".");
+        if(found==string::npos)
+        {
+            http_request.suffix=".html";
+        }
+        else
+        {
+            http_request.suffix=http_request.path.substr(found);
+        }
+        
         if(http_request.cgi){
-            //ProcessCgi();
+            ProcesCgi();
+          
         }
         else
         {
@@ -644,4 +779,22 @@ path要拼接前缀
 
 
 3.构建响应并返回
+
+
+
+
+
+ 约定：让目标被替换后的进程，读取管道定价与读取标志输入，写入管道，等价于写道标准输出
+
+
+
+程序替换只替换代码和数据，不替换内核进程相关的数据结构，包括文件描述符表
+
+可以在exec*系列前进行重定向
+
+环境遍历是具有全局属性的(可以被子进程继承下去)，不受exec*程序替换的影响
+
+
+
+子进程如何区分，从标准输入读取环视从环境变量里面拿到数据？？
 
