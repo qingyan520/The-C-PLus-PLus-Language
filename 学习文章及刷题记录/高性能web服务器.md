@@ -169,13 +169,27 @@ void Log(str::string level,std::string message,sstd::file_name,int line)
 
 ```makefile
 bin=httpserver
+cgi=test_cgi
 cc=g++
 LD_FLAGS=-std=c++11 -lpthread
+curr=$(shell pwd)
 src=main.cc
+ALL:$(bin) $(cgi)
+.PHONY:ALL
+
 $(bin):$(src)
 	$(cc) -o $@ $^ $(LD_FLAGS)
+$(cgi):$(curr)/cgi/test_cgi.cc
+	$(cc) -o $@ $^
 .PHONY:clean
-	rm -rf bin
+	rm -rf $(bin) $(cgi)
+	rm -rf output
+ .PHONY:output
+ 	mkdir -p output
+ 	cp $(bin) output
+ 	cp -rf wwwroot output
+ 	cp $(cgi) output/wwwroot
+ 	
 ```
 
 ###### HttpServer.hpp
@@ -253,7 +267,7 @@ classe HttpServer{
 #define WEB_ROOT "wwwroot"
 #define HOME_PAGE "index.html"
 #define HTPP_VERSION "HTTP/1.0"
-
+#define PAGE_404 "404.html"
 #define OK 200
 #define NOT_FOUND 404
 static std::string Code2Desc(int code)
@@ -374,6 +388,7 @@ class EndPoint{
             auto iter=header_kv.find("Content-Length");
             if(iter!=header_kv.end()){
                 http_rrequest.content_length=stoi(iter->second);
+                
                 return true;
             }
         }
@@ -431,14 +446,16 @@ class EndPoint{
     
     int ProcessCgi()
     {
+        int content_length=httpreqonse.size();
         //父进程数据
         auto &query_string=http_request.query_string;//GET
         
         auto &body_text=http_request.requestr_body;//POST
-        
+        auto &response_body=http_response.response_body;
         string query_string_env;
+        strint content_length_env;
         string method_env;
-        
+        int code=OK;
         	auto &bin=http_requestt.path;//要让子进程执行的目标可执行程序，一定存在
         	int input[2];//父进程读，子进程写
         	int output[2];//父进程写，子进程读
@@ -471,6 +488,17 @@ class EndPoint{
                     query_string_env+=query_string;
                     putenv(query_string_env.c_str());
                 }
+                else if(http_request.method=="POST")
+                {
+                    content_lenght_env="CONTENT_LENGTH=";
+                    content_length_env+=to_string(content_length);
+                    putenv((char*)content_length_env.c_str());
+                    LOG(INFO,"Post Method Add Content_Length Env");
+                }
+                else
+                {
+                    
+                }
                 //替换成功之后，目标子进程如何得知，对应的文件描述符是多少呢？不需要，读0，写1即可
                 dup2(output[0],0);
                 dup2(intput[1],1);
@@ -489,8 +517,8 @@ class EndPoint{
             else//parent
             {
                 
-                close(input[1]);
-                close(output[0]);
+                close(input[1]);//input[0]读
+                close(output[0]);//output[1]写
                 
                 if(http_request.method=="POST")
                 {
@@ -498,7 +526,8 @@ class EndPoint{
                     const cjar*start=body_text.c_str();
                     int total=0;
                     int size=0;
-                    while(( size=write(output[1],start+total,body_text.size()-total))>0)
+                   	
+                    while(total<content_length( size=write(output[1],start+total,body_text.size()-total))>0)
                     {
                        
                         if(size>0)
@@ -506,14 +535,78 @@ class EndPoint{
                             total+=size;
                         }
                     }
+                    
+                    ch=0;
+                    while(read(inout[0],&ch,1)>0)
+                    {
+                        response.body.push_back(ch);
+                    }
+                    
                 }
                 
-          
-                waitpid(pid,nullptr,0);
+          		int status=0;
+                pid_t ret=waitpid(&status,0);
+                if(ret==pid)
+                {
+                    if(WIFEXITED(status))
+                    {
+                        if(WEXITSTATUS(status)==0)
+                        {
+                            return OK;
+                        }
+                        return 404;
+                    }
+                    return 404;
+                }
+                else
+                {
+                    return 404;
+                }
+                close(input[0]);
+                close(output[1]);
 			                   
             }
         	return OK;
         
+    }
+    
+    void HandlerNotFound()
+    {
+        //给用户返回对应的404页面
+        http_response.fd=open(PAGE_404,O_RDONLY);
+        if(http_response.fd>0)
+        {
+           struct  stat st;
+            stat(PAGE_404,&st);
+            string line="Content Type: text/html\r\n";
+            
+            http_response.repsone_header.push_back(line);
+            
+            line="Content-Length: ";
+            line+=to_string(st.st_size);
+            line+="\r\n";
+            http_response.repsone_header.push_back(line);
+        }
+        
+    }
+    
+    
+    void BuiltHttpResponseHelper(int code)
+    {
+        //http_request;
+        auto&status_line=http_response.status_line;
+        status_line+=HTTP_VERSION;
+        status_line+=" ";
+        status_line+=to_string(code);
+        status_line+=" ";
+        status_line+=Code2Desc(code);
+        switch(code){
+            case 404:
+                HandlerNotFound();
+                break;
+            default:
+                break;
+        }
     }
     
     public:
@@ -567,6 +660,7 @@ class EndPoint{
         else if(http_request.method=="POST"){
             //POST
             http_request.cgi=true;
+            http_request.path=http_request.rui;
         }
         else{
             //do_Nothing
@@ -620,7 +714,7 @@ class EndPoint{
         }
         
         if(http_request.cgi){
-            ProcesCgi();
+           code=ProcesCgi();
           
         }
         else
@@ -634,7 +728,7 @@ class EndPoint{
         
         END:
         if(code!=OK){
-            
+            BuiltHttpResponHelper(code);//状态行，响应报头都有了，空行
         }
         return;
         
@@ -749,6 +843,81 @@ public:
 }
 ```
 
+###### test_cgi.cc
+
+```cpp
+#include<iostream>
+#include<stdlib.h>
+#include"Log.hpp"
+
+
+bool GetQueryString(string&query_string)
+{
+     cerr<<"Debug Test : "<<getenv("METHOD")<<endl;
+    std::string method=getenv("METHOD");
+    if("GET"==method){
+        query_string=getenv("QUERY_STRING");
+        cerr<<"DEBUG Query_String:"<<query_string<<endl;
+        return true;
+    }
+    else if("POST"==method)
+    {
+        //cgi如何知道要从标准驶入读取多少个字节呢？
+        cerr<<"Content_Length:"<<getenv("CONTENT_LENGTH")<<endl;
+        int content_length=atoi(getenv("CONTENT_LENGTH"));
+        char c=0;
+        while(content_length!=0)
+        {
+            query_string.push_back(ch);
+            read(0,&c,1);
+            content_length--;
+        }
+        return true;
+        
+    }
+    else
+    {    
+        return false;
+    }
+    
+}
+
+
+void Cutstring(string&in,string&out1,string&out2,const string&sep)
+{
+    auto pos=in.find(sep);
+    if(std::npos!=pos)
+    {
+       	out1=in.substr(0,pos);
+        out2=in.substr(pos+sep.size(),string::npos);
+    }
+    
+}
+
+int main()
+{
+   string query_string;
+    GetQueryString(query_string);
+    //
+    string str1,str2;
+    string name1,value1;
+    string name2,value2;
+    CutString(query_string,str1,str2,"&")
+    CutString(str1,name1,value1,"=");
+    CutString(str2,name2,value2."=");
+    
+	std::cout<<name1<<value1<<endl;
+    std::cout<<name2<<value2<<endl;
+    std::cerr<<name1<<value1<<endl;
+    std::cerr<<name2<<value2<<endl;
+    return 0;
+}
+```
+
+
+
+
+
 1.读取请求：读取的基本单位，按照行进行读取，兼容各种行分隔符（同意转化为按照\n结尾）
 
 请求行
@@ -797,4 +966,19 @@ path要拼接前缀
 
 
 子进程如何区分，从标准输入读取环视从环境变量里面拿到数据？？
+
+```
+#!/bin/bash
+make clean
+make 
+make output
+```
+
+
+
+
+
+子CGI程序的标准输入就是浏览器
+
+子CGI程序的标准输出就是浏览器
 
