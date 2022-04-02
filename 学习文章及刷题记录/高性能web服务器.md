@@ -527,7 +527,7 @@ class EndPoint{
                     int total=0;
                     int size=0;
                    	
-                    while(total<content_length( size=write(output[1],start+total,body_text.size()-total))>0)
+           while(total<content_length( size=write(output[1],start+total,body_text.size()-total))>0)
                     {
                        
                         if(size>0)
@@ -742,7 +742,7 @@ class EndPoint{
         }
         send(sock,http_response.blank.size(),http_response.blank.size(),0);
         sendfile(sock,http_response.fd,nullptr,http_response.size);
-        c
+        
     }
     
     ~EndPoint(){
