@@ -205,25 +205,28 @@ $(cgi):$(curr)/cgi/test_cgi.cc
 classe HttpServer{
     private:
     int port;
-    TcpServer*tcp_server;
+   // TcpServer*tcp_server;
+    //ThreadPool 
     bool stop;
+    
     public:
     HttpServer(int _port=PORT):port(_port),tcp_server(nullptr),stop(false){
         
     }
     
     void InitServer(){
- tcp_server=TcpServer::getinstance(port);
+// tcp_server=TcpServer::getinstance(port);
         
     }
     
     void Loop(){
-        int listen_sock=tcp_server->Sock();
+      //  int listen_sock=tcp_server->Sock();
+        TcpServer*tsvrTcpServer::getinstance(port);
         while(!stop){
             LOG(INFO,"Loop Begin");
             struct sockaddr_in peer;
             socklen_t len=sizeof(peer);
-           int sock=accept(listen_sock,&peer,&len);
+           int sock=accept(tsvr->Sock(),&peer,&len);
             if(sock<0)
             {
                 
@@ -231,13 +234,8 @@ classe HttpServer{
             }
             
             LOG(INTO,"Get a new link");
-            
-            int*_sock=new int(sock);
-            
-            pthread_t tid;
-            pthread_create(&tid,nullptr,Entrancee::HandRequest,_sock);
-            
-            pthread_detach(tid);
+            Task task(sock);
+            ThreadPool::getinstance()->PushTack(task);
         }
     }
     
@@ -751,12 +749,22 @@ class EndPoint{
 };
 
 
-class Entrance{
+class CallBack{
     public:
-    static void*HandlerRequest(void*_sock){
+  	CallBack()
+    {
+        
+    }
+    
+    void operator()(int sock)
+    {
+        HanderRequest(sock);
+    }
+   
+     void HandlerRequest(int sock){
         LOG(INFO,"Hander Request Begin");
-        itn sock=*(int*)_sock;
-        delete _sock;
+    
+        
         std::cout<<"get a new link..."<<sock<<std::endl;
         
        // #ifndef DEBUG
@@ -781,7 +789,7 @@ class Entrance{
         delete ep;
         
         LOG(INFO,"Hander Request End");
-        return nullptr;
+       
     }
     
 };
@@ -914,9 +922,172 @@ int main()
 }
 ```
 
+Task.hpp
 
+```cpp
+#pragma once
+#include"Protocol.hpp"
+#include<iostream>
+class Task
+{
+	private:
+    int sock;
+    CallBack handler;//设置回调
+    
+    public:
+    Task()
+    {
+        
+    }
+    Taks(int _sock):sock(_sock),
+    {
+        
+        handler(sock);
+    }
+    //处理任务
+    void ProcessOn()
+    {
+        handler(sock);
+    }
+    ~Task()
+    {
+        
+    }
+};
+```
 
+ThreadPool.hpp
 
+```cpp
+#include<iostream>
+#include<queue>
+#include<pthread.h>
+#include"Task.hpp"
+#deine NUM 6
+class ThreadPool
+{
+    private:
+    queue<Task>task_queue;//任务队列
+    int num;//创建线程数
+    bool stop;//线程是否运行
+    pthread_mutex_t lock;//锁
+    pthread_cond_t cond;//条件变量
+    
+    
+     ThreadPool(int _num=NUM),num(_num),stop(false)
+    {
+        pthread_mutex_init(&lock,nullptr);
+        pthread_cond_init(&cond,nullptr);
+    }
+    
+    static ThreadPool*single_instance;
+    
+    ThreadPool(const ThreadPool&){};
+    
+    public:
+ 	static ThreadPool*getinstance()
+    {
+        static pthread_t mynutex=PTHREAD_MUTEX_INITIALIZER;
+        if(single_instance==nullptr)
+        {
+            pthread_mutex_lock(&mutex);
+            if(single_instance==nullptr)
+            {
+               single_instance=new ThreadPool();
+               sigle_instance->InitThreadPool();
+            }
+            pthread_mutex_unlock(&m)
+        }
+        return single_instance;
+    }
+    
+    bool IsStop()
+    {
+        return stop;
+    }
+    
+    bool TaskQueueIsEmpty()
+    {
+        return task_queue.size()==0? true:false;
+    }
+    
+    void ThreadWait()
+    {
+        pthread_cond_wait(&cond,&lock);
+        
+    }
+    
+    void ThreadWakeUp()
+    {
+        pthread_cond_signal(&cond);
+    }
+    
+    void Lock()
+    {
+        pthread_mutex_locK(&lock);
+    }
+    
+    void UnLock()
+    {
+          pthread_mutex_unlocK(&lock);
+    }
+    static void*ThreadToutine(void*args)
+    {
+     	ThreadPool*tp=(ThreadPool*)args;
+        while(true)
+        {
+            Task t;
+            tp->Lock();
+            while(tp->TaskEmpty())
+            {
+                tp->ThreadWait();//当醒来的时候一定是占有互斥锁的
+            }
+            tp->PopTask(t);
+            
+            tp->Unlock();
+            t.ProcessOn();
+        }
+    }
+    
+    bool InitThreadPool()
+    {
+        for(int i=0;i<num;i++)
+        {
+        	pthread_t tid;
+            if(0!=pthread_create(&tid,nullptr,ThreadToutine,this))
+            {
+                LOG(FATAL,"Create ThreadPool Error!");
+                return false;
+            }
+            
+        }
+        LOG(INFO,"Create threadPool success!");
+        return true;
+    }
+    
+    void PushTask(const Task&task)//in
+    {
+        Losk();
+       
+        task_queue.push_back(task);
+        UnLock();
+    }
+    
+    void PopTask(Task&task)//out
+    {
+        task=task_queue.front();
+        task_queue.pop();
+        ThreadWakeUp();
+    }
+    
+    ~ThreadPool()
+    {
+        pthread_mutex_destory(&lock);
+        pthread_cond_destory(&cond);
+    }
+    
+};
+```
 
 1.读取请求：读取的基本单位，按照行进行读取，兼容各种行分隔符（同意转化为按照\n结尾）
 
@@ -974,7 +1145,7 @@ make
 make output
 ```
 
-
+ps-al:查看线程
 
 
 
@@ -982,3 +1153,4 @@ make output
 
 子CGI程序的标准输出就是浏览器
 
+![image-20220403173635887](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20220403173635887.png)
