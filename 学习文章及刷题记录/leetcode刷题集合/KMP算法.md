@@ -89,7 +89,7 @@ void getNext(vector<int>&next,char*s)
 //next
 ```
 
-```
+```cpp
 //KMP算法的具体实现
 #include<vector>
 using namespace std;
