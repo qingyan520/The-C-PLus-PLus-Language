@@ -64,6 +64,7 @@ class EventItem
     //回指Epoller
     Epoll*R;
     //有关数据处理的回调函数，用来进行逻辑解耦，应用的数据就绪等细节和数据处理模块进行使用该方法进行解耦
+    
     callback_t recv_handler;
     callback_t send_handler;
     callback_t error_handler;
@@ -76,7 +77,7 @@ class EventItem
         
     }
     
-    //管理回调
+    //注册回调函数
     void MangerCallBack(callback_t recv,callback_t send,callback_t err)
     {
         recv_handler=recv;
@@ -137,6 +138,18 @@ class Epoller
             cerr<<"epoll ctl error"<<endl;
         }
         event_items.erase(sock);
+    }
+    
+    //我们之前没有设置EPOLLOUT
+    void EnableReadWrite(int sock,bool write,bool read)
+    {
+        struct epoll_event evt;
+        evt.data.fd=sock;
+        evt.events=(read? EPOLLIN:0 ||(write ? EPOLLOUT:0))|EPOLLET;
+        if(epoll_ctl(spfd,EPOLL_CTL_MOD,sock,&evt)<0)
+        {
+            cerr<<"epoll_ctl_error.fd"<<sock<<endl;
+        }
     }
     
     //事件分派器
@@ -235,7 +248,7 @@ int accepter(EventItem*item)
                 //底层没有连接了
                 return 0;
             }
-            if(errno==EINTR)
+            else if(errno==EINTR)
             {
                 //读取过程被信息打断了
                 continue；
@@ -250,12 +263,14 @@ int accepter(EventItem*item)
         else
         {
             //读取成功了
+            //立即将fd设置为非阻塞模式
+            SetNonBlock(sock);
             EventItem tmp;
             tmp.sock=sock;
             tmp.R=item->R;
             tmp.MangerCallBack(recver,sender,error);
             Epoller*epoller=item->R;
-            SetNonBlock(sock);
+            //epoll经常会设置读时间就绪，而写时间是按需打开！
             epoller->AddEvent(sock,EPOLLIN|EPOLLET,tmp);
         }
    
@@ -263,19 +278,82 @@ int accepter(EventItem*item)
     return 0;
 }
 
+//0代表读取成功，返回值为-1代表读取失败
+int recver_helper(int sock,string*out)
+{
+    while(true)
+    {
+        char buf[128]={0};
+        ssize_t size=recv(sock,buf,sizeof(buf)-1,0);
+        if(size<0)
+        {
+            if(errno==EAGNIN||errno==EWOULDBLOCK)
+            {
+                //循环读取读取完毕
+                return 0;
+            }
+            else if(errno==EINTR)
+            {
+                //被信号中断继续读取
+                continue;
+            }
+            else
+            {
+                //真正读取出错了
+                return -1;
+            }
+        }
+        else
+        {
+            buffer[size]=0;
+            *out+=buffer;//将读取到的内容添加到outbuf中
+        }
+    }
+}
+
 int recver(EventItme*item)
 {
+    std::cout<<"recv event ready:"<<item->sock<<endl;
     //负责数据读取
+    
+    //1.需要整体读，非阻塞
+    if(recver_helper(item->sock,&item->inbuffer)<=0)
+    {
+        //item->error_handler;
+        return 0;
+    }
+    cout<<"client#"<<item->inbuffer<<endl;
+    //2.根据发来的数据流，进行包与包之间的分离，防止粘包问题,这里是涉及到协议定制
+    vector<string>messages;
+    util::String::Split(item->inbuffer,messages,"X");
+    //3.争对一个一个的报文协议反序列化
+    
+    
+    
+    //4.业务处理
+    //5.形成响应报文，转化为字符串encode
+    //6.将数据写回
+    item->outbuf+=response;
+    if(item->outbuffer.empty())
+    item->R->EnableRendWrite(item->sock,true,true);
+}
+
+//0:成功
+//1：error
+
+int send_er_helper(int sock,std::string&in)
+{
+    
+}
+int sender(EventItem*item)
+{
+     
+    //发送数据
     
 }
 
-int sender(EventItem*item)
-{
-    //发送数据
-}
 
-
-int sender(EventItem*item)
+int error(EventItem*item)
 {
     
 }
@@ -293,5 +371,99 @@ void SetNonBlock(int sock)
     int fl=fcntl(sock,F_GETFL);
     fcntl(sock,F_SETFL,fl|O_NOBLOCK);
 }
+class StringUtil
+{
+  public:
+    static void Split(strint &in,std<vector>*out,string sep)
+    {
+        while(true)
+        {
+      		size_t pos=in,find(sep);
+            if(pos==string::npos)
+            {
+                break;
+            }
+            string s=in.substr(0,pos);
+            cout->push_back(s);
+            in.erase(0,pos+sep.size());
+        }
+    }
+};
 ```
 
+ET模式为什么要用非阻塞模式读
+
+基于Reactor的半同步半异步的工作方式
+
+ 
+
+```
+App_Interface.hpp: Reactor.hpp ThreadPool.hpp
+Log.hpp
+Main.cc: App_Interface.hpp
+Protocol.hpp: Util.hpp
+Reactor: TcpServer.hpp
+Task.hpp: Protocol.hpp
+TcpServer.hpp: Util.hpp
+ThreadPool.hpp: Task.hpp
+Util.hpp: Log.hpp
+```
+
+
+
+```
+#pragma  once                                                                                                                                                                                  
+   #include"Reactor.hpp"
+   
+  #include"ThreadPool.hpp"
+   
+   int  Disposer(EventItem*item);
+   int Accepter(EventItem*item)
+   {
+     std::cout<<"get a new lint:"<<item->sock<<endl;
+    while(true)
+    {
+      struct sockaddr_in peer;
+      socklen_t len=sizeof(peer);
+      int sock=accept(item->sock,(struct sockaddr*)&peer,&len);
+    
+      if(sock<0)
+      {
+        if(errno==EAGAIN||errno==EWOULDBLOCK)
+        {
+          //底层没有连接了
+          return 0;
+        }
+        else if(errno==EINTR)
+        {
+          continue;
+        }
+        else
+        {
+          return -1;
+        }
+      }
+      else
+      {
+        //读取成功了，首先设置套接字为非阻塞模式
+        Util::SetNonBlock(sock);
+        EventItem tmp;
+        tmp.sock=sock;
+        tmp.R=item->R;
+        tmp.MangerCallBack(Disposer);
+       Reactor*reactor=item->R;
+        reactor->AddEvent(sock,EPOLLIN|EPOLLET,tmp);
+      }
+    }
+  }
+  
+  int Disposer(EventItem*item)
+  {
+    Task t(item->sock);
+    ThreadPool::getinstance()->Push(t);
+  
+  }
+
+```
+
+![image-20220424150624826](https://raw.githubusercontent.com/qingyan520/Cloud_img/master/img/image-20220424150624826.png)
